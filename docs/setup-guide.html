@@ -307,7 +307,8 @@ git add public/data && git commit -m "Refresh data" && git push</code></pre>
 <h2>How the numbers are computed</h2>
 <table>
   <tr><th>Number</th><th>Rule</th></tr>
-  <tr><td>Overview window</td><td>The shortest of 30, 90 or 365 days that contains at least one post; the change shown compares against the window before it. The header says which window it picked.</td></tr>
+  <tr><td>Overview window</td><td>Your numbers for the last 7, 30, 60 or 90 days, picked with the switch at the top. Until you pick one, the shortest of 30, 60 or 90 days that contains a post. The change shown compares against the window before it.</td></tr>
+  <tr><td>Top Performing Posts</td><td>Its own 30, 60 or 90 day switch and a chip per platform. Uncheck a platform to leave it out; the table re-ranks at once. It starts on the window the Overview is showing.</td></tr>
   <tr><td>Reach</td><td>Views where the platform publishes them. Threads and LinkedIn publish no view count, so their reach is likes and the charts label the bar "(likes)". Likes are never added into a views total.</td></tr>
   <tr><td>Engagement rate</td><td>Likes plus comments plus shares, divided by views. For Threads and LinkedIn, divided by followers instead.</td></tr>
   <tr><td>Averages in Insights</td><td>Only posts with a view count above zero are averaged, so the viewless platforms never drag averages down.</td></tr>

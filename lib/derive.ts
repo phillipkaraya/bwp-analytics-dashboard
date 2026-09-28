@@ -86,10 +86,22 @@ export function byPlatform<T>(
   return out;
 }
 
-export function topPosts(posts: Post[], days = 30, limit = 10): Post[] {
+/** The windows the Top Performing Posts table offers (Phil, 2026-09-27). */
+export const TOP_POSTS_WINDOWS = [30, 60, 90] as const;
+export type TopPostsDays = (typeof TOP_POSTS_WINDOWS)[number];
+
+/** Posts in the last `days`, ranked by reach. `platforms` narrows to the
+ *  checked platforms; leave it out for every platform. */
+export function topPosts(
+  posts: Post[],
+  days = 30,
+  limit = 10,
+  platforms?: ReadonlySet<Platform>,
+): Post[] {
   const cutoff = Date.now() - days * 86_400_000;
   return [...posts]
     .filter((p) => {
+      if (platforms && !platforms.has(p.platform)) return false;
       const t = new Date(p.date).getTime();
       return Number.isFinite(t) && t >= cutoff;
     })

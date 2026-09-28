@@ -1,19 +1,136 @@
-import { Section } from "@/components/charts/section";
-import { PlatformBadge } from "@/components/charts/platform-badge";
-import { fmt, fmtPct, fmtDate } from "@/lib/format";
-import { postHasViews, topPosts, toNum, windowLabel } from "@/lib/derive";
-import { Numbered } from "@/components/charts/numbered";
-import type { Post } from "@/lib/types";
+"use client";
 
-export function TopPosts({ posts, days = 30 }: { posts: Post[]; days?: number }) {
-  const top = topPosts(posts, days, 10);
+import { useState } from "react";
+import { Section } from "@/components/charts/section";
+import { PlatformBadge, PlatformDot } from "@/components/charts/platform-badge";
+import { fmt, fmtPct, fmtDate, platformLabel, platformShort } from "@/lib/format";
+import {
+  PLATFORMS,
+  TOP_POSTS_WINDOWS,
+  postHasViews,
+  topPosts,
+  toNum,
+  windowLabel,
+  type TopPostsDays,
+} from "@/lib/derive";
+import { Numbered } from "@/components/charts/numbered";
+import type { Platform, Post } from "@/lib/types";
+import { cn } from "@/lib/utils";
+
+/** 30 / 60 / 90 switch, the hero's pill in the card's light palette. */
+function WindowSwitch({ days, onDays }: { days: TopPostsDays; onDays: (d: TopPostsDays) => void }) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Top posts window"
+      className="inline-flex rounded-full bg-muted p-0.5 ring-1 ring-border"
+    >
+      {TOP_POSTS_WINDOWS.map((d) => {
+        const on = d === days;
+        return (
+          <button
+            key={d}
+            type="button"
+            role="radio"
+            aria-checked={on}
+            onClick={() => onDays(d)}
+            className={cn(
+              "tabular rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition",
+              on ? "bg-ink text-white" : "text-ink-muted hover:text-ink",
+            )}
+          >
+            {d}d
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** One checkbox chip per platform. Unchecked chips go grey; the dot keeps
+ *  the platform colour so the row still reads as the five platforms. */
+function PlatformChecks({
+  checked,
+  onToggle,
+}: {
+  checked: ReadonlySet<Platform>;
+  onToggle: (p: Platform) => void;
+}) {
+  return (
+    <div role="group" aria-label="Platforms" className="flex flex-wrap gap-1.5">
+      {PLATFORMS.map((p) => {
+        const on = checked.has(p);
+        return (
+          <button
+            key={p}
+            type="button"
+            role="checkbox"
+            aria-checked={on}
+            aria-label={platformLabel[p]}
+            title={platformLabel[p]}
+            onClick={() => onToggle(p)}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-full border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] transition",
+              on
+                ? "border-border bg-card text-ink"
+                : "border-dashed border-border bg-transparent text-ink-muted line-through decoration-ink-muted/60",
+            )}
+          >
+            <PlatformDot platform={p} className={on ? "" : "opacity-40"} />
+            {platformShort[p]}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const ALL_PLATFORMS: ReadonlySet<Platform> = new Set(PLATFORMS);
+
+/** The table's window starts on the Overview's window when that is one of
+ *  its own (30, 60, 90) and on 30 days otherwise; after that it is its own
+ *  control (Phil, 2026-09-27: "a 30, 60, 90 toggle as well as platforms to
+ *  check or uncheck"). The component mounts after the data has loaded, so
+ *  the seed is the Overview's final choice. */
+function seedDays(days: number): TopPostsDays {
+  return (TOP_POSTS_WINDOWS as readonly number[]).includes(days) ? (days as TopPostsDays) : 30;
+}
+
+export function TopPosts({ posts, days: overviewDays = 30 }: { posts: Post[]; days?: number }) {
+  const [days, setDays] = useState<TopPostsDays>(() => seedDays(overviewDays));
+  const [checked, setChecked] = useState<ReadonlySet<Platform>>(ALL_PLATFORMS);
+  const top = topPosts(posts, days, 10, checked);
+
+  function toggle(p: Platform) {
+    setChecked((prev) => {
+      const next = new Set(prev);
+      if (next.has(p)) next.delete(p);
+      else next.add(p);
+      return next;
+    });
+  }
+
+  const hint =
+    checked.size === PLATFORMS.length
+      ? `${windowLabel(days)}, every platform, ranked by views`
+      : checked.size === 0
+        ? `${windowLabel(days)}, no platform checked`
+        : `${windowLabel(days)}, ${PLATFORMS.filter((p) => checked.has(p))
+            .map((p) => platformLabel[p])
+            .join(", ")}, ranked by views`;
 
   return (
     <Numbered n={5}>
     <Section
       kicker="Ranked by views"
       title="Top Performing Posts"
-      hint={`${windowLabel(days)}, ranked by views`}
+      hint={hint}
+      action={
+        <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+          <WindowSwitch days={days} onDays={setDays} />
+          <PlatformChecks checked={checked} onToggle={toggle} />
+        </div>
+      }
       bodyClassName="-mx-5"
     >
       <div className="overflow-x-auto">
@@ -53,7 +170,9 @@ export function TopPosts({ posts, days = 30 }: { posts: Post[]; days?: number })
                   colSpan={8}
                   className="px-5 py-8 text-center text-sm text-ink-muted"
                 >
-                  No posts in this window.
+                  {checked.size === 0
+                    ? "Check a platform to rank its posts."
+                    : "No posts in this window."}
                 </td>
               </tr>
             ) : (
