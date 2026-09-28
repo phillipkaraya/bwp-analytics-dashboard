@@ -310,7 +310,8 @@ git add public/data && git commit -m "Refresh data" && git push</code></pre>
   <tr><td>Overview window</td><td>Your numbers for the last 7, 30, 60 or 90 days, picked with the switch at the top. Until you pick one, the shortest of 30, 60 or 90 days that contains a post. The change shown compares against the window before it.</td></tr>
   <tr><td>Top Performing Posts</td><td>Its own 30, 60 or 90 day switch and a chip per platform. Uncheck a platform to leave it out; the table re-ranks at once. It starts on the window the Overview is showing.</td></tr>
   <tr><td>Reach</td><td>Views where the platform publishes them. Threads and LinkedIn publish no view count, so their reach is likes and the charts label the bar "(likes)". Likes are never added into a views total.</td></tr>
-  <tr><td>Engagement rate</td><td>Likes plus comments plus shares, divided by views. For Threads and LinkedIn, divided by followers instead.</td></tr>
+  <tr><td>TikTok and YouTube counts</td><td>The public pages give views only, so after each reader the scraper opens TikTok Studio and YouTube Studio in the same signed in window and fills exact likes, comments, shares and saves. Not signed in there: the pass is skipped and those posts stay out of engagement averages.</td></tr>
+  <tr><td>Engagement rate</td><td>Likes, comments, shares and saves, divided by views. For Threads and LinkedIn, divided by followers instead.</td></tr>
   <tr><td>Averages in Insights</td><td>Only posts with a view count above zero are averaged, so the viewless platforms never drag averages down.</td></tr>
   <tr><td>Follower change</td><td>From the last two points in the follower history. A platform added later starts its line at its first point.</td></tr>
   <tr><td>Comment sentiment</td><td>Labels from the model, lexicon as fallback, stored per comment. The website never re-classifies; a missing label counts as neutral.</td></tr>
