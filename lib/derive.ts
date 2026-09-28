@@ -65,10 +65,27 @@ export function totals(posts: Post[]) {
   );
 }
 
+/**
+ * The TikTok and YouTube readers collect views only (scrape/platforms/tiktok.py
+ * and youtube.py write likes, comments and shares as 0), so a post from them
+ * with all three at 0 carries no engagement measurement, and its "0.00" rate
+ * must not be averaged. A post from them with any of the three filled was
+ * measured (older data backfilled from v1) and counts. Remove a platform here
+ * once its reader collects likes.
+ */
+export const VIEWS_ONLY_READERS: ReadonlySet<Platform> = new Set<Platform>(["tiktok", "youtube"]);
+
+/** Whether a post's engagementRate is a measurement rather than a reader's zero. */
+export function engagementMeasured(p: Post): boolean {
+  if (!VIEWS_ONLY_READERS.has(p.platform)) return true;
+  return toNum(p.likes) > 0 || toNum(p.comments) > 0 || toNum(p.shares) > 0;
+}
+
 export function avgEngagementRate(posts: Post[]): number {
-  if (!posts.length) return 0;
-  const sum = posts.reduce((s, p) => s + toNum(p.engagementRate), 0);
-  return sum / posts.length;
+  const counted = posts.filter(engagementMeasured);
+  if (!counted.length) return 0;
+  const sum = counted.reduce((s, p) => s + toNum(p.engagementRate), 0);
+  return sum / counted.length;
 }
 
 export function byPlatform<T>(

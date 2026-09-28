@@ -58,7 +58,7 @@ export function KpiCard({
                 ? "▲"
                 : trend.direction === "down"
                   ? "▼"
-                  : "—"}{" "}
+                  : "→"}{" "}
               {trend.value}
             </span>
           )}
