@@ -75,9 +75,13 @@ export function totals(posts: Post[]) {
  */
 export const VIEWS_ONLY_READERS: ReadonlySet<Platform> = new Set<Platform>(["tiktok", "youtube"]);
 
-/** Whether a post's engagementRate is a measurement rather than a reader's zero. */
+/** Whether a post's engagementRate is a measurement rather than a reader's
+ *  zero. The studio pass (scrape/platforms/studio.py) stamps the posts it
+ *  counted, so their zeros are real; older posts count when any figure is
+ *  filled. */
 export function engagementMeasured(p: Post): boolean {
   if (!VIEWS_ONLY_READERS.has(p.platform)) return true;
+  if (p.engagementMeasured) return true;
   return toNum(p.likes) > 0 || toNum(p.comments) > 0 || toNum(p.shares) > 0;
 }
 

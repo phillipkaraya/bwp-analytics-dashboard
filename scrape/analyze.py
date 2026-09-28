@@ -81,6 +81,27 @@ def _r(v: float, nd: int = 2) -> float:
     return round(v, nd)
 
 
+# The TikTok and YouTube readers collect views only (scrape/platforms/tiktok.py
+# and youtube.py write likes, comments and shares as 0), so a post from them
+# with all three at 0 carries no engagement measurement and its "0.00" rate must
+# not be averaged. A post from them with any of the three filled was measured
+# (older data backfilled from v1) and counts. Mirrors engagementMeasured() in
+# lib/derive.ts. Remove a platform here once its reader collects likes.
+VIEWS_ONLY_READERS = {"tiktok", "youtube"}
+
+
+def _has_engagement(p: dict) -> bool:
+    if p.get("platform") not in VIEWS_ONLY_READERS:
+        return True
+    if p.get("engagementMeasured"):  # stamped by scrape/platforms/studio.py
+        return True
+    return _num(p.get("likes")) > 0 or _num(p.get("comments")) > 0 or _num(p.get("shares")) > 0
+
+
+def _avg_eng(posts: Iterable[dict]) -> float:
+    return _avg(_num(p.get("engagementRate")) for p in posts if _has_engagement(p))
+
+
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -154,7 +175,7 @@ def hook_type(hook: str) -> str:
 # sections
 # --------------------------------------------------------------------------
 def posting_heatmap(posts: list[dict]) -> tuple[list[list[dict]], list[dict]]:
-    grid = [[{"count": 0, "_eng": 0.0, "_views": 0.0} for _ in range(24)] for _ in range(7)]
+    grid = [[{"count": 0, "_eng": 0.0, "_eng_n": 0, "_views": 0.0} for _ in range(24)] for _ in range(7)]
     for p in posts:
         d, t = p.get("date"), p.get("time")
         if not d or not t:
@@ -168,7 +189,9 @@ def posting_heatmap(posts: list[dict]) -> tuple[list[list[dict]], list[dict]]:
             continue
         cell = grid[day][hour]
         cell["count"] += 1
-        cell["_eng"] += _num(p.get("engagementRate"))
+        if _has_engagement(p):
+            cell["_eng"] += _num(p.get("engagementRate"))
+            cell["_eng_n"] += 1
         cell["_views"] += _num(p.get("views"))
     out: list[list[dict]] = []
     best: list[dict] = []
@@ -179,7 +202,7 @@ def posting_heatmap(posts: list[dict]) -> tuple[list[list[dict]], list[dict]]:
             n = c["count"]
             cell = {
                 "count": n,
-                "avgEngagement": _r(c["_eng"] / n) if n else 0,
+                "avgEngagement": _r(c["_eng"] / c["_eng_n"]) if c["_eng_n"] else 0,
                 "avgViews": int(c["_views"] / n) if n else 0,
             }
             row.append(cell)
@@ -199,7 +222,7 @@ def platform_averages(posts: list[dict]) -> dict:
             "avgViews": int(_avg(_num(p["views"]) for p in viewed)),
             "avgLikes": int(_avg(_num(p.get("likes")) for p in ps)),
             "avgComments": int(_avg(_num(p.get("comments")) for p in ps)),
-            "avgEngagement": _r(_avg(_num(p.get("engagementRate")) for p in viewed)),
+            "avgEngagement": _r(_avg_eng(viewed)),
             "posts": len(ps),
         }
     return out
@@ -243,7 +266,7 @@ def content_categories(posts: list[dict], cats: dict[str, list[str]]) -> dict:
             "count": len(ps),
             "avgViews": int(_avg(_num(p["views"]) for p in viewed)),
             "avgLikes": int(_avg(_num(p.get("likes")) for p in ps)),
-            "avgEngagement": _r(_avg(_num(p.get("engagementRate")) for p in viewed)),
+            "avgEngagement": _r(_avg_eng(viewed)),
             "totalViews": int(sum(_num(p.get("views")) for p in ps)),
         }
     return dict(sorted(out.items(), key=lambda kv: kv[1]["count"], reverse=True))
@@ -302,7 +325,7 @@ def hashtag_performance(posts: list[dict]) -> list[dict]:
             "count": len(ps),
             "avgViews": int(_avg(_num(p["views"]) for p in viewed)),
             "avgLikes": int(_avg(_num(p.get("likes")) for p in ps)),
-            "avgEngagement": _r(_avg(_num(p.get("engagementRate")) for p in viewed)),
+            "avgEngagement": _r(_avg_eng(viewed)),
             "totalViews": int(sum(_num(p.get("views")) for p in ps)),
         })
     out.sort(key=lambda h: h["avgViews"], reverse=True)
@@ -384,7 +407,7 @@ def hooks(posts: list[dict], cats: dict[str, list[str]]) -> tuple[list[dict], li
             "count": len(ps),
             "avgViews": int(_avg(_num(p["views"]) for p in viewed)),
             "avgLikes": int(_avg(_num(p.get("likes")) for p in ps)),
-            "avgEngagement": _r(_avg(_num(p.get("engagementRate")) for p in viewed)),
+            "avgEngagement": _r(_avg_eng(viewed)),
             "totalViews": int(sum(_num(p.get("views")) for p in ps)),
             "topPost": _title(best),
         })

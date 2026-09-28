@@ -42,6 +42,7 @@ for _stream in (sys.stdout, sys.stderr):
 
 from scrape import analyze  # noqa: E402
 from scrape.cdp import CDP, CDPError, default_port  # noqa: E402
+from scrape.platforms import studio  # noqa: E402
 from scrape.server import (  # noqa: E402
     PLATFORM_RUNNERS,
     PLATFORMS,
@@ -118,6 +119,8 @@ def main() -> int:
     ap.add_argument("--no-analyze", action="store_true", help="skip rebuilding analytics/vault/history")
     ap.add_argument("--analyze-only", action="store_true", help="only rebuild derived JSON, no scraping")
     ap.add_argument("--quiet", action="store_true", help="suppress per-page progress lines")
+    ap.add_argument("--no-studio", action="store_true",
+                    help="skip the TikTok Studio and YouTube Studio pass that fills likes, comments and shares")
     args = ap.parse_args()
 
     if args.analyze_only:
@@ -173,6 +176,17 @@ def main() -> int:
                 f"{', followers ' + str(result['followers']) if result.get('followers') else ''}"
                 f"  ({time.time() - started:.0f}s)"
             )
+            # The public page gives views only for these two; the signed-in
+            # studio gives the rest. A studio failure (not signed in, layout
+            # change) is reported but never undoes the base reader's result.
+            if platform in studio.ENRICHERS and not args.no_studio:
+                try:
+                    stats = studio.ENRICHERS[platform](on_progress=progress)
+                    result["studio"] = stats
+                    print(f"  {platform} studio: {stats['matched']} posts matched, {stats['changed']} updated")
+                except (CDPError, Exception) as e:  # noqa: BLE001
+                    result["studioError"] = str(e)
+                    print(f"  {platform} studio: SKIPPED {str(e)[:160]}", file=sys.stderr)
         except CDPError as e:
             errors[platform] = str(e)
             sub = state.get(platform, {}) or {}

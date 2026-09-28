@@ -20,6 +20,8 @@ export interface Post {
   shares?: number;
   saves?: number;
   engagementRate?: string | number; // stringified in raw JSON
+  /** Set by the studio pass: likes and comments were counted, so a zero is real. */
+  engagementMeasured?: boolean;
   notes?: string;
 }
 
