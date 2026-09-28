@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Finance With Phil Social Media Analytics: Setup Guide for First-Timers</title>
+<title>Build With Phil Social Media Analytics: Setup Guide for First-Timers</title>
 <style>
   @page { size: Letter; margin: 0.8in 0.85in 0.9in 0.85in; }
   :root {
@@ -74,12 +74,12 @@
 <body>
 
 <section class="cover">
-  <div class="kicker">Finance With Phil · Setup guide</div>
+  <div class="kicker">Build With Phil · Setup guide</div>
   <h1>Social Media Analytics<br>From a Blank Mac to Live</h1>
   <p>A start-to-finish guide for someone who has never opened Terminal, never used GitHub, and never used Claude Code. Every step says what to type, what you should see, and what to do if you do not see it. Blue text is a link.</p>
   <div class="meta">
-    <div><strong>Live example</strong><a href="https://phillipkaraya.github.io/fwp-analytics-dashboard/">phillipkaraya.github.io/fwp-analytics-dashboard</a></div>
-    <div><strong>Code</strong><a href="https://github.com/phillipkaraya/fwp-analytics-dashboard">github.com/phillipkaraya/fwp-analytics-dashboard</a></div>
+    <div><strong>Live example</strong><a href="https://phillipkaraya.github.io/bwp-analytics-dashboard/">phillipkaraya.github.io/bwp-analytics-dashboard</a></div>
+    <div><strong>Code</strong><a href="https://github.com/phillipkaraya/bwp-analytics-dashboard">github.com/phillipkaraya/bwp-analytics-dashboard</a></div>
     <div><strong>Written</strong>September 5, 2026</div>
   </div>
 </section>
@@ -179,11 +179,11 @@ claude --version</code></pre>
 
 <div class="step"><div class="n">C</div><h2>Get the project and run it</h2></div>
 <h3>C1. Decide where the code lives, then clone it</h3>
-<p><strong>Setting this up for the Finance With Phil accounts?</strong> Clone Phil's repository, which already holds the data and handles:</p>
+<p><strong>Setting this up for the Build With Phil accounts?</strong> Clone Phil's repository, which already holds the data and handles:</p>
 <pre><code>mkdir -p ~/projects
 cd ~/projects
-git clone https://github.com/phillipkaraya/fwp-analytics-dashboard.git
-cd fwp-analytics-dashboard
+git clone https://github.com/phillipkaraya/bwp-analytics-dashboard.git
+cd bwp-analytics-dashboard
 pnpm install</code></pre>
 <p><strong>Building your own dashboard for different accounts?</strong> Start from the <a href="https://github.com/phillipkaraya/social-analytics-dashboard-template">template repository</a> instead. It is the same code with empty data and placeholder handles. On that page click <strong>Use this template</strong>, then <strong>Create a new repository</strong>, give it a name (for example <code>social-analytics-dashboard</code>) and make it <strong>Public</strong> (GitHub Pages is free on public repositories). Then clone your new repository with the GitHub CLI, which fills in your username for you:</p>
 <pre><code>mkdir -p ~/projects
@@ -221,7 +221,7 @@ open -a "Google Chrome" --args --remote-debugging-port=9222</code></pre>
 <div class="callout warn"><span class="label">Two rules</span><p>Do not close tabs the scraper opened while it is running, and do not run a second scrape at the same time. On Phil's own Mac a helper called <code>chrome-cdp</code> does D1 in one word and a tool called <code>ccbrowser</code> coordinates several automations sharing one Chrome; you do not need either. The scraper prints a harmless warning that <code>ccbrowser</code> was not found and carries on.</p></div>
 
 <div class="step"><div class="n">E</div><h2>Point it at the right accounts</h2></div>
-<p>All account handles live in one small file, <code>scrape/handles.py</code>. If you are running this for Finance With Phil, it is already correct and you can skip to Part F. If you started from the template, the file holds placeholders; open it in any text editor (or ask Claude Code to change it) and replace the values. Phil's file looks like this:</p>
+<p>All account handles live in one small file, <code>scrape/handles.py</code>. If you are running this for Build With Phil, it is already correct and you can skip to Part F. If you started from the template, the file holds placeholders; open it in any text editor (or ask Claude Code to change it) and replace the values. Phil's file looks like this:</p>
 <pre><code>HANDLES = {
     "instagram": "phillip.karaya",
     "tiktok": "phillip.karaya",
@@ -237,7 +237,7 @@ YOUTUBE_CHANNEL_ID = "UCHTb2yDMGoptvmgxh49UniA"</code></pre>
 
 <div class="step"><div class="n">F</div><h2>The first data pull</h2></div>
 <p>With Chrome's door open (Part D) and the accounts signed in, run one full sweep. It visits every profile to the end and writes one JSON file per platform into <code>public/data/</code>.</p>
-<pre><code>cd ~/projects/fwp-analytics-dashboard
+<pre><code>cd ~/projects/bwp-analytics-dashboard
 python3 scrape/run.py --full</code></pre>
 <p class="expect"><strong>Expect</strong>15 to 30 minutes. New tabs open and scroll in Chrome on their own; leave them alone. One line prints per platform as it finishes, for example <code>linkedin: +16 new, 16 total, followers 1714 (67s)</code>, then a final <code>done in ...: 5 ok, 0 failed</code> and a line starting <code>analyze:</code>. TikTok is the slow one.</p>
 <p>Reload the dashboard at localhost:3000 and the numbers now reflect what you just pulled. After this first sweep, the everyday command is the incremental run, which stops each platform once it has seen eight posts in a row that it already knows about, and takes a couple of minutes:</p>
@@ -264,7 +264,7 @@ python3 scrape/run.py --analyze-only        <span class="c"># rebuild the derive
 <p>This reads the key from Keychain, hands it to the analyzer for the length of one command, and labels every comment that has no current label:</p>
 <pre><code>GROQ_API_KEY="$(security find-generic-password -a "$USER" -s GROQ_API_KEY -w)" python3 scrape/run.py --analyze-only</code></pre>
 <p class="expect"><strong>Expect</strong>The first pass over 8,000 comments makes about 320 requests and takes 20 to 30 minutes. Every ten requests a progress line prints, like <code>sentiment: 725 labeled by model so far, 30 calls, 1.7s per call, errors {'http429:gpt-oss-120b': 9}</code>. Those 429 counts are normal: Groq's free models allow about 8,000 tokens a minute, so a busy model is told to wait and the run moves on to the next one. The final line reads <code>sentiment: N by model, M by lexicon, ...</code>. If M is not zero, run the same command a second time; it only sends the leftover rows and takes a few minutes.</p>
-<div class="callout ok"><span class="label">What good looks like</span><p>On the Finance With Phil corpus the labels came out positive 5,300 (66%), neutral 2,187 (27%), negative 512 (6%), with 559 questions, all labeled by the model. Reload the Comments tab and the Sentiment panel shows the same split.</p></div>
+<div class="callout ok"><span class="label">What good looks like</span><p>On the Build With Phil corpus the labels came out positive 5,300 (66%), neutral 2,187 (27%), negative 512 (6%), with 559 questions, all labeled by the model. Reload the Comments tab and the Sentiment panel shows the same split.</p></div>
 <div class="callout"><span class="label">On Phil's Mac</span><p>The same thing runs through a personal Keychain helper: <code>secret-sync run GROQ_API_KEY -- python3 scrape/run.py --analyze-only</code>. The two commands are equivalent; use whichever is on the machine in front of you. Rate limits are documented on <a href="https://console.groq.com/docs/rate-limits">Groq's rate limits page</a>.</p></div>
 
 <div class="step"><div class="n">H</div><h2>Topics for the Content Vault</h2></div>
@@ -292,7 +292,7 @@ gh run watch</code></pre>
 
 <h2>The routine after setup</h2>
 <p>Whenever new posts have gone out, or once a day if you want a daily follower point:</p>
-<pre><code>cd ~/projects/fwp-analytics-dashboard
+<pre><code>cd ~/projects/bwp-analytics-dashboard
 python3 scrape/run.py
 git add public/data && git commit -m "Refresh data" && git push</code></pre>
 <p>Three lines, a few minutes. Some habits that keep it healthy:</p>
@@ -349,8 +349,8 @@ public/data/              the JSON files the site reads; commit these after ever
 docs/                     this guide and its source</code></pre>
 <table class="links">
   <tr><th>Link</th><th>Use</th></tr>
-  <tr><td><a href="https://phillipkaraya.github.io/fwp-analytics-dashboard/">Live dashboard</a></td><td>The finished example this guide builds.</td></tr>
-  <tr><td><a href="https://github.com/phillipkaraya/fwp-analytics-dashboard">Phil's repository</a></td><td>Finance With Phil's instance: code, data, this guide.</td></tr>
+  <tr><td><a href="https://phillipkaraya.github.io/bwp-analytics-dashboard/">Live dashboard</a></td><td>The finished example this guide builds.</td></tr>
+  <tr><td><a href="https://github.com/phillipkaraya/bwp-analytics-dashboard">Phil's repository</a></td><td>Build With Phil's instance: code, data, this guide.</td></tr>
   <tr><td><a href="https://github.com/phillipkaraya/social-analytics-dashboard-template">Template repository</a></td><td>Click Use this template to start your own copy with empty data.</td></tr>
   <tr><td><a href="https://code.claude.com/docs">Claude Code docs</a></td><td>Install, sign in, how permissions and prompts work.</td></tr>
   <tr><td><a href="https://claude.ai/download">Claude desktop app</a></td><td>Same assistant with a window instead of Terminal.</td></tr>
@@ -373,7 +373,7 @@ docs/                     this guide and its source</code></pre>
   <li><strong>Ask before you guess.</strong> Claude Code can read every file in this project. When a step does not match what you see, ask it why before changing anything.</li>
 </ul>
 
-<footer class="end">Finance With Phil · Social Media Analytics · Setup guide for first-timers, September 5, 2026. Written against repository commit e8d7cfe. Project history lives in the Obsidian note "Finance With Phil - Social Media Analytics".</footer>
+<footer class="end">Build With Phil · Social Media Analytics · Setup guide for first-timers, September 5, 2026. Written against repository commit e8d7cfe. Project history lives in the Obsidian note "Build With Phil - Social Media Analytics".</footer>
 
 </body>
 </html>

@@ -18,7 +18,7 @@ import { FollowerHistory } from "./follower-history";
 import { PlatformCharts } from "./platform-charts";
 import { TopPosts } from "./top-posts";
 
-const WINDOW_STORAGE_KEY = "fwp_overview_window";
+const WINDOW_STORAGE_KEY = "bwp_overview_window";
 
 export function Overview() {
   const [posts, setPosts] = useState<Post[]>([]);

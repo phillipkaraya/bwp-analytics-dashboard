@@ -1,4 +1,4 @@
-# FWP Scraper
+# BWP Scraper
 
 Python (stdlib + `websocket-client`) that re-scrapes Instagram / TikTok /
 YouTube / Threads / LinkedIn through the Chrome that is **already running** on this Mac,
@@ -11,7 +11,7 @@ pip install websocket-client     # one-time
 ## Run it
 
 ```bash
-cd ~/projects/fwp-analytics-dashboard
+cd ~/projects/bwp-analytics-dashboard
 
 python3 scrape/run.py                          # incremental, all five platforms
 python3 scrape/run.py --platforms instagram    # one platform

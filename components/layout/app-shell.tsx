@@ -13,7 +13,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-8 gap-y-3 px-6 py-3">
           <div className="flex items-baseline gap-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/60">
-              Finance With Phil
+              Build With Phil
             </p>
             <span aria-hidden className="h-3 w-px bg-white/25" />
             <h1 className="font-display text-base font-medium leading-none">

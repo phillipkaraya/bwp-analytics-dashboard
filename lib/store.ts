@@ -25,7 +25,7 @@ export const useDashboardStore = create<DashboardState>()(
         set((s) => ({ creators: s.creators.filter((c) => c.id !== id) })),
     }),
     {
-      name: "fwp_dashboard_v2",
+      name: "bwp_dashboard_v2",
       storage: createJSONStorage(() => localStorage),
       version: 2,
       // v1 persisted a `deals` array. Strip it so older browsers do not carry

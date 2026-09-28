@@ -64,14 +64,14 @@ export function PinWall({ onSuccess }: PinWallProps) {
       <div className="fixed inset-0 z-50 grid place-items-center bg-background">
         <div className="w-full max-w-md px-6 text-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-            Finance With Phil
+            Build With Phil
           </p>
           <h1 className="font-display mt-3 text-3xl font-medium leading-tight text-ink">
             No PIN set for this site
           </h1>
           <p className="mt-4 text-sm text-ink-muted">
             Add your PIN hash as the <code>DASHBOARD_PIN_HASH</code> repository
-            secret on fwp-analytics-dashboard, then rerun the deploy. Running locally,
+            secret on bwp-analytics-dashboard, then rerun the deploy. Running locally,
             put it in <code>.env.local</code> instead.
           </p>
         </div>
@@ -84,7 +84,7 @@ export function PinWall({ onSuccess }: PinWallProps) {
       <div className="w-full max-w-sm px-6">
         <div className="mb-12 text-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-            Finance With Phil
+            Build With Phil
           </p>
           <h1 className="font-display mt-3 text-4xl font-medium leading-tight text-ink">
             Social Media

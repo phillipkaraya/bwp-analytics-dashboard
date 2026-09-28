@@ -2,7 +2,7 @@
   "_readme": "Editable topic map for the Content Vault. Matching is whole-word, case-insensitive, against title + caption + hashtags (with the # stripped). A post can land in several categories; posts matching nothing go to `other`. Edit freely, then run: python3 scrape/run.py --analyze-only",
   "finance": {
     "label": "Finance",
-    "keywords": ["money", "finance", "financial", "budget", "budgeting", "invest", "investing", "investment", "investor", "stocks", "stock market", "credit", "credit score", "credit card", "debt", "savings", "save money", "wealth", "wealthy", "rich", "millionaire", "income", "cash", "bank", "banking", "401k", "roth", "ira", "dividend", "dividends", "crypto", "bitcoin", "tax", "taxes", "loan", "loans", "interest rate", "net worth", "passive income", "paycheck", "salary", "retire", "retirement", "financewithphil", "finance with phil", "inflation", "recession", "💰", "💵", "💸", "📈"]
+    "keywords": ["money", "finance", "financial", "budget", "budgeting", "invest", "investing", "investment", "investor", "stocks", "stock market", "credit", "credit score", "credit card", "debt", "savings", "save money", "wealth", "wealthy", "rich", "millionaire", "income", "cash", "bank", "banking", "401k", "roth", "ira", "dividend", "dividends", "crypto", "bitcoin", "tax", "taxes", "loan", "loans", "interest rate", "net worth", "passive income", "paycheck", "salary", "retire", "retirement", "financewithphil", "finance with phil", "buildwithphil", "build with phil", "inflation", "recession", "💰", "💵", "💸", "📈"]
   },
   "real_estate": {
     "label": "Real Estate",

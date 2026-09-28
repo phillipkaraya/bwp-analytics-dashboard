@@ -248,7 +248,7 @@ function ServiceOffline() {
         <code className="font-mono text-xs">{SCRAPER_URL}</code>:
       </p>
       <pre className="mt-2 overflow-x-auto rounded bg-ink/90 px-3 py-2 font-mono text-[11px] text-white">
-        python3 ~/projects/fwp-analytics-dashboard/scrape/server.py
+        python3 ~/projects/bwp-analytics-dashboard/scrape/server.py
       </pre>
     </div>
   );

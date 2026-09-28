@@ -1,16 +1,16 @@
 @AGENTS.md
 
-# FWP Analytics Dashboard — project brain
+# Build With Phil Analytics Dashboard: project brain
 
 ## What this is
-The Finance With Phil social media analytics dashboard. Originally a
+The Build With Phil social media analytics dashboard. Originally a
 single 5,109-line `index.html` rebuilt as Next.js 16 + Tailwind v4 +
 shadcn/ui in April 2026 (see `v1-archive/` for the original).
 
 ## Stack
 - Next.js 16 App Router · TypeScript · Tailwind v4 · shadcn/ui
 - Recharts (line/bar/doughnut). Custom 7×24 heatmap is hand-rolled.
-- Zustand + localStorage persistence (key: `fwp_dashboard_v2`)
+- Zustand + localStorage persistence (key: `bwp_dashboard_v2`)
 - Static export → GitHub Pages
 - System font stack (the self-hosted Newsreader/Geist load was reverted
   in April 2026; `font-display` maps to the sans stack)
@@ -82,16 +82,16 @@ this contract when extending.
 
 ## Deploy
 - GH Actions: `.github/workflows/deploy.yml` builds with
-  `NEXT_PUBLIC_BASE_PATH=/fwp-analytics-dashboard` and publishes
+  `NEXT_PUBLIC_BASE_PATH=/bwp-analytics-dashboard` and publishes
   `out/` to GitHub Pages on every push to `main`.
 - Add `.nojekyll` to the artifact (already in the workflow).
 
 ## Persisted client state (Zustand)
-Single store under `fwp_dashboard_v2` (persist version 2):
+Single store under `bwp_dashboard_v2` (persist version 2):
 - `creators` (Creator Research, hidden `/creators` route)
 
 Version 2 strips the old `deals` slice on rehydrate. Everything else the
 store once held (flows, calendar, contentQueue, studioFolder) was removed
 with its tab.
 
-PIN auth uses `sessionStorage["fwp_auth"]`, separate from the store.
+PIN auth uses `sessionStorage["bwp_auth"]`, separate from the store.

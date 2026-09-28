@@ -1,9 +1,9 @@
-# Finance With Phil — Social Media Analytics
+# Build With Phil: Social Media Analytics
 
-PIN-gated analytics dashboard for Phillip Karaya / Finance With Phil's
+PIN-gated analytics dashboard for Phillip Karaya / Build With Phil's
 cross-platform content (Instagram, TikTok, YouTube, Threads).
 
-**Live:** https://phillipkaraya.github.io/fwp-analytics-dashboard/
+**Live:** https://phillipkaraya.github.io/bwp-analytics-dashboard/
 (PIN-gated; the PIN is not stored in this repo.)
 
 ## Stack
@@ -13,7 +13,7 @@ cross-platform content (Instagram, TikTok, YouTube, Threads).
 - shadcn/ui components on top of Base UI
 - Recharts for line / bar / doughnut charts (custom 7×24 heatmap)
 - Zustand with `localStorage` persistence for client-side state
-- System font stack (sans / mono) with the FWP light-blue palette
+- System font stack (sans / mono) with the BWP light-blue palette
 - Static export to GitHub Pages (no SSR)
 - Python scraper + analyzer in `scrape/` (see `scrape/README.md`)
 
@@ -53,7 +53,7 @@ pnpm build             # static export to out/
 pnpm lint
 ```
 
-The PIN gate falls back to the v1 PIN in development. To override, set
+In `pnpm dev` with no `.env.local` the PIN is 0000. To use your own, set
 `NEXT_PUBLIC_DASHBOARD_PIN_HASH` (SHA-256 hex) in `.env.local`.
 
 ## Refreshing data
@@ -80,5 +80,6 @@ and degrades gracefully when the service is offline.
 ## Deploy
 
 GitHub Actions workflow at `.github/workflows/deploy.yml` builds and
-publishes to GitHub Pages on every push to `main`. Set the
-`DASHBOARD_PIN_HASH` repository secret to override the default PIN.
+publishes to GitHub Pages on every push to `main`. The build refuses to
+publish until the `DASHBOARD_PIN_HASH` repository secret exists; there is
+no built-in PIN in a published site.

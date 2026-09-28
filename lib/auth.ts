@@ -5,7 +5,7 @@
 // site shows a "PIN not set" screen instead of a lock anyone could open, and the
 // deploy workflow refuses to publish.
 
-export const PIN_STORAGE_KEY = "fwp_auth";
+export const PIN_STORAGE_KEY = "bwp_auth";
 
 // Development only (`pnpm dev` before .env.local exists): the PIN is 0000.
 // Never used by `pnpm build`, so it can't reach a published site.

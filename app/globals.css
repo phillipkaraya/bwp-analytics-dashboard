@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* V1 system-font stack — distinctive enough via the FWP palette without
+  /* V1 system-font stack — distinctive enough via the BWP palette without
      a custom font load. */
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -18,7 +18,7 @@
   --font-display: var(--font-sans);
   --font-heading: var(--font-sans);
 
-  /* shadcn semantic tokens (mapped to FWP palette below) */
+  /* shadcn semantic tokens (mapped to BWP palette below) */
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -41,7 +41,7 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  /* FWP-specific tokens */
+  /* BWP-specific tokens */
   --color-brand: var(--brand);
   --color-brand-soft: var(--brand-soft);
   --color-brand-deep: var(--brand-deep);
@@ -67,7 +67,7 @@
 }
 
 :root {
-  /* === FWP Brand Palette ====================================== */
+  /* === BWP Brand Palette ====================================== */
   /* Background: light brand blue — calm, trustworthy, distinctive */
   --background: #eaf3fb;
   --foreground: #0a1628;

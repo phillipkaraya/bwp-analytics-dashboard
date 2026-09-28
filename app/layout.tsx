@@ -4,9 +4,9 @@ import { AuthGate } from "@/components/layout/auth-gate";
 import { AppShell } from "@/components/layout/app-shell";
 
 export const metadata: Metadata = {
-  title: "FWP Analytics",
+  title: "Build With Phil Analytics",
   description:
-    "Phillip Karaya / Finance With Phil — Social Media Analytics Dashboard",
+    "Phillip Karaya / Build With Phil: Social Media Analytics Dashboard",
 };
 
 export default function RootLayout({

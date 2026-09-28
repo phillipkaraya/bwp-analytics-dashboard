@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FWP Scraper Service — port 5556
+BWP Scraper Service, port 5556
 
 Stdlib-only HTTP service the dashboard's Refresh button calls to start
 a re-scrape of Instagram / TikTok / YouTube / Threads data.
@@ -281,7 +281,7 @@ class Handler(BaseHTTPRequestHandler):
 def main() -> None:
     from scrape.cdp import default_port
 
-    print(f"FWP Scraper service v{VERSION} on http://localhost:{PORT}")
+    print(f"BWP Scraper service v{VERSION} on http://localhost:{PORT}")
     print(f"  data dir: {DATA_DIR}")
     print(f"  Chrome CDP port: {default_port()} (override with CHROME_CDP_PORT)")
     print("  platforms: instagram, tiktok, youtube, threads, linkedin (all real, Chrome-CDP)")

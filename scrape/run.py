@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FWP scrape runner — headless CLI, no HTTP server.
+BWP scrape runner: headless CLI, no HTTP server.
 
     python3 scrape/run.py                          # incremental, all platforms
     python3 scrape/run.py --platforms instagram,tiktok
@@ -50,7 +50,7 @@ from scrape.server import (  # noqa: E402
     save_scrape_state,
 )
 
-LEASE_PURPOSE = "fwp-analytics scrape (scrape/run.py)"
+LEASE_PURPOSE = "bwp-analytics scrape (scrape/run.py)"
 
 
 # --------------------------------------------------------------------------
@@ -84,7 +84,7 @@ def claim_lease(url: str) -> str | None:
         print("warning: ccbrowser not found, running without a lease", file=sys.stderr)
         return None
     env = dict(os.environ)
-    env.setdefault("CCBROWSER_OWNER", "fwp-analytics-scrape")
+    env.setdefault("CCBROWSER_OWNER", "bwp-analytics-scrape")
     r = subprocess.run(
         [*cmd, "claim", "tab", "--purpose", LEASE_PURPOSE, "--url", url],
         capture_output=True,
@@ -143,7 +143,7 @@ def main() -> int:
     claim_lease("https://www.instagram.com/")
 
     mode = "FULL SWEEP" if args.full else "incremental"
-    print(f"fwp scrape [{mode}] on Chrome :{default_port()} -> {', '.join(platforms)}")
+    print(f"bwp scrape [{mode}] on Chrome :{default_port()} -> {', '.join(platforms)}")
 
     state = load_scrape_state()
     errors: dict[str, str] = {}

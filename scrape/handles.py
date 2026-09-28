@@ -1,4 +1,4 @@
-"""Phillip Karaya / Finance With Phil handles per platform.
+"""Phillip Karaya / Build With Phil handles per platform.
 
 Verified 2026-09-04: TikTok and YouTube both moved from the financewithphil
 handle to phillip.karaya. YouTube is scraped by channel ID so a future
