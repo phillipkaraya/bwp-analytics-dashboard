@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { isAuthenticated, subscribeAuth } from "@/lib/auth";
+import { GATE_BG } from "./gate-scene";
 import { PinWall } from "./pin-wall";
 
 // null = not yet known (server render and the first hydration pass);
@@ -18,8 +19,9 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
 
   if (authed === null) {
     return (
-      <div className="fixed inset-0 grid place-items-center bg-background">
-        <div className="font-mono text-xs uppercase tracking-[0.22em] text-ink-muted">
+      // Same navy as the gate, so there is no light flash before the scene draws.
+      <div className="fixed inset-0 grid place-items-center" style={{ backgroundColor: GATE_BG }}>
+        <div className="font-mono text-xs uppercase tracking-[0.22em] text-white/50">
           Loading
         </div>
       </div>
