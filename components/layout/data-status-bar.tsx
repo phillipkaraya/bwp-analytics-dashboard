@@ -65,7 +65,7 @@ export function DataStatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
   const stale = fresh?.stale ?? true;
 
   return (
-    <div className="ml-auto flex items-center gap-3">
+    <div className="flex items-center gap-3">
       <DropdownMenu>
         <DropdownMenuTrigger
           className={cn(

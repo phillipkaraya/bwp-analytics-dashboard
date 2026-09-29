@@ -80,6 +80,34 @@ The Refresh data button calls `scrape/server.py` on `localhost:5556`. It
 detects when the service is offline and degrades gracefully; do not break
 this contract when extending.
 
+## Chat assistant (Ask your dashboard)
+- Browser only. `lib/chat/providers/anthropic-key.ts` calls api.anthropic.com
+  through `@anthropic-ai/sdk` with the reader's own key. There is no server
+  and no proxy. Model `claude-opus-5-5`, adaptive thinking, strict tools.
+- The key lives ONLY in `localStorage["bwp_chat_api_key"]`. Never copy it
+  into the Zustand store, the settings JSON, logs, URLs, tests or any
+  tracked file. The production build ships a CSP meta that limits
+  `connect-src` to the page, api.anthropic.com and localhost:5556.
+- Every number must come from a tool result. Tools in `lib/chat/tools/`
+  compute over the already loaded JSON and return `{ok, asOf, window,
+  filters, notes, ...}` envelopes capped at 8000 characters; `grounding.ts`
+  underlines figures no envelope returned. Add data capabilities as tools,
+  never as prose in the system prompt.
+- `lib/chat/tools/defs.json` is generated from `defs.ts` by
+  `scripts/export-tool-defs.ts` so a future local helper can register the
+  same tools over MCP. Regenerate it when a tool schema changes.
+- Provider seam: `ChatProvider` and `ChatSession` in `lib/chat/types.ts`.
+  `providers/local-cli.ts` is a stub for a helper `/chat` SSE route on
+  :5556 that would shell out to `claude -p`, `codex exec` or the Gemini CLI
+  on the reader's own subscription. Keep SDK imports out of shared code.
+- Tests: `pnpm test` runs `scripts/chat-tools-check.ts` and
+  `scripts/chat-loop-test.ts` against the real SDK with a scripted fetch,
+  no network. Real API smoke: `secret-sync run ANTHROPIC_API_KEY -- pnpm chat:smoke`
+  (use `ANTHROPIC_API_KEY_BWP_CHAT` once that dedicated key exists).
+- Dev only: `localStorage["bwp_chat_mock"] = "ok"` (or slow, 401, 403, 429,
+  400, 500, 529, offline, refusal, max_tokens, nokey) swaps in the scripted
+  provider. It is compiled out of production builds.
+
 ## Deploy
 - GH Actions: `.github/workflows/deploy.yml` builds with
   `NEXT_PUBLIC_BASE_PATH=/bwp-analytics-dashboard` and publishes
@@ -95,3 +123,9 @@ store once held (flows, calendar, contentQueue, studioFolder) was removed
 with its tab.
 
 PIN auth uses `sessionStorage["bwp_auth"]`, separate from the store.
+
+The assistant keeps its own keys, outside the store:
+- `localStorage["bwp_chat_api_key"]`: the API key, and nothing else holds it
+- `localStorage["bwp_chat_settings_v1"]`: provider, effort, showUsage
+- `sessionStorage["bwp_chat_transcript_v1"]`: the transcript, per tab
+- `localStorage["bwp_chat_mock"]`: dev-only mock scenario switch

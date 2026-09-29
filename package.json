@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test scripts/chat-tools-check.ts scripts/chat-loop-test.ts",
+    "chat:smoke": "tsx scripts/chat-smoke.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.129.0",

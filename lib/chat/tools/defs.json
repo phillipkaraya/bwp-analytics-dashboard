@@ -1,0 +1,579 @@
+{
+  "version": 1,
+  "tools": [
+    {
+      "name": "top_posts",
+      "description": "Rank posts within a rolling window by a metric. Use for best reels, best posts, top performers, worst performers, most saved, most commented. Reach is views where the post reports them and likes otherwise; each row says which.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "enum": [
+              7,
+              30,
+              60,
+              90,
+              180,
+              365,
+              null
+            ],
+            "description": "Rolling window in days ending today. null means all time."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "types": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "shortform",
+                "reel",
+                "video",
+                "short",
+                "carousel",
+                "post",
+                "image",
+                "article"
+              ]
+            },
+            "description": "Post types. reel is Instagram, video is TikTok, short is YouTube; shortform means all three together. null means all types."
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "reach",
+              "views",
+              "likes",
+              "comments",
+              "shares",
+              "saves",
+              "engagementRate"
+            ]
+          },
+          "order": {
+            "type": "string",
+            "enum": [
+              "desc",
+              "asc"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "days",
+          "platforms",
+          "types",
+          "metric",
+          "order",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "window_summary",
+      "description": "Totals for one to four rolling windows, each with the immediately preceding window of the same length and percent change already computed. Use for 'how did the last 30 days go', 'compare 30, 60 and 90 days', 'is engagement up or down'.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "windows": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "enum": [
+                7,
+                30,
+                60,
+                90,
+                180,
+                365
+              ]
+            },
+            "description": "1 to 4 window lengths in days, e.g. [30, 90]"
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "types": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "shortform",
+                "reel",
+                "video",
+                "short",
+                "carousel",
+                "post",
+                "image",
+                "article"
+              ]
+            },
+            "description": "Post types. reel is Instagram, video is TikTok, short is YouTube; shortform means all three together. null means all types."
+          }
+        },
+        "required": [
+          "windows",
+          "platforms",
+          "types"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "platform_breakdown",
+      "description": "One row per platform: post count, views, likes, comments, engagement, followers now, last posted, posting cadence. Use for 'which platform is doing best', 'how often do I post on TikTok', 'which platforms are quiet'.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "enum": [
+              7,
+              30,
+              60,
+              90,
+              180,
+              365,
+              null
+            ],
+            "description": "Rolling window in days ending today. null means all time."
+          }
+        },
+        "required": [
+          "days"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "monthly_trend",
+      "description": "Calendar-month series of posts, views, likes, comments and engagement rate, most recent last. Months with no posts appear as zero rows. Use for trends over time.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "months": {
+            "type": "integer",
+            "description": "How many most recent calendar months, 1 to 24."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "types": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "shortform",
+                "reel",
+                "video",
+                "short",
+                "carousel",
+                "post",
+                "image",
+                "article"
+              ]
+            },
+            "description": "Post types. reel is Instagram, video is TikTok, short is YouTube; shortform means all three together. null means all types."
+          }
+        },
+        "required": [
+          "months",
+          "platforms",
+          "types"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "posting_times",
+      "description": "Which weekdays and hours have performed best. Lifetime by default; pass days for a recent window. Hours are the post's own clock; the time zone is not recorded. Slots with fewer than minCount posts are hidden.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "enum": [
+              7,
+              30,
+              60,
+              90,
+              180,
+              365,
+              null
+            ],
+            "description": "Rolling window in days ending today. null means all time."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "groupBy": {
+            "type": "string",
+            "enum": [
+              "cell",
+              "day",
+              "hour"
+            ]
+          },
+          "minCount": {
+            "type": "integer",
+            "description": "Ignore slots with fewer posts than this, 2 to 20. The dashboard uses 3."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "days",
+          "platforms",
+          "groupBy",
+          "minCount",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_posts",
+      "description": "Find posts whose title, caption or hashtags contain all the words given. Titles and captions are stored as their first 120 characters. Use to locate a specific post or all posts about a subject before ranking them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "One or more words; a #tag matches hashtags."
+          },
+          "days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "enum": [
+              7,
+              30,
+              60,
+              90,
+              180,
+              365,
+              null
+            ],
+            "description": "Rolling window in days ending today. null means all time."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "query",
+          "days",
+          "platforms",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "hashtag_stats",
+      "description": "Hashtag performance. With tags null: the top hashtags used 3 or more times, ranked by average views. With tags: uses, average reach and platforms for those specific tags, plus each tag's top post. YouTube posts carry no hashtags.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific tags with or without #, at most 5. null for the top list."
+          },
+          "days": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "enum": [
+              7,
+              30,
+              60,
+              90,
+              180,
+              365,
+              null
+            ],
+            "description": "Rolling window in days ending today. null means all time."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "tags",
+          "days",
+          "platforms",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "content_insights",
+      "description": "Lifetime content patterns from the Insights tab. topics: content categories with counts and average views, or one category's top posts. hooks: opening-line types and the top hooks. viral: posts at 3x their platform average. cross_posts: the same idea posted on several platforms and which platform won.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "section": {
+            "type": "string",
+            "enum": [
+              "topics",
+              "hooks",
+              "viral",
+              "cross_posts"
+            ]
+          },
+          "topic": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "With section topics: a category slug such as comedy or finance to list its top posts. null for the category list."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "section",
+          "topic",
+          "platforms",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "follower_growth",
+      "description": "Current follower counts per platform and every stored snapshot, with the change between the last two snapshots and since the first. Use for 'which platform grew', 'how many followers do I have'.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "comment_insights",
+      "description": "Audience comments; the snapshot ends on the comments as-of date. sentiment: positive, neutral, negative and question counts, overall or per platform. top_questions: the most liked questions people asked. top_commenters: usernames who comment most. for_post: comments on one post id. search: comments containing words.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "sentiment",
+              "top_questions",
+              "top_commenters",
+              "for_post",
+              "search"
+            ]
+          },
+          "postId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "With kind for_post: the post id from an earlier result."
+          },
+          "query": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "With kind search: words to match."
+          },
+          "platforms": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "instagram",
+                "tiktok",
+                "youtube",
+                "threads",
+                "linkedin"
+              ]
+            },
+            "description": "Limit to these platforms (at most 5). null means all five."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Rows to return, 1 to 25."
+          }
+        },
+        "required": [
+          "kind",
+          "postId",
+          "query",
+          "platforms",
+          "limit"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "post_detail",
+      "description": "Everything the dashboard knows about one post: metrics, topics, how it compares with its platform average, comment count and top comments. Pass the post id from an earlier result or the post URL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "idOrUrl": {
+            "type": "string",
+            "description": "A post id such as ig_3988981312806879246_5251656103, or its URL."
+          }
+        },
+        "required": [
+          "idOrUrl"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

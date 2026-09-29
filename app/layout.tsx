@@ -14,6 +14,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="h-full antialiased">
+      {process.env.NODE_ENV === "production" ? (
+        <head>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="connect-src 'self' https://api.anthropic.com http://localhost:5556 http://127.0.0.1:5556"
+          />
+        </head>
+      ) : null}
       <body className="min-h-full bg-background text-foreground">
         <AuthGate>
           <AppShell>{children}</AppShell>
