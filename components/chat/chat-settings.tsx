@@ -62,6 +62,8 @@ export function ChatSettingsScreen() {
 
   const onSave = async () => {
     if (!canSave) return;
+    // Keep the automatically opened key screen mounted when saving changes hasKey.
+    setShowSettings(true);
     setTest("testing");
     const result = await saveKey(trimmed);
     setTest(result);
