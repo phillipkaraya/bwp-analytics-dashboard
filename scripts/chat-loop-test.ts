@@ -9,6 +9,9 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { makeChatData } from "../lib/chat/data";
+import { acceptedNumbers, flagNumbers } from "../lib/chat/grounding";
+import { extractCitations, holdIncompleteMarkers, renderMarkdown } from "../lib/chat/markdown";
+import { renderToStaticMarkup } from "react-dom/server";
 import {
   CHAT_MODEL,
   MAX_OUTPUT_TOKENS,
@@ -72,6 +75,10 @@ function recorder(onText?: (delta: string, rec: Rec) => void): Rec {
     toolResults: [],
     usage: [],
     handlers: {
+      onRestart: (keepChars, dropToolIds) => {
+        rec.text = rec.text.slice(0, keepChars);
+        rec.toolCalls = rec.toolCalls.filter((c) => !dropToolIds.includes(c.id));
+      },
       onThinking: () => rec.events.push("thinking"),
       onText: (delta) => {
         rec.text += delta;
@@ -274,6 +281,21 @@ test("one tool round: tool_result carries the runner's JSON, final text streams"
   assert.ok(rec.text.includes("[[post:ig_2_1]]"));
   assert.ok(rec.text.includes("2,048"));
   assert.ok(!/[\u2014\u2013]|-{2}/.test(rec.text), "no dashes in the canned answer");
+
+  const { ids } = extractCitations(rec.text);
+  assert.deepEqual(ids, STUB_ROWS.map((r) => r.id), "every mock citation resolves to a returned row");
+  const flags = flagNumbers(rec.text, acceptedNumbers(rec.toolResults.map((r) => r.outcome.content), CARD_A), "Best posts in the last 180 days");
+  assert.deepEqual(flags, ["5,000", "2,048"], "a number quoted from a title cannot verify a metric, and the fabricated figure is flagged");
+  const rendered = renderToStaticMarkup(renderMarkdown(rec.text, { flagged: new Set(flags) }));
+  assert.ok(rendered.includes('title="This number is not in the data the assistant was given"'));
+  assert.ok(!rendered.includes("[[post:"), "citation markers never leak into displayed prose");
+});
+
+test("streaming citations stay hidden until closed and deduplicate in source order", () => {
+  assert.equal(holdIncompleteMarkers("Leading [[post:ig_1"), "Leading ");
+  const result = extractCitations("First [[post:yt_ab_cd]] and [[post:ig_1_1]], again [[post:yt_ab_cd]].");
+  assert.deepEqual(result.ids, ["yt_ab_cd", "ig_1_1"]);
+  assert.equal(result.text, "First and, again.");
 });
 
 test("tool budget: 8 rounds run, the tenth request carries the is_error budget result, then tool_cap", async () => {
@@ -535,7 +557,7 @@ test("model_context_window_exceeded collapses to the last 8 text-only turns and 
   assert.equal(mockRequests.length, 2);
 });
 
-test("pause_turn pushes the assistant message and continues", async () => {
+test("pause_turn ends the turn without an unsupported assistant prefill", async () => {
   clearMockRequests();
   let n = 0;
   const fetchImpl = scriptedFetch(() => {
@@ -547,12 +569,8 @@ test("pause_turn pushes the assistant message and continues", async () => {
   const rec = recorder();
   const end = await session.send("go", rec.handlers, new AbortController().signal);
   assert.deepEqual(end, { kind: "done" });
-  assert.equal(rec.text, "part one. part two.");
-  assert.equal(mockRequests.length, 2);
-  assert.deepEqual(
-    bodyOf(mockRequests[1]).messages.map((m) => m.role),
-    ["user", "assistant"],
-  );
+  assert.equal(rec.text, "part one. ");
+  assert.equal(mockRequests.length, 1);
 });
 
 test("a tool that throws becomes an is_error tool_result and the loop continues", async () => {
@@ -590,7 +608,7 @@ test("validateKey probes count_tokens: ok, rejected, offline", async () => {
   assert.equal(await createAnthropicKeyProvider({ fetch: mockAnthropicFetch("401") }).validateKey?.(TEST_KEY), "rejected");
   assert.equal(await createAnthropicKeyProvider({ fetch: mockAnthropicFetch("403") }).validateKey?.(TEST_KEY), "rejected");
   assert.equal(await createAnthropicKeyProvider({ fetch: mockAnthropicFetch("offline") }).validateKey?.(TEST_KEY), "offline");
-  assert.equal(await createAnthropicKeyProvider({ fetch: mockAnthropicFetch("429") }).validateKey?.(TEST_KEY), "ok");
+  assert.equal(await createAnthropicKeyProvider({ fetch: scriptedFetch(() => new Response(JSON.stringify({ type: "error", error: { type: "rate_limit_error", message: "wait" } }), { status: 429, headers: { "content-type": "application/json" } })) }).validateKey?.(TEST_KEY), "limited");
 });
 
 test("readiness reports no_key without a key", async () => {
@@ -682,4 +700,119 @@ test("local-cli stub: unavailable readiness, send returns an unknown error", asy
   const end = await session.send("x", recorder().handlers, new AbortController().signal);
   assert.equal(end.kind, "error");
   if (end.kind === "error") assert.equal(end.error.code, "unknown");
+});
+
+test("reset during streaming cannot resurrect the cleared conversation", async () => {
+  clearMockRequests();
+  const session = makeSession(mockAnthropicFetch("slow", { delayMs: 2 }));
+  session.resume([{ id: "old", at: "", user: "old question", assistant: "old answer", traces: [], end: "done" }]);
+  const controller = new AbortController();
+  const rec = recorder(() => { controller.abort(); session.reset(); });
+  assert.equal((await session.send("clear this", rec.handlers, controller.signal)).kind, "aborted");
+  assert.equal(session.messages.length, 0);
+  await session.send("fresh", recorder().handlers, new AbortController().signal);
+  assert.equal(bodyOf(mockRequests[1]).messages.length, 1);
+});
+
+test("Stop settles before a pending tool and ignores its late result", async () => {
+  const controller = new AbortController();
+  let release!: (outcome: ToolOutcome) => void;
+  let started!: () => void;
+  const ready = new Promise<void>((resolve) => { started = resolve; });
+  const pendingTool = new Promise<ToolOutcome>((resolve) => { release = resolve; });
+  const session = makeSession(scriptedFetch(() => sseResponse(toolTurn([MOCK_TOOL_CALL], { text: "Looking up." }))), {
+    runTool: async () => { started(); return pendingTool; },
+  });
+  const rec = recorder();
+  const pendingSend = session.send("question", rec.handlers, controller.signal);
+  await ready;
+  controller.abort();
+  const end = await Promise.race([pendingSend, new Promise<null>((resolve) => setTimeout(() => resolve(null), 30))]);
+  release({ content: "{}", isError: false });
+  await pendingSend;
+  assert.equal(end?.kind, "aborted", "Stop must settle while the tool is still pending");
+  assert.equal(rec.toolResults.length, 0);
+  assert.deepEqual(collapseToText(session.messages).map((m) => blocksOf(m as Body["messages"][number])[0].text), ["question", "Looking up."]);
+});
+
+test("reset and a replacement send during tools preserve only the new conversation", async () => {
+  clearMockRequests();
+  let release!: (outcome: ToolOutcome) => void;
+  let started!: () => void;
+  const ready = new Promise<void>((resolve) => { started = resolve; });
+  let n = 0;
+  const session = makeSession(scriptedFetch(() => sseResponse(n++ === 0 ? toolTurn([MOCK_TOOL_CALL]) : textTurn("fresh answer"))), {
+    runTool: async () => { started(); return new Promise<ToolOutcome>((resolve) => { release = resolve; }); },
+  });
+  const controller = new AbortController();
+  const old = session.send("old", recorder().handlers, controller.signal);
+  await ready;
+  controller.abort();
+  session.reset();
+  await session.send("fresh", recorder().handlers, new AbortController().signal);
+  release({ content: "{}", isError: false });
+  assert.equal((await old).kind, "aborted");
+  assert.deepEqual(collapseToText(session.messages).map((m) => blocksOf(m as Body["messages"][number])[0].text), ["fresh", "fresh answer"]);
+});
+
+test("max_tokens retry discards only the abandoned round's text and tool chip", async () => {
+  let n = 0;
+  const session = makeSession(scriptedFetch(() => {
+    n += 1;
+    if (n === 1) return sseResponse(toolTurn([{ ...MOCK_TOOL_CALL, id: "kept" }], { text: "First lookup." }));
+    if (n === 2) return sseResponse(toolTurn([{ ...MOCK_TOOL_CALL, id: "discarded" }], { text: "Second lookup.", stop: "max_tokens" }));
+    if (n === 3) return sseResponse(toolTurn([{ ...MOCK_TOOL_CALL, id: "retry" }], { text: "Second lookup." }));
+    return sseResponse(textTurn("Answer."));
+  }));
+  const rec = recorder();
+  assert.equal((await session.send("q", rec.handlers, new AbortController().signal)).kind, "done");
+  assert.equal(rec.text, "First lookup.\n\nSecond lookup.\n\nAnswer.");
+  assert.deepEqual(rec.toolCalls.map((c) => c.id), ["kept", "retry"]);
+});
+
+test("context retry discards abandoned output before rebuilding the turn", async () => {
+  let n = 0;
+  const session = makeSession(scriptedFetch(() => sseResponse(n++ === 0
+    ? [messageStart(), ...textEvents(0, "Discard me."), ...messageEnd("model_context_window_exceeded")]
+    : textTurn("Only this answer."))));
+  const rec = recorder();
+  assert.equal((await session.send("q", rec.handlers, new AbortController().signal)).kind, "done");
+  assert.equal(rec.text, "Only this answer.");
+});
+
+test("truncated text after a tool round appears once in history", async () => {
+  let n = 0;
+  const session = makeSession(scriptedFetch(() => sseResponse(n++ === 0
+    ? toolTurn([MOCK_TOOL_CALL], { text: "Lead text." })
+    : textTurn("Partial answer.", { stop: "max_tokens" }))));
+  assert.equal((await session.send("q", recorder().handlers, new AbortController().signal)).kind, "truncated");
+  const text = session.messages.filter((m) => m.role === "assistant").map((m) => blocksOf(m as Body["messages"][number]).filter((b) => b.type === "text").map((b) => b.text).join("")).join("|");
+  assert.equal(text, "Lead text.|Partial answer.");
+});
+
+test("resume skips refused and failed turns carrying streamed text", () => {
+  const session = makeSession(mockAnthropicFetch("ok"));
+  session.resume(["refused", "error", "done"].map((end, i) => ({ id: String(i), at: "", user: "q", assistant: "answer", traces: [], end: end as ChatTurn["end"] })));
+  assert.equal(session.messages.length, 2);
+});
+
+test("mid-stream overloaded error is classified for the Busy card", async () => {
+  const session = makeSession(scriptedFetch(() => sseResponse([
+    messageStart(), ...textEvents(0, "Partial."),
+    { event: "error", data: { type: "error", error: { type: "overloaded_error", message: "Busy" } } },
+  ])));
+  const end = await session.send("q", recorder().handlers, new AbortController().signal);
+  assert.equal(end.kind, "error");
+  if (end.kind === "error") assert.equal(end.error.code, "overloaded");
+});
+
+test("billing and missing-model probes never claim the key is ready", async () => {
+  for (const [status, type] of [[402, "billing_error"], [404, "not_found_error"], [400, "invalid_request_error"]] as const) {
+    const provider = createAnthropicKeyProvider({ fetch: scriptedFetch(() => new Response(JSON.stringify({ type: "error", error: { type, message: "Account cannot send" } }), { status, headers: { "content-type": "application/json" } })) });
+    assert.equal(await provider.validateKey?.(TEST_KEY), "blocked");
+    const session = provider.createSession({ settings: SETTINGS, getKey: () => TEST_KEY, system: { rules: STATIC_RULES, dataCard: () => CARD_A }, tools: TOOL_DEFS, runTool: stubRunner(), maxRetries: 0 });
+    const end = await session.send("q", recorder().handlers, new AbortController().signal);
+    assert.equal(end.kind, "error");
+    if (end.kind === "error") assert.equal(end.error.code, status === 400 ? "bad_request" : "forbidden");
+  }
 });

@@ -11,7 +11,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ChatData } from "./data";
-import { acceptedNumbers, flagNumbers } from "./grounding";
+import { acceptedNumbers, flagNumbers, groundingResults } from "./grounding";
 import { describeCall } from "./tools/defs";
 import { clearTranscript, readTranscript, writeTranscript } from "./transcript";
 import type { ChatError, ChatSession, ChatTurn, SendHandlers, ToolTrace, TurnEnd, Usage } from "./types";
@@ -186,16 +186,26 @@ export function useChat({ data, session, dataCard }: UseChatArgs): UseChatResult
       const controller = new AbortController();
       abortRef.current = controller;
 
+      const current = () => liveIdRef.current === id && abortRef.current === controller;
       const handlers: SendHandlers = {
-        onThinking: () => setStatus((s) => (s === "streaming" ? s : "thinking")),
+        onRestart: (keepChars, dropToolIds) => {
+          if (!current()) return;
+          flush();
+          liveRef.current.assistant = liveRef.current.assistant.slice(0, keepChars);
+          for (const traceId of dropToolIds) liveRef.current.traces.delete(traceId);
+          patchTurn(id, (t) => ({ ...t, assistant: t.assistant.slice(0, keepChars), traces: t.traces.filter((x) => !dropToolIds.includes(x.id)) }));
+          setStatus("thinking");
+        },
+        onThinking: () => { if (current()) setStatus((s) => (s === "streaming" ? s : "thinking")); },
         onText: (delta) => {
-          if (!delta) return;
+          if (!current() || !delta) return;
           pendingRef.current += delta;
           liveRef.current.assistant += delta;
           setStatus("streaming");
           scheduleFlush();
         },
         onToolCall: (call) => {
+          if (!current()) return;
           flush();
           const label = describeCall(call.name, call.input);
           const trace: ToolTrace = {
@@ -214,6 +224,7 @@ export function useChat({ data, session, dataCard }: UseChatArgs): UseChatResult
           setAnnounce(`Looking up ${label.toLowerCase()}`);
         },
         onToolInput: (traceId, input) => {
+          if (!current()) return;
           const live = liveRef.current.traces.get(traceId);
           if (live) liveRef.current.traces.set(traceId, { ...live, input, label: describeCall(live.name, input) });
           patchTurn(id, (t) => ({
@@ -224,6 +235,7 @@ export function useChat({ data, session, dataCard }: UseChatArgs): UseChatResult
           }));
         },
         onToolResult: (traceId, outcome, ms) => {
+          if (!current()) return;
           const live = liveRef.current.traces.get(traceId);
           if (live) {
             liveRef.current.traces.set(traceId, {
@@ -250,17 +262,17 @@ export function useChat({ data, session, dataCard }: UseChatArgs): UseChatResult
           }));
         },
         onUsage: (u) => {
+          if (!current()) return;
           patchTurn(id, (t) => ({ ...t, usage: addUsage(t.usage, u) }));
         },
       };
 
       const finish = (end: TurnEnd) => {
+        if (!current()) return;
         flush();
         const ms = Date.now() - started;
         const live = liveRef.current;
-        const results = [...live.traces.values()]
-          .map((x) => x.result)
-          .filter((r): r is string => typeof r === "string");
+        const results = groundingResults(turnsRef.current, live.traces.values());
         let flags: string[] = [];
         try {
           flags = flagNumbers(live.assistant, acceptedNumbers(results, dataCard()), text);
@@ -314,7 +326,10 @@ export function useChat({ data, session, dataCard }: UseChatArgs): UseChatResult
     abortRef.current = null;
     liveIdRef.current = null;
     pendingRef.current = "";
+    if (rafRef.current !== null && typeof cancelAnimationFrame === "function" && rafRef.current >= 0) cancelAnimationFrame(rafRef.current);
+    rafRef.current = null;
     liveRef.current = { assistant: "", traces: new Map() };
+    turnsRef.current = [];
     setTurns([]);
     setMeta({});
     setStatus("idle");

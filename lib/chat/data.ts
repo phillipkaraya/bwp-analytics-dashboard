@@ -137,7 +137,7 @@ export function resetChatData(): void {
 
 /** Comment postIds carry no owner suffix ("ig_<mediaId>") while Instagram
  *  post ids do ("ig_<mediaId>_<ownerId>"); the first two parts match both. */
-export const postKey = (id: string) => id.split("_").slice(0, 2).join("_");
+export const postKey = (id: string) => id.startsWith("ig_") ? id.split("_").slice(0, 2).join("_") : id;
 
 /** "2026-09-21" from "2026-09-21T21:28:42+00:00", or null. */
 export function datePart(value: unknown): string | null {

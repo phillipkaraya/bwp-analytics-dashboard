@@ -99,13 +99,14 @@ interface PostRef {
   id: string;
   title: string;
   date: string;
+  url: string | null;
 }
 
 function postIndex(data: ChatData): Map<string, PostRef> {
   const byKey = new Map<string, PostRef>();
   for (const p of data.posts) {
     const key = postKey(p.id);
-    if (!byKey.has(key)) byKey.set(key, { id: p.id, title: clipText(p.title || p.caption, TITLE_MAX) || "(no title)", date: p.date });
+    if (!byKey.has(key)) byKey.set(key, { id: p.id, title: clipText(p.title || p.caption, TITLE_MAX) || "(no title)", date: p.date, url: p.url ?? null });
   }
   return byKey;
 }
@@ -157,15 +158,16 @@ export async function runCommentInsights(data: ChatData, input: CommentInsightsI
     case "top_questions": {
       const all = (data.analytics.highValueComments ?? []) as Array<HighValueComment & { postTitle?: unknown }>;
       const selected = all.filter((c) => inPlatforms(c.platform, platforms));
-      const rows: QuestionRow[] = selected.slice(0, input.limit).map((c) => ({
-        text: clipText(c.text, COMMENT_TEXT_MAX),
-        username: c.username,
-        platform: c.platform,
-        likes: toNum(c.likes),
-        date: c.date ?? null,
-        postTitle: typeof c.postTitle === "string" ? clipText(c.postTitle, TITLE_MAX) : null,
-        postUrl: c.postUrl ?? null,
-      }));
+      const byKey = postIndex(data);
+      const rows: QuestionRow[] = selected.slice(0, input.limit).map((c) => {
+        const post = c.postId ? byKey.get(postKey(c.postId)) : undefined;
+        return {
+          text: clipText(c.text, COMMENT_TEXT_MAX), username: c.username, platform: c.platform,
+          likes: toNum(c.likes), date: c.date ?? null,
+          postTitle: post?.title ?? (typeof c.postTitle === "string" && c.postTitle.trim() ? clipText(c.postTitle, TITLE_MAX) : null),
+          postUrl: post?.url ?? (c.postUrl || null),
+        };
+      });
       notes.push("Ranked by likes on the comment; the dashboard keeps the top 50 questions");
       return finish(
         { kind: "top_questions", counts: { questions: toNum(data.analytics.questionCount), listed: rows.length, available: selected.length }, rows },

@@ -19,7 +19,7 @@ import {
 } from "../../derive";
 import { datePart, type ChatData } from "../data";
 import type { ToolEnvelope } from "../types";
-import { DAY, NOT_MEASURED, applyFilters, emptyEnvelope, envelope, isoDate, round2, windowOf } from "./rows";
+import { DAY, NOT_MEASURED, applyFilters, emptyEnvelope, envelope, isoDate, round2, windowOf, windowStart, windowEnd } from "./rows";
 import type { MonthlyTrendInput, PlatformBreakdownInput, WindowSummaryInput } from "./validate";
 
 // Shared helpers
@@ -29,7 +29,7 @@ import type { MonthlyTrendInput, PlatformBreakdownInput, WindowSummaryInput } fr
 export function lifetimeAvgViews(posts: readonly Post[]): number | typeof NOT_MEASURED {
   const viewed = posts.filter((p) => postHasViews(p) && toNum(p.views) > 0);
   if (viewed.length === 0) return NOT_MEASURED;
-  return Math.round(viewed.reduce((s, p) => s + toNum(p.views), 0) / viewed.length);
+  return Math.trunc(viewed.reduce((s, p) => s + toNum(p.views), 0) / viewed.length);
 }
 
 export interface EngagementStats {
@@ -110,7 +110,7 @@ function change(current: number | null, previous: number | null): number | null 
 export function runWindowSummary(data: ChatData, input: WindowSummaryInput): ToolEnvelope<WindowSummaryResult> {
   const now = data.now();
   const longest = Math.max(...input.windows);
-  const window = windowOf(longest, now);
+  const window = windowOf(longest, now, true);
   const filters: Record<string, unknown> = { ...input };
   if (data.posts.length === 0) return emptyEnvelope(data, window, filters, { windows: [] });
 
@@ -147,10 +147,10 @@ export function runWindowSummary(data: ChatData, input: WindowSummaryInput): Too
     });
     return {
       days,
-      start: isoDate(now - days * DAY),
-      end: isoDate(now),
+      start: windowStart(now - days * DAY, true),
+      end: windowEnd(now),
       current,
-      previous: { ...previous, start: isoDate(now - 2 * days * DAY), end: isoDate(now - days * DAY) },
+      previous: { ...previous, start: windowStart(now - 2 * days * DAY, true), end: windowEnd(now - days * DAY) },
       change: changes,
       byPlatform,
     };
@@ -298,7 +298,7 @@ export function runMonthlyTrend(data: ChatData, input: MonthlyTrendInput): ToolE
   });
   const notes = [
     "Views are lifetime views earned by that month's posts, not views received during the month",
-    "Months are calendar months (UTC); the current month is partial",
+    "Posts are grouped by their stored calendar month; the current month is partial",
   ];
   const oldest = datePart(filtered.map((p) => p.date).sort()[0]);
   if (oldest && oldest.slice(0, 7) > from) notes.push(`The selection has no posts before ${oldest}`);

@@ -64,10 +64,11 @@ export interface ChatContextValue {
   hasKey: boolean;
   keyMask: string | null;
   keyBlocked: boolean;
-  saveKey: (key: string) => Promise<"ok" | "rejected" | "offline">;
+  saveKey: (key: string) => Promise<"ok" | "rejected" | "offline" | "blocked" | "limited">;
   forgetSavedKey: () => void;
   chat: UseChatResult;
   launcherRef: RefObject<HTMLButtonElement | null>;
+  returnFocusRef: RefObject<HTMLButtonElement | null>;
   textareaRef: RefObject<HTMLTextAreaElement | null>;
   isMac: boolean;
   /** The active mock scenario in dev, else null. */
@@ -119,6 +120,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
   const [loadingHint, setLoadingHint] = useState<string | null>(null);
 
   const launcherRef = useRef<HTMLButtonElement | null>(null);
+  const returnFocusRef = useRef<HTMLButtonElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const openRef = useRef(open);
   const mockRef = useRef<MockWiring | null>(null);
@@ -197,6 +199,9 @@ export function ChatRoot({ children }: { children: ReactNode }) {
 
   const setOpen = useCallback(
     (next: boolean) => {
+      if (next && !openRef.current) {
+        returnFocusRef.current = document.activeElement instanceof HTMLButtonElement ? document.activeElement : launcherRef.current;
+      }
       setOpenState(next);
       if (next) syncMock();
       else setShowSettings(false);
@@ -225,7 +230,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
     try {
       return createSession(sessionSettings, data, {
         getKey: keyGetter,
-        runTool: createToolRunner(data, { onCommentsLoading: () => setLoadingHint(COMMENTS_HINT) }),
+        runTool: createToolRunner(data, { onCommentsLoading: () => setLoadingHint(COMMENTS_HINT), onCommentsLoaded: () => setLoadingHint(null) }),
         fetch: wired?.fn,
         provider: wired?.provider,
       });
@@ -296,8 +301,8 @@ export function ChatRoot({ children }: { children: ReactNode }) {
   }, []);
 
   const saveKey = useCallback(
-    async (key: string): Promise<"ok" | "rejected" | "offline"> => {
-      let result: "ok" | "rejected" | "offline" = "offline";
+    async (key: string): Promise<"ok" | "rejected" | "offline" | "blocked" | "limited"> => {
+      let result: "ok" | "rejected" | "offline" | "blocked" | "limited" = "offline";
       try {
         result = provider?.validateKey ? await provider.validateKey(key) : "offline";
       } catch {
@@ -342,6 +347,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
       forgetSavedKey,
       chat,
       launcherRef,
+      returnFocusRef,
       textareaRef,
       isMac,
       mock,

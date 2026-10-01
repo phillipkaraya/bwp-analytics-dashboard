@@ -24,9 +24,10 @@ export interface ToolOutcome {
   content: string; // JSON text
   isError: boolean;
 }
-export type ToolRunner = (name: string, input: unknown) => Promise<ToolOutcome>;
+export type ToolRunner = (name: string, input: unknown, signal?: AbortSignal) => Promise<ToolOutcome>;
 
 export interface SendHandlers {
+  onRestart?(keepChars: number, dropToolIds: string[]): void;
   onThinking(): void;
   onText(delta: string): void;
   onToolCall(call: { id: string; name: string; input: unknown | null }): void; // input null at content_block_start
@@ -89,7 +90,7 @@ export interface ChatProvider {
   label: string; // "Anthropic API key" | "Local CLI (Claude, Codex or Gemini)"
   needsKey: boolean;
   readiness(deps: { getKey(): string | null; isLocalhost: boolean }): Promise<Readiness>;
-  validateKey?(key: string): Promise<"ok" | "rejected" | "offline">;
+  validateKey?(key: string): Promise<"ok" | "rejected" | "offline" | "blocked" | "limited">;
   createSession(args: {
     settings: ChatSettings;
     getKey(): string | null;
@@ -137,8 +138,8 @@ export interface PostRow {
   views: number | "not measured";
   likes: number;
   comments: number;
-  shares: number | null; // null on Instagram (never scraped there)
-  saves: number | null; // null outside Instagram
+  shares: number | null; // TikTok shares, Threads reposts and LinkedIn reposts
+  saves: number | null; // null outside TikTok
   engagementRate: number | "not measured"; // toNum(), 2 dp
   topics: string[]; // vault.byPost[id] ?? []
   url: string | null;

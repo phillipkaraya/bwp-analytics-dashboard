@@ -135,9 +135,10 @@ export function runPostingTimes(data: ChatData, input: PostingTimesInput): ToolE
   const precomputed = data.analytics.bestPostingTimes;
   let rows: PostingTimeRow[];
   let hidden = 0;
+  let available = 0;
   if (isDefaultShape(input) && Array.isArray(precomputed) && precomputed.length > 0) {
-    // The Insights tab's table: its averages are views over posts that report
-    // views; the median, basis and top post are filled from the same cells.
+    // Preserve the Insights average, including zero-view posts.
+    // The median, basis and top post are filled from the same cells.
     const cells = groupSlots(withTime, "cell");
     rows = precomputed.slice(0, input.limit).map((bpt: BestPostingTime) => {
       const slot = cells.get(slotKey("cell", bpt.day, bpt.hour));
@@ -148,22 +149,25 @@ export function runPostingTimes(data: ChatData, input: PostingTimesInput): ToolE
         count: bpt.count,
         avgReach: Math.round(bpt.avgViews),
         medianReach: Math.round(median(posts.map(reachOf))),
-        reachBasis: "views",
+        reachBasis: reachBasis(posts),
         avgEngagementRate: typeof bpt.avgEngagement === "number" ? bpt.avgEngagement : null,
         topPostTitle: topTitle(posts),
       };
     });
-    hidden = Math.max(0, cells.size - precomputed.length);
-    notes.push("Averages come from the dashboard's Insights table, over posts in the slot that report views; the median is over every post in the slot using views or likes");
+    hidden = [...cells.values()].filter((s) => s.posts.length < input.minCount).length;
+    available = cells.size - hidden;
+    notes.push("Average views come from the dashboard's Insights table over every post in the slot, with viewless posts counted as zero; the median uses views or likes for each post");
   } else {
     const slots = [...groupSlots(withTime, input.groupBy).values()];
     const kept = slots.filter((s) => s.posts.length >= input.minCount);
     hidden = slots.length - kept.length;
+    available = kept.length;
     const built = kept.map(rowFromSlot);
     rows = stableSort(built, (a, b) => b.avgReach - a.avgReach, (r) => `${r.day ?? ""}-${r.hour ?? ""}`).slice(0, input.limit);
     notes.push("avgReach and medianReach use views where the post reports them and likes otherwise; reachBasis says which");
   }
 
+  if (available > rows.length) notes.push(`Showing ${rows.length} of ${available} slots that meet the minimum count`);
   notes.push(
     hidden > 0
       ? `${hidden} ${hidden === 1 ? "slot" : "slots"} with fewer than ${input.minCount} posts ${hidden === 1 ? "is" : "are"} hidden`

@@ -20,6 +20,7 @@ import { runMonthlyTrend, runPlatformBreakdown, runWindowSummary } from "./windo
 export interface ToolRunnerHooks {
   /** Fired once, before the first comments file load of this runner. */
   onCommentsLoading?: () => void;
+  onCommentsLoaded?: () => void;
 }
 
 /** JSON.stringify(result).length must stay at or under this. */
@@ -50,7 +51,7 @@ export async function runTool<N extends ToolName>(data: ChatData, name: N, input
 }
 
 export function truncationNote(rows: number): string {
-  return `truncated to ${rows} rows; ask for a narrower window or platform`;
+  return `truncated to ${rows} rows; ask for a smaller limit or a narrower selection`;
 }
 
 /** The top-level array to cut when the result is too large: the longest one
@@ -106,8 +107,13 @@ export function createToolRunner(data: ChatData, hooks?: ToolRunnerHooks): ToolR
         hooks.onCommentsLoading();
       }
       const env = await runTool(data, name as ToolName, checked.value as never);
+      if (hinted && peekComments(data) !== null) {
+        hooks?.onCommentsLoaded?.();
+        hinted = false;
+      }
       return { isError: false, content: capResult(env).content };
     } catch (err) {
+      if (hinted) { hooks?.onCommentsLoaded?.(); hinted = false; }
       return errorOutcome(messageOf(err));
     }
   };

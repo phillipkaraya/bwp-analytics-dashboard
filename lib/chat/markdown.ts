@@ -46,6 +46,8 @@ export interface RenderContext {
  *  transcript is untouched. */
 export function normalizeVoice(text: string): string {
   return text
+    .replace(/(\d[\d,]*(?:\.\d+)?%?)\s*[\u2014\u2013]\s*(\d)/g, "$1 to $2")
+    .replace(/(Sep \d+)\s*[\u2014\u2013]\s*(Sep \d+)/g, "$1 to $2")
     .replace(/ [\u2014\u2013] /g, ", ")
     .replace(/[\u2014\u2013]/g, ",")
     .replace(/ -{2} /g, ", ");

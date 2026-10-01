@@ -11,13 +11,17 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { postHasViews } from "../lib/derive";
+import { monthlyActivity, postHasViews } from "../lib/derive";
 import type { Comment, Post } from "../lib/types";
 import { makeChatData, peekComments, postKey, type ChatData } from "../lib/chat/data";
-import type { PostRow, ToolOutcome } from "../lib/chat/types";
+import type { ChatTurn, PostRow, ToolOutcome, ToolTrace } from "../lib/chat/types";
 import { TOOL_DEFS, TOOL_NAMES } from "../lib/chat/tools/defs";
 import { validateInput } from "../lib/chat/tools/validate";
-import { DAY } from "../lib/chat/tools/rows";
+import { DAY, applyFilters, windowOf } from "../lib/chat/tools/rows";
+import { acceptedNumbers, flagNumbers, groundingResults } from "../lib/chat/grounding";
+import { normalizeVoice } from "../lib/chat/markdown";
+import { indexByTag } from "../lib/chat/tools/hashtags";
+import { loadAllPosts, loadAnalytics } from "../lib/data";
 import { TOOL_RESULT_MAX_CHARS, capResult, createToolRunner, truncationNote, type AnyEnvelope } from "../lib/chat/tools/run";
 import { runPostingTimes } from "../lib/chat/tools/times";
 import { runTopPosts } from "../lib/chat/tools/posts";
@@ -169,7 +173,7 @@ test("top_posts: last 30 days are the two September Instagram posts with the vie
   );
   assert.equal(env.postsInWindow, 2);
   assert.equal(env.rows.length, 2);
-  assert.deepEqual(env.window, { days: 30, start: "2026-08-29", end: "2026-09-28" });
+  assert.deepEqual(env.window, { days: 30, start: "2026-08-30", end: "2026-09-28" });
   const reel = env.rows[0];
   const carousel = env.rows[1];
   assert.equal(reel.id, "ig_3988981312806879246_5251656103");
@@ -194,7 +198,7 @@ test("top_posts: shortform expands to reel, video and short only", async () => {
   assert.ok(env.rows.every((r) => r.type === "reel" || r.type === "video" || r.type === "short"), JSON.stringify(env.rows.map((r) => r.type)));
 });
 
-test("top_posts: a views ranking drops viewless posts and says so; saves outside Instagram never rank", async () => {
+test("top_posts: a views ranking drops viewless posts and says so; saves outside TikTok never rank", async () => {
   const views = parse<{ rows: PostRow[]; excluded: { noViews: number }; notes: string[]; postsInWindow: number; postsRanked: number }>(
     await run("top_posts", { days: null, platforms: ["threads", "instagram"], types: null, metric: "views", order: "desc", limit: 25 }),
   );
@@ -205,7 +209,7 @@ test("top_posts: a views ranking drops viewless posts and says so; saves outside
   const saves = parse<{ rows: PostRow[] }>(
     await run("top_posts", { days: null, platforms: null, types: null, metric: "saves", order: "desc", limit: 25 }),
   );
-  assert.ok(saves.rows.every((r) => r.platform === "instagram" && typeof r.saves === "number"));
+  assert.ok(saves.rows.every((r) => r.platform === "tiktok" && typeof r.saves === "number"));
 });
 
 test("every Threads or LinkedIn row anywhere has views 'not measured'", async () => {
@@ -254,7 +258,7 @@ test("window_summary {30, 60, 90}: empty prior windows give null changes and the
     assert.equal(w.current.views, inWindow.filter(postHasViews).reduce((s, p) => s + Number(p.views), 0));
     assert.equal(w.byPlatform.reduce((s, r) => s + r.posts, 0), inWindow.length);
     assert.equal(w.end, "2026-09-28");
-    assert.equal(w.previous.end, w.start);
+    assert.equal(new Date(w.previous.end).getTime() + DAY, new Date(w.start).getTime());
     if (w.previous.posts === 0) {
       assert.ok(Object.values(w.change).every((v) => v === null), `${w.days} days: every change null`);
       assert.ok(env.notes.some((n) => n === `${w.days} days: no posts in the prior window, so no percent change`));
@@ -603,7 +607,7 @@ const EMPTY_BATTERY: Array<[string, unknown]> = [
   ["post_detail", { idOrUrl: "ig_1_1" }],
 ];
 
-test("template stubs: every tool returns ok, empty rows and the 'No posts loaded yet' note", { skip: existsSync(TEMPLATE_DATA) ? false : `template data not found at ${TEMPLATE_DATA}` }, async () => {
+test("template stubs: every tool returns ok, empty rows and the 'No posts loaded yet' note", async () => {
   const empty = loadDataset(TEMPLATE_DATA);
   assert.equal(empty.posts.length, 0);
   let fired = 0;
@@ -624,4 +628,143 @@ test("template stubs: every tool returns ok, empty rows and the 'No posts loaded
   assert.equal(peekComments(empty), null);
   const bad = await runner("top_posts", { days: 45, platforms: null, types: null, metric: "reach", order: "desc", limit: 5 });
   assert.equal(bad.isError, true);
+});
+
+test("post ids stay unique and YouTube underscores cannot mix comments", async () => {
+  const raw = PLATFORM_FILES.flatMap((p) => readJson<Post[]>(BWP_DATA, `${p}_posts.json`, []));
+  assert.equal(new Set(raw.map((p) => postKey(p.id))).size, raw.length);
+  assert.notEqual(postKey("yt_ab_cd"), postKey("yt_ab_ef"));
+  assert.equal(postKey("ig_123_456"), postKey("ig_123"));
+});
+
+test("saves and shares rank recorded metrics and preserve LinkedIn reposts", async () => {
+  const saves = parse<{ rows: PostRow[]; postsRanked: number }>(await run("top_posts", { days: null, platforms: null, types: null, metric: "saves", order: "desc", limit: 5 }));
+  const expected = data.posts.filter((p) => p.platform === "tiktok").sort((a, b) => Number(b.saves) - Number(a.saves)).slice(0, 5);
+  assert.deepEqual(saves.rows.map((r) => r.id), expected.map((p) => p.id));
+  assert.ok(saves.rows[0].saves! > 0);
+  const shares = parse<{ rows: PostRow[] }>(await run("top_posts", { days: null, platforms: ["linkedin"], types: null, metric: "shares", order: "desc", limit: 5 }));
+  assert.ok(shares.rows.length > 0 && shares.rows[0].shares! > 0);
+  const yt = parse<{ rows: PostRow[] }>(await run("top_posts", { days: null, platforms: ["youtube"], types: null, metric: "reach", order: "desc", limit: 5 }));
+  assert.ok(yt.rows.every((r) => r.shares === null && r.saves === null));
+});
+
+test("window labels name the first included date with afternoon and midnight cutoffs", () => {
+  const template = data.posts[0];
+  for (const now of [Date.parse("2026-09-28T15:00:00Z"), Date.parse("2026-09-28T00:00:00Z")]) {
+    const window = windowOf(30, now);
+    assert.notEqual(window, "all time");
+    if (window === "all time") return;
+    const first = { ...template, date: window.start };
+    const previous = { ...template, date: new Date(new Date(window.start).getTime() - DAY).toISOString().slice(0, 10) };
+    assert.deepEqual(applyFilters([previous, first], { days: 30 }, now), [first]);
+  }
+});
+
+test("grounding ignores free text, ids, dates and echoed filters", () => {
+  const accepted = acceptedNumbers([JSON.stringify({ rows: [{ title: "Made 9876", caption: "87%", text: "Revenue 5432", username: "9999", date: "2026-09-18", views: 1094 }], filters: { limit: 999 } })], "Today: 2026-09-18. Posts: 2103.");
+  assert.deepEqual(flagNumbers("9876, 87%, 5432, 9999, 18%, 999, 1,094 and 2,103", accepted, ""), ["9876", "87%", "5432", "9999", "18%", "999"]);
+});
+
+test("follow-up grounding retains recent numeric evidence and excludes failed turns and tools", () => {
+  const trace = (n: number, isError = false): ToolTrace => ({ id: String(n), name: "top_posts", input: null, label: "Posts", result: JSON.stringify({ views: n }), isError, ms: 1, status: isError ? "error" : "done" });
+  const turn = (n: number, end: ChatTurn["end"] = "done"): ChatTurn => ({ id: String(n), at: "", user: "q", assistant: "answer", end, traces: [trace(n)] });
+  const results = groundingResults([turn(1111), turn(2222), turn(3333), turn(4444, "refused"), turn(5555, "error")], [trace(6666), trace(7777, true)]);
+  assert.deepEqual(flagNumbers("1111, 2222, 3333, 4444, 5555, 6666, 7777", acceptedNumbers(results, ""), ""), ["1111", "4444", "5555", "7777"]);
+});
+
+test("numeric ranges retain their meaning and grounding tokens", () => {
+  assert.equal(normalizeVoice("10\u201320%"), "10 to 20%");
+  assert.equal(normalizeVoice("1,094\u20142,000 views"), "1,094 to 2,000 views");
+  assert.equal(normalizeVoice("Sep 1\u2013Sep 30"), "Sep 1 to Sep 30");
+  assert.deepEqual(flagNumbers(normalizeVoice("1,094\u20132,000 views"), new Set(), ""), ["1,094", "2,000"]);
+});
+
+test("monthly dashboard buckets match the assistant on the first of a month", () => {
+  const posts = [{ ...data.posts[0], date: "2026-09-01" }, { ...data.posts[0], date: "2026-08-31" }];
+  assert.deepEqual(monthlyActivity(posts).map((r) => [r.month, r.posts]), [["2026-08", 1], ["2026-09", 1]]);
+});
+
+test("question results resolve their post titles and urls without downloading comments", async () => {
+  const fresh = loadDataset(BWP_DATA);
+  const runner = createToolRunner(fresh);
+  const env = parse<{ rows: Array<{ platform: string; postTitle: string | null; postUrl: string | null }> }>(await runner("comment_insights", { kind: "top_questions", postId: null, query: null, platforms: ["instagram"], limit: 5 }));
+  assert.ok(env.rows.length > 0);
+  assert.ok(env.rows.every((r) => r.postTitle && r.postUrl));
+  assert.equal(peekComments(fresh), null);
+});
+
+test("hashtag indexing and averages agree with the analyzer's stored rows", async () => {
+  const index = indexByTag(data.posts);
+  for (const row of data.analytics.hashtagPerformance ?? []) assert.equal(index.get(row.tag)?.length, row.count);
+  const plain = parse<{ rows: Array<{ tag: string; avgViews: number | string }> }>(await run("hashtag_stats", { days: null, platforms: null, tags: null, limit: 5 }));
+  const filtered = parse<{ rows: Array<{ tag: string; avgViews: number | string }> }>(await run("hashtag_stats", { days: null, platforms: [...PLATFORM_FILES], tags: plain.rows.map((r) => r.tag), limit: 5 }));
+  assert.deepEqual(filtered.rows.map((r) => r.avgViews), plain.rows.map((r) => r.avgViews));
+});
+
+test("post_detail and viral insight use the same average and multiplier", async () => {
+  const viral = parse<{ rows: Array<{ id: string; avgViewsForPlatform: number; multiplier: number }> }>(await run("content_insights", { section: "viral", topic: null, platforms: ["tiktok"], limit: 3 }));
+  for (const row of viral.rows) {
+    const detail = parse<{ platformAvgViews: number; multiplier: number }>(await run("post_detail", { idOrUrl: row.id }));
+    assert.equal(detail.platformAvgViews, row.avgViewsForPlatform);
+    assert.equal(detail.multiplier, row.multiplier);
+  }
+});
+
+test("caption search reaches beyond the detail clip and topic notes do not invent filters", async () => {
+  const fresh = makeChatData({ posts: [{ ...data.posts[0], id: "test", caption: "x".repeat(150) + " uniqueending" }], analytics: {}, vault: { generatedAt: "", totalPosts: 2, categories: [{ slug: "topic", label: "Topic", count: 2, avgViews: 1, totalViews: 1, platforms: {}, postIds: ["test", "missing"] }], byPost: {} }, scrape: data.scrape, history: [] }, () => NOW);
+  const runner = createToolRunner(fresh);
+  const search = parse<{ rows: PostRow[]; notes: string[] }>(await runner("search_posts", { query: "uniqueending", platforms: null, days: null, limit: 5 }));
+  assert.equal(search.rows.length, 1);
+  assert.ok(!search.notes.some((n) => n.includes("120")));
+  const topic = parse<{ notes: string[] }>(await runner("content_insights", { section: "topics", topic: "topic", platforms: null, limit: 5 }));
+  assert.ok(topic.notes.some((n) => n.includes("undated or unavailable")));
+  assert.ok(!topic.notes.some((n) => n.includes("platform filter")));
+});
+
+test("comments loading hint clears when the comments request finishes", async () => {
+  const events: string[] = [];
+  const runner = createToolRunner(loadDataset(BWP_DATA), { onCommentsLoading: () => events.push("loading"), onCommentsLoaded: () => events.push("loaded") });
+  await runner("comment_insights", { kind: "search", postId: null, query: "question", platforms: null, limit: 5 });
+  await runner("top_posts", { days: null, platforms: null, types: null, metric: "views", order: "desc", limit: 5 });
+  assert.deepEqual(events, ["loading", "loaded"]);
+});
+
+test("the page and assistant share successful data loads and retry failed loads", async () => {
+  const savedFetch = globalThis.fetch;
+  const counts = new Map<string, number>();
+  globalThis.fetch = (async (url) => {
+    const path = String(url);
+    counts.set(path, (counts.get(path) ?? 0) + 1);
+    if (path.includes("analytics") && counts.get(path) === 1) return new Response("unavailable", { status: 500 });
+    return new Response(JSON.stringify(path.includes("analytics") ? {} : []));
+  }) as typeof fetch;
+  try {
+    const [a, b] = await Promise.all([loadAllPosts(), loadAllPosts()]);
+    assert.deepEqual(a, b);
+    assert.ok([...counts.values()].every((n) => n === 1));
+    await loadAnalytics();
+    await loadAnalytics();
+    assert.equal(counts.get("/data/analytics.json"), 2);
+  } finally { globalThis.fetch = savedFetch; }
+});
+
+test("posting-time notes distinguish sparse slots from rows omitted by the limit", () => {
+  const env = runPostingTimes(data, { days: null, platforms: null, groupBy: "cell", minCount: 3, limit: 3 });
+  const slots = new Map<string, Post[]>();
+  for (const p of data.posts) {
+    if (!p.time || !/^\d\d:\d\d$/.test(p.time)) continue;
+    const day = new Date(`${p.date}T00:00:00Z`).getUTCDay();
+    const key = `${day}-${Number(p.time.slice(0, 2))}`;
+    const posts = slots.get(key) ?? [];
+    posts.push(p); slots.set(key, posts);
+  }
+  const sparse = [...slots.values()].filter((ps) => ps.length < 3).length;
+  const eligible = slots.size - sparse;
+  assert.ok(env.notes.some((n) => n.startsWith(`${sparse} slots with fewer than 3`)));
+  assert.ok(env.notes.includes(`Showing 3 of ${eligible} slots that meet the minimum count`));
+  assert.ok(env.notes.some((n) => n.includes("viewless posts counted as zero")));
+  for (const r of env.rows) {
+    const ps = slots.get(`${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(r.day!)}-${r.hour}`)!;
+    assert.equal(r.reachBasis, ps.every(postHasViews) ? "views" : "mixed");
+  }
 });

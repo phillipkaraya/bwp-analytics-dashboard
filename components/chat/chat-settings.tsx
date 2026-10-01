@@ -23,7 +23,7 @@ const KEY_PREFIX = "sk-ant-";
 const KEY_MIN_LENGTH = 40;
 const CONSOLE_URL = "https://console.anthropic.com/settings/keys";
 
-type TestState = "idle" | "testing" | "ok" | "rejected" | "offline";
+type TestState = "idle" | "testing" | "ok" | "rejected" | "offline" | "blocked" | "limited";
 
 const EYEBROW = "font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted";
 
@@ -40,6 +40,7 @@ const PROVIDER_LABELS: Record<ProviderId, string> = {
 export function ChatSettingsScreen() {
   const { settings, updateSettings, providers, provider, hasKey, keyMask, keyBlocked, saveKey, forgetSavedKey, setShowSettings } =
     useChatContext();
+  const { chat } = useChatContext();
   const [keyInput, setKeyInput] = useState("");
   const [show, setShow] = useState(false);
   const [test, setTest] = useState<TestState>("idle");
@@ -53,6 +54,7 @@ export function ChatSettingsScreen() {
     [],
   );
 
+  const nativeMask = typeof CSS === "undefined" || !CSS.supports("-webkit-text-security", "disc");
   const trimmed = keyInput.trim();
   const canSave = trimmed.startsWith(KEY_PREFIX) && trimmed.length >= KEY_MIN_LENGTH && test !== "testing";
   const needsKey = !!provider?.needsKey;
@@ -63,7 +65,7 @@ export function ChatSettingsScreen() {
     setTest("testing");
     const result = await saveKey(trimmed);
     setTest(result);
-    if (result === "ok" || result === "offline") {
+    if (result !== "rejected") {
       setKeyInput("");
       setShow(false);
       setEditing(false);
@@ -83,7 +85,7 @@ export function ChatSettingsScreen() {
         <div className="grid gap-2" role="radiogroup" aria-label="Provider">
           {providerIds.map((id) => {
             const on = settings.provider === id;
-            const disabled = id === "local-cli";
+            const disabled = id === "local-cli" || chat.streaming;
             const meta = providers.find((p) => p.id === id);
             return (
               <button
@@ -135,7 +137,13 @@ export function ChatSettingsScreen() {
               )}
               <div className="flex items-center gap-2">
                 <Input
-                  type={show ? "text" : "password"}
+                  type={nativeMask && !show ? "password" : "text"}
+                  name="bwp-anthropic-key"
+                  style={{ WebkitTextSecurity: show ? "none" : "disc" } as React.CSSProperties}
+                  data-1p-ignore
+                  data-lpignore="true"
+                  data-bwignore
+                  data-form-type="other"
                   autoComplete="off"
                   spellCheck={false}
                   placeholder="sk-ant-…"
@@ -223,12 +231,18 @@ export function ChatSettingsScreen() {
         </section>
       )}
 
+      {(test === "blocked" || test === "limited") && (
+        <StateBlock tone="warn" eyebrow={test === "limited" ? "Rate limited" : "Access not ready"} role="status">
+          {test === "limited" ? "Anthropic rate limited the test. The key was saved; wait before trying again." : "Anthropic could not complete the test. The key was saved; check account credits and model access in the console before asking."}
+        </StateBlock>
+      )}
+      {chat.streaming && <p className="text-xs text-ink-muted">Stop this answer before changing provider or effort.</p>}
       <section className="space-y-2">
         <div className={EYEBROW}>Effort</div>
         <Tabs value={settings.effort} onValueChange={(v) => updateSettings({ effort: v as Effort })}>
           <TabsList aria-label="Effort">
-            <TabsTrigger value="medium">Medium</TabsTrigger>
-            <TabsTrigger value="high">High</TabsTrigger>
+            <TabsTrigger disabled={chat.streaming} value="medium">Medium</TabsTrigger>
+            <TabsTrigger disabled={chat.streaming} value="high">High</TabsTrigger>
           </TabsList>
         </Tabs>
         <p className="text-xs text-ink-muted">High thinks longer and costs more. Changing it restarts the cached prefix once.</p>

@@ -9,6 +9,8 @@ import { PLATFORMS, VIEWLESS_PLATFORMS, engagementMeasured, postHasViews, sentim
 import { asOf, postKey, type ChatData } from "../data";
 import type { PostRow, ToolEnvelope } from "../types";
 import {
+  SAVES_PLATFORMS,
+  SHARES_PLATFORMS,
   NOT_MEASURED,
   COMMENT_TEXT_MAX,
   applyFilters,
@@ -55,8 +57,8 @@ function metricValue(metric: TopPostsMetric): (p: Post) => number {
 }
 
 /** Whether a post carries the metric at all (rule 4: a zero is not a
- *  measurement where the field is not reported). Mirrors toRow(): shares is
- *  null on Instagram, saves is null everywhere else. */
+ *  measurement where the field is not reported). Mirrors toRow() using
+ *  the metrics the scrapers actually measure. */
 function metricEligible(metric: TopPostsMetric, p: Post): boolean {
   switch (metric) {
     case "views":
@@ -64,9 +66,9 @@ function metricEligible(metric: TopPostsMetric, p: Post): boolean {
     case "engagementRate":
       return engagementMeasured(p);
     case "shares":
-      return p.platform !== "instagram";
+      return SHARES_PLATFORMS.has(p.platform);
     case "saves":
-      return p.platform === "instagram";
+      return SAVES_PLATFORMS.has(p.platform);
     default:
       return true;
   }
@@ -137,10 +139,10 @@ export function runTopPosts(data: ChatData, input: TopPostsInput): ToolEnvelope<
     notes.push(`${left.length} ${plural(left.length, "post", "posts")} without an engagement measurement ${plural(left.length, "was", "were")} left out`);
   }
   if (metric === "shares" && left.length > 0) {
-    notes.push("Instagram does not report shares, so Instagram posts were left out");
+    notes.push(`${listWords(new Set(left.map((p) => p.platform)))} shares or reposts are not measured in this dataset, so those posts were left out`);
   }
   if (metric === "saves" && left.length > 0) {
-    notes.push("Only Instagram reports saves, so posts from other platforms were left out");
+    notes.push("Saves are measured only for TikTok in this dataset, so other platforms were left out");
   }
   if (input.types?.includes("reel") && input.platforms?.some((p) => p !== "instagram")) {
     notes.push("reel is an Instagram type: TikTok posts are type video and YouTube Shorts are type short; shortform covers all three");
@@ -188,9 +190,7 @@ export function runSearchPosts(data: ChatData, input: SearchPostsInput): ToolEnv
   const matched = sortByReach(candidates.filter((p) => postMatches(p, terms)), "desc");
   const rows = matched.slice(0, input.limit).map((p, i) => toRow(p, i + 1, data.vault));
 
-  const notes: string[] = [
-    "Titles and captions are stored as their first 120 characters, so a word deeper in a caption will not match",
-  ];
+  const notes: string[] = [];
   if (matched.length === 0) notes.push("No post matched every word; try fewer or different words");
   else if (matched.length > rows.length) notes.push(`Showing the top ${rows.length} of ${matched.length} matches by reach`);
 
@@ -219,8 +219,8 @@ export interface PostDetailResult {
 }
 
 const TOP_COMMENTS = 5;
-/** Raw captions are stored at 120 characters; the detail view returns that
- *  stored opening in full rather than the 90 character title clip. */
+/** The detail view clips the stored caption to 120 characters. Search
+ *  still reads the full stored title and caption. */
 const CAPTION_MAX = 120;
 
 function normalizeUrl(url: string): string {

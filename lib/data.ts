@@ -14,12 +14,27 @@ import type {
 
 type FetchOpts = { fallback?: unknown };
 
+// Share successful loads between the dashboard tabs and the assistant.
+// A refresh reloads the page; a failed load is removed so it can be retried.
+const pendingData = new Map<string, Promise<unknown>>();
+function sharedJson(path: string): Promise<unknown> {
+  const existing = pendingData.get(path);
+  if (existing) return existing;
+  const pending = fetch(path, { cache: "no-store", credentials: "omit" })
+    .then((res) => {
+      if (!res.ok) throw new Error(`${res.status} ${path}`);
+      return res.json();
+    }).catch((err: unknown) => {
+      pendingData.delete(path);
+      throw err;
+    });
+  pendingData.set(path, pending);
+  return pending;
+}
+
 async function fetchJson<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   try {
-    const url = path.startsWith("http") ? path : path;
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`${res.status} ${path}`);
-    return (await res.json()) as T;
+    return (await sharedJson(path)) as T;
   } catch (err) {
     if (opts.fallback !== undefined) return opts.fallback as T;
     throw err;

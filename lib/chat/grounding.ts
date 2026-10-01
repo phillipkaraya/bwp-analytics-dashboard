@@ -8,6 +8,8 @@
 // Relative imports only: tsx runs this in Node without the Next alias.
 
 import { fmt, fmtShort } from "../format";
+import { TRANSCRIPT_RAW_TURNS } from "./transcript";
+import type { ChatTurn, ToolTrace } from "./types";
 
 /** A numeric token in prose: 1094, 1,094, 3.49, 3.49%, 1.1K, 12M.
  *  Not matched: digits glued to letters or underscores (post ids, "10th",
@@ -56,7 +58,7 @@ function addNumber(set: Set<string>, n: number): void {
 }
 
 function addText(set: Set<string>, text: string): void {
-  for (const token of numericTokens(text)) set.add(normalizeToken(token));
+  for (const token of numericTokens(text.replace(/\d{4}-\d{2}-\d{2}(?:T[\d:.+Z-]*)?/g, " "))) set.add(normalizeToken(token));
 }
 
 function walk(value: unknown, set: Set<string>, depth: number): void {
@@ -65,23 +67,23 @@ function walk(value: unknown, set: Set<string>, depth: number): void {
     addNumber(set, value);
     return;
   }
-  if (typeof value === "string") {
-    addText(set, value);
-    return;
-  }
+  if (typeof value === "string") return;
   if (Array.isArray(value)) {
     for (const item of value) walk(item, set, depth + 1);
     return;
   }
   if (typeof value === "object") {
-    for (const item of Object.values(value as Record<string, unknown>)) walk(item, set, depth + 1);
+    for (const [key, item] of Object.entries(value as Record<string, unknown>)) {
+      if (["filters", "date", "start", "end", "asOf", "dataAsOf"].includes(key)) continue;
+      walk(item, set, depth + 1);
+    }
   }
 }
 
 /** Every number the assistant was allowed to see this turn, in every form the
  *  style rules let it write: raw, thousands separated, fmt, fmtShort, and
  *  percentages at 0, 1 and 2 decimals. `results` are the raw JSON strings of
- *  the turn's tool results; a string that is not JSON is scanned as text. */
+ *  the turn's tool results. Free text is never accepted as metric evidence. */
 export function acceptedNumbers(results: readonly string[], dataCard: string): Set<string> {
   const set = new Set<string>();
   for (const raw of results) {
@@ -92,11 +94,21 @@ export function acceptedNumbers(results: readonly string[], dataCard: string): S
     } catch {
       parsed = null;
     }
-    if (parsed === null) addText(set, raw);
-    else walk(parsed, set, 0);
+    if (parsed !== null) walk(parsed, set, 0);
   }
   addText(set, dataCard);
   return set;
+}
+
+/** Recent usable turns retain raw evidence for follow-up answers. Failed or
+ *  refused turns and failed lookups cannot establish a numeric fact. */
+export function groundingResults(turns: readonly ChatTurn[], liveTraces: Iterable<ToolTrace>): string[] {
+  const previous = turns
+    .filter((t) => t.end !== null && t.end !== "error" && t.end !== "refused")
+    .slice(-TRANSCRIPT_RAW_TURNS);
+  return [...previous.flatMap((t) => t.traces), ...liveTraces]
+    .filter((t) => !t.isError && t.status === "done" && typeof t.result === "string")
+    .map((t) => t.result as string);
 }
 
 /** Numeric tokens in the assistant text that the data never contained, in

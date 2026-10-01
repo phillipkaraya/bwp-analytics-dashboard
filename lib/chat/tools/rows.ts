@@ -14,6 +14,8 @@ import type { PostRow, ToolEnvelope, ToolWindow } from "../types";
 export { reach as reachOf };
 
 export const DAY = 86_400_000;
+export const SAVES_PLATFORMS = new Set<Platform>(["tiktok"]);
+export const SHARES_PLATFORMS = new Set<Platform>(["tiktok", "threads", "linkedin"]);
 export const NOT_MEASURED = "not measured" as const;
 export const TITLE_MAX = 90;
 export const COMMENT_TEXT_MAX = 160;
@@ -45,7 +47,6 @@ export function round2(n: number): number {
 
 export function toRow(post: Post, rank: number, vault: ContentVault): PostRow {
   const hasViews = postHasViews(post);
-  const isInstagram = post.platform === "instagram";
   return {
     rank,
     id: post.id,
@@ -58,8 +59,8 @@ export function toRow(post: Post, rank: number, vault: ContentVault): PostRow {
     views: hasViews ? toNum(post.views) : NOT_MEASURED,
     likes: toNum(post.likes),
     comments: toNum(post.comments),
-    shares: isInstagram ? null : toNum(post.shares),
-    saves: isInstagram ? toNum(post.saves) : null,
+    shares: SHARES_PLATFORMS.has(post.platform) ? toNum(post.shares) : null,
+    saves: SAVES_PLATFORMS.has(post.platform) ? toNum(post.saves) : null,
     engagementRate: engagementMeasured(post) ? round2(toNum(post.engagementRate)) : NOT_MEASURED,
     topics: vault.byPost?.[post.id] ?? [],
     url: post.url ?? null,
@@ -68,9 +69,18 @@ export function toRow(post: Post, rank: number, vault: ContentVault): PostRow {
 
 /** The window an envelope prints: rolling `days` ending at `now`, or
  *  "all time" for a null window. */
-export function windowOf(days: number | null | undefined, now: number): ToolWindow {
+export function windowStart(cutoff: number, exclusive = false): string {
+  const first = exclusive ? Math.floor(cutoff / DAY) + 1 : Math.ceil(cutoff / DAY);
+  return new Date(first * DAY).toISOString().slice(0, 10);
+}
+
+export function windowEnd(now: number): string {
+  return new Date(now).toISOString().slice(0, 10);
+}
+
+export function windowOf(days: number | null | undefined, now: number, exclusive = false): ToolWindow {
   if (days === null || days === undefined) return "all time";
-  return { days, start: isoDate(now - days * DAY), end: isoDate(now) };
+  return { days, start: windowStart(now - days * DAY, exclusive), end: windowEnd(now) };
 }
 
 export interface PostFilters {

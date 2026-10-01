@@ -142,7 +142,7 @@ function describeEnd(turn: ChatTurn): EndBlock | null {
     case "tool_cap":
       return {
         tone: "neutral",
-        eyebrow: "Stopped after 8 lookups",
+        eyebrow: "Lookup budget used",
         text: "The assistant used its lookup budget for this question and answered with what it had.",
         action: null,
       };
@@ -162,7 +162,7 @@ function describeEnd(turn: ChatTurn): EndBlock | null {
           return {
             tone: "negative",
             eyebrow: "Not allowed",
-            text: "The key was accepted but this request was refused. Check the key's workspace and model access.",
+            text: "This account cannot complete the request. Check credits, workspace permissions and model access in the Anthropic console.",
             action: "editKey",
           };
         case "rate_limited":

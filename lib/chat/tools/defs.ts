@@ -108,7 +108,7 @@ export const TOOL_DEFS: ToolDef[] = [
   {
     name: "search_posts",
     description:
-      "Find posts whose title, caption or hashtags contain all the words given. Titles and captions are stored as their first 120 characters. Use to locate a specific post or all posts about a subject before ranking them.",
+      "Find posts whose title, caption or hashtags contain all the words given. Use to locate a specific post or all posts about a subject before ranking them.",
     inputSchema: schema({
       query: { type: "string", description: "One or more words; a #tag matches hashtags." },
       days: DAYS_ARG,

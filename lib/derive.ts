@@ -138,7 +138,7 @@ export function monthlyActivity(
   for (const p of posts) {
     const d = new Date(p.date);
     if (Number.isNaN(d.getTime())) continue;
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    const key = p.date.slice(0, 7);
     const b = buckets.get(key) ?? { posts: 0, views: 0 };
     b.posts += 1;
     b.views += toNum(p.views);

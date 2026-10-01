@@ -5,7 +5,7 @@
 // composer. Mounted once inside ChatRoot, so the transcript survives route
 // changes; the Dialog itself only renders while open.
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { RotateCcwIcon, Settings2Icon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -47,17 +47,17 @@ export function ChatPanel() {
     session,
     hasKey,
     chat,
-    launcherRef,
+    returnFocusRef,
     textareaRef,
     loadingHint,
   } = ctx;
 
   const [atBottom, setAtBottom] = useState(true);
-  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const [bodyEl, setBodyEl] = useState<HTMLDivElement | null>(null);
 
   const viewport = useCallback(
-    (): HTMLElement | null => bodyRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]') ?? null,
-    [],
+    (): HTMLElement | null => bodyEl?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]') ?? null,
+    [bodyEl],
   );
 
   // Scrolling fires the scroll listener below, which updates atBottom.
@@ -137,7 +137,7 @@ export function ChatPanel() {
         showCloseButton={false}
         className={CONTENT_CLASS}
         initialFocus={textareaRef}
-        finalFocus={launcherRef}
+        finalFocus={returnFocusRef}
         aria-label="Ask the dashboard"
       >
         <div className="bg-[var(--ink)] text-white px-5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
@@ -196,7 +196,7 @@ export function ChatPanel() {
           </ScrollArea>
         ) : (
           <>
-            <div ref={bodyRef} className="relative flex min-h-0 flex-1 flex-col">
+            <div ref={setBodyEl} className="relative flex min-h-0 flex-1 flex-col">
               <ScrollArea className="min-h-0 flex-1">
                 <div className="px-5 py-4 space-y-5">
                   {dataError && (

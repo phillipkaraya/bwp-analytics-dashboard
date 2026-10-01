@@ -35,8 +35,8 @@ export interface HashtagStatsResult {
 
 /** "#Tag " or "tag" to "#tag". */
 export function normalizeTag(tag: string): string {
-  const s = tag.trim().toLowerCase().replace(/^#+/, "");
-  return `#${s}`;
+  const s = tag.trim().toLowerCase().replace(/^[.,!]+|[.,!]+$/g, "");
+  return s.startsWith("#") ? s : `#${s}`;
 }
 
 /** Distinct normalized tags on one post. */
@@ -44,7 +44,8 @@ export function postTags(p: Post): string[] {
   if (typeof p.hashtags !== "string") return [];
   const out = new Set<string>();
   for (const raw of p.hashtags.split(/\s+/)) {
-    if (raw.startsWith("#") && raw.length > 1) out.add(normalizeTag(raw));
+    const tag = raw.toLowerCase().replace(/^[.,!]+|[.,!]+$/g, "");
+    if (tag.startsWith("#") && tag.length > 1) out.add(tag);
   }
   return [...out];
 }
@@ -75,7 +76,7 @@ function rowFor(tag: string, posts: readonly Post[]): HashtagRow {
     tag,
     uses: posts.length,
     postsWithViews: viewed.length,
-    avgViews: viewed.length ? Math.round(totalViews / viewed.length) : NOT_MEASURED,
+    avgViews: viewed.length ? Math.trunc(totalViews / viewed.length) : NOT_MEASURED,
     avgLikes: posts.length ? Math.round(posts.reduce((s, p) => s + toNum(p.likes), 0) / posts.length) : 0,
     totalViews,
     platforms,

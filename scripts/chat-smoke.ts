@@ -172,6 +172,10 @@ async function main(): Promise<number> {
     let streaming = false;
 
     const handlers: SendHandlers = {
+      onRestart: (keepChars, dropToolIds) => {
+        turn.text = turn.text.slice(0, keepChars);
+        turn.tools = turn.tools.filter((t) => !dropToolIds.includes(t.id));
+      },
       onThinking: () => {
         process.stdout.write("[thinking]\n");
       },

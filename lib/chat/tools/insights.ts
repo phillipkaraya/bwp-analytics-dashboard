@@ -108,7 +108,7 @@ function topicRowFromPosts(cat: VaultCategory, posts: readonly Post[]): TopicRow
     slug: cat.slug,
     label: cat.label,
     count: posts.length,
-    avgViews: viewed.length ? Math.round(totalViews / viewed.length) : NOT_MEASURED,
+    avgViews: viewed.length ? Math.trunc(totalViews / viewed.length) : NOT_MEASURED,
     totalViews,
     platforms,
   };
@@ -143,7 +143,10 @@ export function runContentInsights(data: ChatData, input: ContentInsightsInput):
         const posts = cat.postIds.map((id) => byId.get(id)).filter((p): p is Post => !!p && inPlatforms(p.platform, platforms));
         const rows = sortByReach(posts, "desc").slice(0, input.limit).map((p, i) => toRow(p, i + 1, data.vault));
         notes.push("Ranked by reach: views where the post reports them, likes otherwise");
-        if (posts.length < cat.count) notes.push(`${posts.length} of the topic's ${cat.count} posts match the platform filter`);
+        if (posts.length < cat.count) {
+          if (platforms !== null) notes.push(`${posts.length} of the topic's ${cat.count} posts match the platform filter`);
+          else notes.push(`${cat.count - posts.length} undated or unavailable posts in this topic are ignored`);
+        }
         return envelope(data, "all time", filters, notes, {
           section: "topics",
           topic: { slug: cat.slug, label: cat.label, count: cat.count },

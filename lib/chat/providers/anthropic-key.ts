@@ -131,6 +131,15 @@ function apiMessage(err: { message: string; error?: unknown }): string {
  *  The single console.warn allowed in lib/chat lives here, for an SDK error
  *  no branch maps; it prints the class name and status only. */
 export function toChatError(err: unknown, sdk: SdkModule): ChatError {
+  if (err instanceof sdk.APIError && err.type) {
+    const codes: Record<string, ChatError["code"]> = {
+      overloaded_error: "overloaded", api_error: "server", rate_limit_error: "rate_limited",
+      invalid_request_error: "bad_request", authentication_error: "bad_key", permission_error: "forbidden",
+      billing_error: "forbidden", not_found_error: "forbidden",
+    };
+    const code = codes[err.type];
+    if (code) return makeChatError(code, apiMessage(err), { status: err.status, retryAfterSec: parseRetryAfter(err.headers) });
+  }
   if (err instanceof sdk.APIUserAbortError) {
     return makeChatError("unknown", "The request was stopped.");
   }
@@ -157,8 +166,11 @@ export function toChatError(err: unknown, sdk: SdkModule): ChatError {
     // APIConnectionTimeoutError extends this class, so timeouts land here too.
     return makeChatError("network", err.message);
   }
+  if (err instanceof sdk.NotFoundError || (err instanceof sdk.APIError && err.status === 402)) {
+    return makeChatError("forbidden", apiMessage(err), { status: err.status });
+  }
   if (err instanceof sdk.APIError) {
-    console.warn(err.name, err.status);
+    console.warn(err.constructor.name, err.status, err.type);
     return makeChatError("unknown", apiMessage(err), { status: typeof err.status === "number" ? err.status : undefined });
   }
   const message = err instanceof Error ? err.message : "Unexpected error";
@@ -267,6 +279,16 @@ function usageOf(u: Anthropic.Usage): Usage {
   };
 }
 
+// Stop is immediate even for a tool that does not implement cancellation.
+function withAbort<T>(pending: Promise<T>, signal: AbortSignal): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const abort = () => reject(new Error("The request was stopped."));
+    if (signal.aborted) { pending.catch(() => {}); abort(); return; }
+    signal.addEventListener("abort", abort, { once: true });
+    pending.then(resolve, reject).finally(() => signal.removeEventListener("abort", abort));
+  });
+}
+
 // Session
 
 interface Deps {
@@ -280,8 +302,7 @@ class AnthropicKeySession implements ChatSession {
   private history: Anthropic.MessageParam[] = [];
   private dataCard: string;
   private readonly tools: Anthropic.Tool[];
-  private client: SdkClient | null = null;
-  private clientKey: string | null = null;
+  private epoch = 0;
   private readonly fetchImpl: typeof fetch | undefined;
   private readonly maxRetries: number;
   private readonly timeoutMs: number;
@@ -308,13 +329,15 @@ class AnthropicKeySession implements ChatSession {
   }
 
   reset(): void {
+    this.epoch += 1;
     this.history = [];
     this.dataCard = this.deps.args.system.dataCard();
   }
 
   resume(turns: ChatTurn[]): void {
+    this.epoch += 1;
     const out: Anthropic.MessageParam[] = [];
-    const usable = turns.filter((t) => t.user.trim() && t.assistant.trim());
+    const usable = turns.filter((t) => t.end !== "refused" && t.end !== "error" && t.user.trim() && t.assistant.trim());
     usable.forEach((t, i) => {
       out.push(userText(t.user, i === usable.length - 1));
       out.push(assistantText(t.assistant));
@@ -324,16 +347,13 @@ class AnthropicKeySession implements ChatSession {
   }
 
   private clientFor(sdk: SdkModule, key: string): SdkClient {
-    if (this.client && this.clientKey === key) return this.client;
-    this.client = new sdk.default({
+    return new sdk.default({
       apiKey: key,
       dangerouslyAllowBrowser: inBrowser(),
       maxRetries: this.maxRetries,
       timeout: this.timeoutMs,
       fetch: this.fetchImpl,
     });
-    this.clientKey = key;
-    return this.client;
   }
 
   private params(maxTokens: number): Anthropic.MessageStreamParams {
@@ -359,6 +379,8 @@ class AnthropicKeySession implements ChatSession {
   private async runTools(
     blocks: Anthropic.ToolUseBlock[],
     handlers: SendHandlers,
+    signal: AbortSignal,
+    stale: () => boolean,
   ): Promise<Anthropic.ToolResultBlockParam[]> {
     const { runTool } = this.deps.args;
     return Promise.all(
@@ -366,12 +388,14 @@ class AnthropicKeySession implements ChatSession {
         const t0 = Date.now();
         let outcome: ToolOutcome;
         try {
-          outcome = await runTool(b.name, b.input);
+          outcome = await withAbort(runTool(b.name, b.input, signal), signal);
         } catch (err: unknown) {
+          if (signal.aborted || stale()) throw err;
           const message = err instanceof Error ? err.message : "Tool failed";
           outcome = { content: JSON.stringify({ error: message }), isError: true };
         }
         const ms = Date.now() - t0;
+        if (signal.aborted || stale()) throw new Error("The request was stopped.");
         handlers.onToolResult(b.id, outcome, ms);
         const result: Anthropic.ToolResultBlockParam = {
           type: "tool_result",
@@ -393,6 +417,8 @@ class AnthropicKeySession implements ChatSession {
   }
 
   async send(userTextIn: string, handlers: SendHandlers, signal: AbortSignal): Promise<TurnEnd> {
+    const epoch = this.epoch;
+    const stale = () => epoch !== this.epoch;
     const key = this.deps.args.getKey();
     if (!key) {
       return { kind: "error", error: makeChatError("no_key", "Add your Anthropic API key to ask questions.") };
@@ -406,6 +432,7 @@ class AnthropicKeySession implements ChatSession {
       const message = err instanceof Error ? err.message : "Could not load the Anthropic SDK.";
       return { kind: "error", error: makeChatError("network", message) };
     }
+    if (stale() || signal.aborted) return { kind: "aborted" };
     const client = this.clientFor(sdk, key);
 
     // Data-card version check: a changed card means the cached prefix and the
@@ -427,24 +454,38 @@ class AnthropicKeySession implements ChatSession {
     let contextCollapsed = false;
     let streamedText = "";
     let breakPending = false;
+    let roundText = "";
+    const turnToolIds: string[] = [];
 
-    const finishPartial = (): void => {
+    const finishPartial = (text = roundText): void => {
       // Keep what the model said as a text-only assistant turn so the next
       // question can refer to it; never replay a half-made thinking block.
-      const t = streamedText.trim();
+      const t = text.trim();
       if (t) this.history.push(assistantText(t));
     };
 
-    while (true) {
-      if (signal.aborted) {
+    const abort = (): TurnEnd => {
+      if (!stale()) {
         this.history = snapshot;
-        return { kind: "aborted" };
+        this.appendUser(userTextIn);
+        finishPartial(streamedText);
       }
+      return { kind: "aborted" };
+    };
+
+    while (true) {
+      if (stale()) return { kind: "aborted" };
+      if (signal.aborted) return abort();
+      const roundStart = streamedText.length;
+      const roundToolIds: string[] = [];
+      const roundBreakPending: boolean = breakPending;
+      roundText = "";
 
       let message: Anthropic.Message;
       try {
         const stream = client.messages.stream(this.params(maxTokens), { signal });
         stream.on("text", (delta) => {
+          if (stale() || signal.aborted) return;
           if (breakPending) {
             // Text said before a tool call would otherwise run straight into
             // the text said after it; open a new paragraph once per round.
@@ -455,29 +496,33 @@ class AnthropicKeySession implements ChatSession {
             }
           }
           streamedText += delta;
+          roundText += delta;
           handlers.onText(delta);
         });
         stream.on("streamEvent", (event) => {
-          if (event.type !== "content_block_start") return;
+          if (stale() || signal.aborted || event.type !== "content_block_start") return;
           const b = event.content_block;
           if (b.type === "thinking" || b.type === "redacted_thinking") handlers.onThinking();
-          else if (b.type === "tool_use") handlers.onToolCall({ id: b.id, name: b.name, input: null });
+          else if (b.type === "tool_use") {
+            roundToolIds.push(b.id);
+            turnToolIds.push(b.id);
+            handlers.onToolCall({ id: b.id, name: b.name, input: null });
+          }
         });
         stream.on("contentBlock", (block) => {
+          if (stale() || signal.aborted) return;
           if (block.type === "tool_use") handlers.onToolInput(block.id, block.input);
         });
         message = await stream.finalMessage();
       } catch (err: unknown) {
-        if (err instanceof sdk.APIUserAbortError || signal.aborted) {
-          this.history = snapshot;
-          this.history.push(userText(userTextIn, true));
-          finishPartial();
-          return { kind: "aborted" };
-        }
+        if (stale()) return { kind: "aborted" };
+        if (err instanceof sdk.APIUserAbortError || signal.aborted) return abort();
         this.history = snapshot;
         return { kind: "error", error: toChatError(err, sdk) };
       }
 
+      if (stale()) return { kind: "aborted" };
+      if (signal.aborted) return abort();
       if (handlers.onUsage) handlers.onUsage(usageOf(message.usage));
 
       const toolUses = message.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
@@ -495,6 +540,9 @@ class AnthropicKeySession implements ChatSession {
           // with more room rather than running a truncated tool input.
           bumped = true;
           maxTokens = RETRY_OUTPUT_TOKENS;
+          streamedText = streamedText.slice(0, roundStart);
+          breakPending = roundBreakPending;
+          handlers.onRestart?.(roundStart, roundToolIds);
           continue;
         }
         finishPartial();
@@ -507,6 +555,9 @@ class AnthropicKeySession implements ChatSession {
           const kept = collapseToText(snapshot, CONTEXT_COLLAPSE_TURNS);
           this.history = kept;
           this.appendUser(userTextIn);
+          streamedText = "";
+          breakPending = false;
+          handlers.onRestart?.(0, turnToolIds.splice(0));
           continue;
         }
         this.history = snapshot;
@@ -518,7 +569,7 @@ class AnthropicKeySession implements ChatSession {
 
       if (stop === "pause_turn") {
         this.history.push({ role: "assistant", content: toAssistantParams(message.content) });
-        continue;
+        return { kind: "done" };
       }
 
       if (toolUses.length === 0) {
@@ -531,7 +582,17 @@ class AnthropicKeySession implements ChatSession {
       if (toolRounds < MAX_TOOL_ITERATIONS) {
         toolRounds += 1;
         this.history.push({ role: "assistant", content: toAssistantParams(message.content) });
-        const results = await this.runTools(toolUses, handlers);
+        let results: Anthropic.ToolResultBlockParam[];
+        try {
+          results = await this.runTools(toolUses, handlers, signal, stale);
+        } catch (err) {
+          if (stale()) return { kind: "aborted" };
+          if (signal.aborted) return abort();
+          this.history = snapshot;
+          return { kind: "error", error: toChatError(err, sdk) };
+        }
+        if (stale()) return { kind: "aborted" };
+        if (signal.aborted) return abort();
         this.history.push({ role: "user", content: results });
         breakPending = true;
         continue;
@@ -553,7 +614,7 @@ class AnthropicKeySession implements ChatSession {
 
 // Provider
 
-async function probeKey(key: string, options: AnthropicProviderOptions): Promise<"ok" | "rejected" | "offline"> {
+async function probeKey(key: string, options: AnthropicProviderOptions): Promise<"ok" | "rejected" | "offline" | "blocked" | "limited"> {
   let sdk: SdkModule;
   try {
     sdk = await loadSdk();
@@ -573,7 +634,8 @@ async function probeKey(key: string, options: AnthropicProviderOptions): Promise
   } catch (err: unknown) {
     if (err instanceof sdk.AuthenticationError || err instanceof sdk.PermissionDeniedError) return "rejected";
     if (err instanceof sdk.APIConnectionError) return "offline";
-    if (err instanceof sdk.APIError) return "ok"; // the key was recognised; the request itself failed for another reason
+    if (err instanceof sdk.RateLimitError) return "limited";
+    if (err instanceof sdk.APIError) return "blocked";
     return "offline";
   }
 }
