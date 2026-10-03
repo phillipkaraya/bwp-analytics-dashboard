@@ -1,17 +1,17 @@
 {
   "instagram": {
     "status": "complete",
-    "totalScraped": 683,
-    "lastScrapedDate": "2026-09-21T21:28:42+00:00",
-    "lastPostId": "ig_3988981312806879246_5251656103",
-    "lastRunNewPosts": 1
+    "totalScraped": 686,
+    "lastScrapedDate": "2026-10-03T16:23:53+00:00",
+    "lastPostId": "ig_3999504147829147151_5251656103",
+    "lastRunNewPosts": 3
   },
   "tiktok": {
     "status": "complete",
-    "totalScraped": 193,
-    "lastScrapedDate": "2026-09-05T04:15:36+00:00",
+    "totalScraped": 194,
+    "lastScrapedDate": "2026-10-03T16:23:59+00:00",
     "lastPostId": "tt_7034256779999464710",
-    "lastRunNewPosts": 0
+    "lastRunNewPosts": 1
   },
   "youtube": {
     "status": "complete",
@@ -35,8 +35,8 @@
     "linkedin": 1714
   },
   "followersUpdated": {
-    "instagram": "2026-09-21T21:28:42+00:00",
-    "tiktok": "2026-09-05T04:15:36+00:00",
+    "instagram": "2026-10-03T16:23:53+00:00",
+    "tiktok": "2026-10-03T16:23:59+00:00",
     "youtube": "2026-09-05T04:15:43+00:00",
     "threads": "2026-09-16T20:47:45+00:00",
     "linkedin": "2026-09-05T18:58:40+00:00"

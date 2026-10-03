@@ -1,15 +1,15 @@
 {
- "generatedAt": "2026-09-28T02:39:26+00:00",
- "totalPosts": 2103,
+ "generatedAt": "2026-10-03T16:26:56+00:00",
+ "totalPosts": 2107,
  "categories": [
   {
    "slug": "comedy",
    "label": "Comedy",
-   "count": 798,
-   "totalViews": 8720391,
-   "avgViews": 16802,
+   "count": 800,
+   "totalViews": 8724150,
+   "avgViews": 16777,
    "platforms": {
-    "instagram": 307,
+    "instagram": 309,
     "tiktok": 50,
     "youtube": 199,
     "threads": 239,
@@ -145,6 +145,7 @@
     "ig_3911648075235084947_5251656103",
     "ig_3655010323091701609_5251656103",
     "ig_3230330616017210584_5251656103",
+    "ig_3998630021843686026_5251656103",
     "ig_2867752547483944015_5251656103",
     "ig_3417326872407968399_5251656103",
     "ig_2707822977952576958_5251656103",
@@ -413,8 +414,8 @@
     "ig_2525166633536477495_5251656103",
     "yt_-7ZZ6PRUADU",
     "yt_4j76Kx_XrQM",
-    "tt_7223428491725917483",
     "tt_7648082042130828574",
+    "tt_7223428491725917483",
     "yt_pE_U0O0PLn4",
     "yt_7XT1X9HZgz0",
     "yt_9smMoXbgna4",
@@ -535,6 +536,7 @@
     "yt_aWDQzB-Tfzk",
     "yt_S98V65ZIUcw",
     "yt_Z-lglIj0UlU",
+    "ig_3999504147829147151_5251656103",
     "ig_3986484940837355954_5251656103",
     "ig_3629417943433284321_5251656103",
     "ig_3604308077178059231_5251656103",
@@ -819,12 +821,12 @@
   {
    "slug": "other",
    "label": "Other",
-   "count": 471,
-   "totalViews": 455713,
-   "avgViews": 1604,
+   "count": 472,
+   "totalViews": 455919,
+   "avgViews": 1599,
    "platforms": {
     "instagram": 113,
-    "tiktok": 45,
+    "tiktok": 46,
     "youtube": 186,
     "threads": 126,
     "linkedin": 1
@@ -1020,6 +1022,7 @@
     "tt_7647276924766604574",
     "yt_1YtDz5P38rs",
     "yt_OUeaUL_JUCQ",
+    "tt_7691839390380789023",
     "ig_2520725047734009489_5251656103",
     "yt_B74VJqc_6kc",
     "yt_e2W7qfZ4Rs8",
@@ -1306,11 +1309,11 @@
   {
    "slug": "education",
    "label": "Education",
-   "count": 360,
-   "totalViews": 592030,
+   "count": 361,
+   "totalViews": 592050,
    "avgViews": 2416,
    "platforms": {
-    "instagram": 175,
+    "instagram": 176,
     "tiktok": 40,
     "youtube": 74,
     "threads": 62,
@@ -1562,6 +1565,7 @@
     "yt_3iqHFUkYi1g",
     "yt_V25bAlwfFT0",
     "yt__iDStlHzlaU",
+    "ig_3999504147829147151_5251656103",
     "ig_3986484940837355954_5251656103",
     "ig_3600644423895307894_5251656103",
     "ig_3590491094296866291_5251656103",
@@ -1683,7 +1687,7 @@
    "slug": "finance",
    "label": "Finance",
    "count": 334,
-   "totalViews": 529742,
+   "totalViews": 529759,
    "avgViews": 1991,
    "platforms": {
     "instagram": 141,
@@ -2033,7 +2037,7 @@
    "slug": "cars",
    "label": "Cars",
    "count": 300,
-   "totalViews": 2403865,
+   "totalViews": 2403877,
    "avgViews": 11285,
    "platforms": {
     "instagram": 97,
@@ -2204,8 +2208,8 @@
     "yt_1TmEkUGrsNo",
     "yt_PFO90atXKsQ",
     "yt_wwnPbtq8HWI",
-    "ig_2494778811456072714_5251656103",
     "tt_7654401493910490399",
+    "ig_2494778811456072714_5251656103",
     "yt_KMMd1Fcm6b0",
     "yt_9uYJJWEElRo",
     "yt_TtPTlFac_Xg",
@@ -2348,11 +2352,11 @@
   {
    "slug": "entrepreneurship",
    "label": "Entrepreneurship",
-   "count": 276,
-   "totalViews": 1366987,
-   "avgViews": 7119,
+   "count": 279,
+   "totalViews": 1372325,
+   "avgViews": 7073,
    "platforms": {
-    "instagram": 125,
+    "instagram": 128,
     "tiktok": 43,
     "youtube": 53,
     "threads": 46,
@@ -2392,6 +2396,7 @@
     "ig_3062843038222170353_5251656103",
     "ig_2785896032922328461_5251656103",
     "ig_3230330616017210584_5251656103",
+    "ig_3998630021843686026_5251656103",
     "ig_2911361764572760599_5251656103",
     "ig_2744800146643956875_5251656103",
     "ig_2706880479096894943_5251656103",
@@ -2449,6 +2454,7 @@
     "ig_3101861035926349442_5251656103",
     "ig_2746196679402609558_5251656103",
     "ig_2751138294860842751_5251656103",
+    "ig_3999434604870732884_5251656103",
     "tt_7043894591120035077",
     "yt_V_eT1KIq6-E",
     "ig_2791909149976446464_5251656103",
@@ -2517,8 +2523,8 @@
     "yt_O5ID5KPykac",
     "yt_aLfF2xVysEw",
     "yt_varTXXkqDSw",
-    "ig_2494778811456072714_5251656103",
     "tt_7654401493910490399",
+    "ig_2494778811456072714_5251656103",
     "yt_KMMd1Fcm6b0",
     "yt_UAqNduylbdA",
     "yt_KRGdQImnDLQ",
@@ -2551,6 +2557,7 @@
     "yt_z6l86W8KEIA",
     "yt_hrru5b5ZEF8",
     "yt_Jm2Yq2mkefo",
+    "ig_3999504147829147151_5251656103",
     "ig_3986484940837355954_5251656103",
     "ig_3573277510984850866_65776764894",
     "ig_3544839398179196011_5251656103",
@@ -2641,7 +2648,7 @@
    "slug": "travel",
    "label": "Travel",
    "count": 230,
-   "totalViews": 469652,
+   "totalViews": 469665,
    "avgViews": 3330,
    "platforms": {
     "instagram": 100,
@@ -2887,7 +2894,7 @@
    "slug": "real_estate",
    "label": "Real Estate",
    "count": 202,
-   "totalViews": 474525,
+   "totalViews": 474532,
    "avgViews": 3295,
    "platforms": {
     "instagram": 91,
@@ -2967,8 +2974,8 @@
     "ig_3279709117518036774_5251656103",
     "ig_3438934398454978527_5251656103",
     "ig_2881008189514449732_5251656103",
-    "ig_2880855414734484314_5251656103",
     "tt_7119916409802509610",
+    "ig_2880855414734484314_5251656103",
     "ig_3140373380025454727_5251656103",
     "yt_TfhfZY8e-dc",
     "yt_PbKoUY9vZPY",
@@ -3012,8 +3019,8 @@
     "yt_qWpDuVhr19s",
     "yt_varTXXkqDSw",
     "yt_ZGebVnHnl04",
-    "ig_2494778811456072714_5251656103",
     "tt_7654401493910490399",
+    "ig_2494778811456072714_5251656103",
     "yt_oDqQBhzYHms",
     "yt_9uYJJWEElRo",
     "yt_LFpZ5VWgZ68",
@@ -3104,11 +3111,11 @@
   {
    "slug": "lifestyle",
    "label": "Lifestyle",
-   "count": 198,
-   "totalViews": 585592,
+   "count": 199,
+   "totalViews": 585599,
    "avgViews": 4684,
    "platforms": {
-    "instagram": 103,
+    "instagram": 104,
     "tiktok": 6,
     "youtube": 35,
     "threads": 47,
@@ -3240,6 +3247,7 @@
     "yt_Y9CWrad1AaY",
     "yt_xEM52_xklH0",
     "yt_JQMyItp1oAM",
+    "ig_3999504147829147151_5251656103",
     "ig_3986484940837355954_5251656103",
     "ig_3583853143739723408_5251656103",
     "ig_3573277510984850866_65776764894",
@@ -3319,7 +3327,7 @@
    "slug": "sports",
    "label": "Sports",
    "count": 187,
-   "totalViews": 804214,
+   "totalViews": 804217,
    "avgViews": 7180,
    "platforms": {
     "instagram": 75,
@@ -3521,11 +3529,11 @@
   {
    "slug": "family",
    "label": "Family & Community",
-   "count": 160,
-   "totalViews": 266760,
+   "count": 161,
+   "totalViews": 266767,
    "avgViews": 2899,
    "platforms": {
-    "instagram": 99,
+    "instagram": 100,
     "tiktok": 6,
     "youtube": 20,
     "threads": 30,
@@ -3624,6 +3632,7 @@
     "yt_mbYWFyeRMi4",
     "yt_cQUpfNXGH-w",
     "yt_Y-t1yCxriQ4",
+    "ig_3999504147829147151_5251656103",
     "ig_3986484940837355954_5251656103",
     "ig_3629417943433284321_5251656103",
     "ig_3597539547735481368_5251656103",
@@ -3697,11 +3706,11 @@
   {
    "slug": "motivation",
    "label": "Motivation",
-   "count": 150,
-   "totalViews": 216133,
-   "avgViews": 2428,
+   "count": 152,
+   "totalViews": 217718,
+   "avgViews": 2419,
    "platforms": {
-    "instagram": 86,
+    "instagram": 88,
     "tiktok": 11,
     "youtube": 23,
     "threads": 25,
@@ -3757,6 +3766,7 @@
     "ig_2746196679402609558_5251656103",
     "ig_2751138294860842751_5251656103",
     "ig_2791295204039138842_5251656103",
+    "ig_3999434604870732884_5251656103",
     "yt_V_eT1KIq6-E",
     "ig_2492549297338337256_5251656103",
     "ig_3022311120609615897_5251656103",
@@ -3797,6 +3807,7 @@
     "yt_z6l86W8KEIA",
     "yt__hri2tegw2Y",
     "yt_Jm2Yq2mkefo",
+    "ig_3999504147829147151_5251656103",
     "ig_3544839398179196011_5251656103",
     "ig_3413035875456919135_5251656103",
     "ig_3137531043964530316_5251656103",
@@ -3918,7 +3929,7 @@
    "slug": "africa",
    "label": "Africa",
    "count": 26,
-   "totalViews": 65608,
+   "totalViews": 65609,
    "avgViews": 5467,
    "platforms": {
     "instagram": 15,
@@ -3958,6 +3969,22 @@
   }
  ],
  "byPost": {
+  "ig_3999504147829147151_5251656103": [
+   "entrepreneurship",
+   "education",
+   "motivation",
+   "comedy",
+   "lifestyle",
+   "family"
+  ],
+  "ig_3999434604870732884_5251656103": [
+   "entrepreneurship",
+   "motivation"
+  ],
+  "ig_3998630021843686026_5251656103": [
+   "entrepreneurship",
+   "comedy"
+  ],
   "ig_3988981312806879246_5251656103": [
    "education",
    "comedy"
@@ -6976,14 +7003,14 @@
   "tt_7030074445364563205": [
    "cars"
   ],
-  "tt_7049042228341116166": [
-   "real_estate",
-   "entrepreneurship"
-  ],
   "tt_7218698894169885998": [
    "finance",
    "entrepreneurship",
    "education"
+  ],
+  "tt_7049042228341116166": [
+   "real_estate",
+   "entrepreneurship"
   ],
   "tt_7030936373943225605": [
    "other"
@@ -7246,11 +7273,11 @@
    "education",
    "travel"
   ],
-  "tt_7228993374592814379": [
-   "entrepreneurship"
-  ],
   "tt_7647278922626829598": [
    "comedy"
+  ],
+  "tt_7228993374592814379": [
+   "entrepreneurship"
   ],
   "tt_7050584066135133486": [
    "finance",
@@ -7290,13 +7317,13 @@
    "finance",
    "education"
   ],
-  "tt_7311565777918774570": [
-   "cars",
-   "comedy"
-  ],
   "tt_7347798079778688298": [
    "finance",
    "education",
+   "comedy"
+  ],
+  "tt_7311565777918774570": [
+   "cars",
    "comedy"
   ],
   "tt_7019666831724039430": [
@@ -7356,21 +7383,21 @@
    "finance",
    "entrepreneurship"
   ],
-  "tt_7048035660413897990": [
-   "other"
-  ],
   "tt_7351471673192795435": [
    "cars",
    "entrepreneurship"
+  ],
+  "tt_7048035660413897990": [
+   "other"
+  ],
+  "tt_7648082042130828574": [
+   "comedy",
+   "travel"
   ],
   "tt_7223428491725917483": [
    "finance",
    "education",
    "comedy"
-  ],
-  "tt_7648082042130828574": [
-   "comedy",
-   "travel"
   ],
   "tt_7216390923289201963": [
    "cars"
@@ -7411,13 +7438,13 @@
   "tt_7321534641268100382": [
    "cars"
   ],
+  "tt_7349232269132975403": [
+   "sports"
+  ],
   "tt_7219412964237970731": [
    "finance",
    "entrepreneurship",
    "education"
-  ],
-  "tt_7349232269132975403": [
-   "sports"
   ],
   "tt_7219705755312639274": [
    "finance"
@@ -7485,10 +7512,13 @@
   "tt_7647604765127445790": [
    "education"
   ],
+  "tt_7647912724986350879": [
+   "comedy"
+  ],
   "tt_7647276924766604574": [
    "other"
   ],
-  "tt_7647912724986350879": [
+  "tt_7654796959949016351": [
    "comedy"
   ],
   "tt_7647605744698674463": [
@@ -7498,12 +7528,12 @@
    "cars",
    "food"
   ],
-  "tt_7654796959949016351": [
-   "comedy"
-  ],
   "tt_7647275161875385630": [
    "real_estate",
    "entrepreneurship"
+  ],
+  "tt_7691839390380789023": [
+   "other"
   ],
   "tt_7497455518420569375": [
    "comedy"

@@ -211,7 +211,7 @@
    {
     "count": 13,
     "avgEngagement": 5.63,
-    "avgViews": 3527
+    "avgViews": 3528
    },
    {
     "count": 15,
@@ -230,7 +230,7 @@
    },
    {
     "count": 22,
-    "avgEngagement": 2.36,
+    "avgEngagement": 2.35,
     "avgViews": 1216
    },
    {
@@ -247,7 +247,7 @@
   [
    {
     "count": 6,
-    "avgEngagement": 4.59,
+    "avgEngagement": 4.6,
     "avgViews": 1178
    },
    {
@@ -363,7 +363,7 @@
    {
     "count": 12,
     "avgEngagement": 3.06,
-    "avgViews": 1325
+    "avgViews": 1326
    }
   ],
   [
@@ -410,7 +410,7 @@
    {
     "count": 2,
     "avgEngagement": 4.29,
-    "avgViews": 581
+    "avgViews": 582
    },
    {
     "count": 10,
@@ -460,7 +460,7 @@
    {
     "count": 11,
     "avgEngagement": 2.69,
-    "avgViews": 1976
+    "avgViews": 1977
    },
    {
     "count": 19,
@@ -479,7 +479,7 @@
    },
    {
     "count": 24,
-    "avgEngagement": 0.72,
+    "avgEngagement": 0.73,
     "avgViews": 543
    },
    {
@@ -580,14 +580,14 @@
     "avgViews": 1091
    },
    {
-    "count": 8,
-    "avgEngagement": 7.24,
-    "avgViews": 2155
+    "count": 9,
+    "avgEngagement": 7.08,
+    "avgViews": 2330
    },
    {
-    "count": 23,
-    "avgEngagement": 3.98,
-    "avgViews": 945
+    "count": 24,
+    "avgEngagement": 4.02,
+    "avgViews": 914
    },
    {
     "count": 25,
@@ -717,9 +717,9 @@
     "avgViews": 827
    },
    {
-    "count": 17,
-    "avgEngagement": 1.04,
-    "avgViews": 525
+    "count": 18,
+    "avgEngagement": 1.14,
+    "avgViews": 585
    },
    {
     "count": 28,
@@ -727,9 +727,9 @@
     "avgViews": 1163
    },
    {
-    "count": 10,
-    "avgEngagement": 2.57,
-    "avgViews": 1694
+    "count": 11,
+    "avgEngagement": 2.42,
+    "avgViews": 1540
    }
   ],
   [
@@ -931,7 +931,7 @@
    "hour": 17,
    "count": 13,
    "avgEngagement": 5.63,
-   "avgViews": 3527
+   "avgViews": 3528
   },
   {
    "day": 3,
@@ -999,88 +999,88 @@
  ],
  "contentCategories": {
   "comedy": {
-   "count": 798,
-   "avgViews": 16802,
-   "avgLikes": 494,
-   "avgEngagement": 3.34,
-   "totalViews": 8720391
+   "count": 800,
+   "avgViews": 16777,
+   "avgLikes": 493,
+   "avgEngagement": 3.35,
+   "totalViews": 8724150
   },
   "other": {
-   "count": 471,
-   "avgViews": 1604,
+   "count": 472,
+   "avgViews": 1599,
    "avgLikes": 44,
    "avgEngagement": 4.69,
-   "totalViews": 455713
+   "totalViews": 455919
   },
   "education": {
-   "count": 360,
+   "count": 361,
    "avgViews": 2416,
    "avgLikes": 112,
    "avgEngagement": 7.7,
-   "totalViews": 592030
+   "totalViews": 592050
   },
   "finance": {
    "count": 334,
    "avgViews": 1991,
    "avgLikes": 81,
    "avgEngagement": 4.38,
-   "totalViews": 529742
+   "totalViews": 529759
   },
   "cars": {
    "count": 300,
    "avgViews": 11285,
    "avgLikes": 590,
    "avgEngagement": 3.67,
-   "totalViews": 2403865
+   "totalViews": 2403877
   },
   "entrepreneurship": {
-   "count": 276,
-   "avgViews": 7119,
-   "avgLikes": 367,
-   "avgEngagement": 5.06,
-   "totalViews": 1366987
+   "count": 279,
+   "avgViews": 7073,
+   "avgLikes": 364,
+   "avgEngagement": 5.05,
+   "totalViews": 1372325
   },
   "travel": {
    "count": 230,
    "avgViews": 3330,
-   "avgLikes": 104,
+   "avgLikes": 105,
    "avgEngagement": 3.85,
-   "totalViews": 469652
+   "totalViews": 469665
   },
   "real_estate": {
    "count": 202,
    "avgViews": 3295,
    "avgLikes": 128,
    "avgEngagement": 3.93,
-   "totalViews": 474525
+   "totalViews": 474532
   },
   "lifestyle": {
-   "count": 198,
+   "count": 199,
    "avgViews": 4684,
-   "avgLikes": 167,
+   "avgLikes": 166,
    "avgEngagement": 4.13,
-   "totalViews": 585592
+   "totalViews": 585599
   },
   "sports": {
    "count": 187,
    "avgViews": 7180,
    "avgLikes": 309,
    "avgEngagement": 3.39,
-   "totalViews": 804214
+   "totalViews": 804217
   },
   "family": {
-   "count": 160,
+   "count": 161,
    "avgViews": 2899,
-   "avgLikes": 139,
+   "avgLikes": 138,
    "avgEngagement": 5.77,
-   "totalViews": 266760
+   "totalViews": 266767
   },
   "motivation": {
-   "count": 150,
-   "avgViews": 2428,
-   "avgLikes": 130,
-   "avgEngagement": 12.0,
-   "totalViews": 216133
+   "count": 152,
+   "avgViews": 2419,
+   "avgLikes": 129,
+   "avgEngagement": 11.9,
+   "totalViews": 217718
   },
   "food": {
    "count": 39,
@@ -1094,7 +1094,7 @@
    "avgViews": 5467,
    "avgLikes": 160,
    "avgEngagement": 3.24,
-   "totalViews": 65608
+   "totalViews": 65609
   }
  },
  "viralPosts": [
@@ -1106,9 +1106,9 @@
    "likes": 198558,
    "comments": 710,
    "engagementRate": "3.49",
-   "viralityScore": 391.16,
-   "multiplier": 391.16,
-   "avgViewsForPlatform": 14676,
+   "viralityScore": 392.29,
+   "multiplier": 392.29,
+   "avgViewsForPlatform": 14634,
    "date": "2024-07-29",
    "categories": [
     "comedy"
@@ -1119,13 +1119,13 @@
    "id": "tt_7034256779999464710",
    "title": "This literally happened 1 week after a Turo customer wrecked one of my cars #entrepreneurship  ain\u2019t easy #airbnbhost",
    "platform": "tiktok",
-   "views": 930119,
+   "views": 930123,
    "likes": 72624,
    "comments": 493,
    "engagementRate": "7.97",
-   "viralityScore": 58.65,
-   "multiplier": 58.65,
-   "avgViewsForPlatform": 15859,
+   "viralityScore": 59.0,
+   "multiplier": 59.0,
+   "avgViewsForPlatform": 15764,
    "date": "2021-11-24",
    "categories": [
     "cars",
@@ -1137,13 +1137,13 @@
    "id": "tt_7031283140316499205",
    "title": "Fun fact: The day after this happened someone broke in one of my other cars & stole my laptop \ud83d\ude12 #dontletthisflop  #turo",
    "platform": "tiktok",
-   "views": 816460,
-   "likes": 77704,
+   "views": 816461,
+   "likes": 77705,
    "comments": 941,
    "engagementRate": "9.95",
-   "viralityScore": 51.48,
-   "multiplier": 51.48,
-   "avgViewsForPlatform": 15859,
+   "viralityScore": 51.79,
+   "multiplier": 51.79,
+   "avgViewsForPlatform": 15764,
    "date": "2021-11-16",
    "categories": [
     "cars",
@@ -1159,9 +1159,9 @@
    "likes": 44217,
    "comments": 176,
    "engagementRate": "11.08",
-   "viralityScore": 27.56,
-   "multiplier": 27.56,
-   "avgViewsForPlatform": 14676,
+   "viralityScore": 27.64,
+   "multiplier": 27.64,
+   "avgViewsForPlatform": 14634,
    "date": "2024-04-01",
    "categories": [
     "comedy",
@@ -1297,13 +1297,13 @@
    "id": "tt_7026081369730190598",
    "title": "Check the comments for my #1 travel hack. Your welcome  #island #tropical #travel #travelhacks",
    "platform": "tiktok",
-   "views": 152187,
+   "views": 152188,
    "likes": 6328,
    "comments": 73,
    "engagementRate": "5.31",
-   "viralityScore": 9.6,
-   "multiplier": 9.6,
-   "avgViewsForPlatform": 15859,
+   "viralityScore": 9.65,
+   "multiplier": 9.65,
+   "avgViewsForPlatform": 15764,
    "date": "2021-11-02",
    "categories": [
     "travel"
@@ -1425,9 +1425,9 @@
    "likes": 6085,
    "comments": 255,
    "engagementRate": "6.30",
-   "viralityScore": 6.87,
-   "multiplier": 6.87,
-   "avgViewsForPlatform": 14676,
+   "viralityScore": 6.89,
+   "multiplier": 6.89,
+   "avgViewsForPlatform": 14634,
    "date": "2024-05-15",
    "categories": [
     "real_estate",
@@ -1531,9 +1531,9 @@
    "likes": 4041,
    "comments": 82,
    "engagementRate": "4.69",
-   "viralityScore": 6.06,
-   "multiplier": 6.06,
-   "avgViewsForPlatform": 14676,
+   "viralityScore": 6.08,
+   "multiplier": 6.08,
+   "avgViewsForPlatform": 14634,
    "date": "2023-08-16",
    "categories": [
     "cars",
@@ -1606,9 +1606,9 @@
    "likes": 631,
    "comments": 35,
    "engagementRate": "0.85",
-   "viralityScore": 5.44,
-   "multiplier": 5.44,
-   "avgViewsForPlatform": 14676,
+   "viralityScore": 5.46,
+   "multiplier": 5.46,
+   "avgViewsForPlatform": 14634,
    "date": "2023-11-05",
    "categories": [
     "comedy",
@@ -1723,6 +1723,23 @@
    "url": "https://www.youtube.com/shorts/cil8yWBXxpc"
   },
   {
+   "id": "tt_7031995022216301870",
+   "title": "Reply to @starmena3 #greenscreen",
+   "platform": "tiktok",
+   "views": 64696,
+   "likes": 4817,
+   "comments": 112,
+   "engagementRate": "7.80",
+   "viralityScore": 4.1,
+   "multiplier": 4.1,
+   "avgViewsForPlatform": 15764,
+   "date": "2021-11-18",
+   "categories": [
+    "comedy"
+   ],
+   "url": "https://www.tiktok.com/@phillip.karaya/video/7031995022216301870"
+  },
+  {
    "id": "yt_0NYYGe-jW4s",
    "title": "Do you think I found the squatter? \ud83d\udc40 . . . . . #drone #videography #realestate, 3 thousand views",
    "platform": "youtube",
@@ -1759,23 +1776,6 @@
    "url": "https://www.youtube.com/shorts/VUZ_mDKZQ20"
   },
   {
-   "id": "tt_7031995022216301870",
-   "title": "Reply to @starmena3 #greenscreen",
-   "platform": "tiktok",
-   "views": 64695,
-   "likes": 4817,
-   "comments": 112,
-   "engagementRate": "7.80",
-   "viralityScore": 4.08,
-   "multiplier": 4.08,
-   "avgViewsForPlatform": 15859,
-   "date": "2021-11-18",
-   "categories": [
-    "comedy"
-   ],
-   "url": "https://www.tiktok.com/@phillip.karaya/video/7031995022216301870"
-  },
-  {
    "id": "yt_uvvxHBZajTQ",
    "title": "And that\u2019s totally cool \ud83d\ude0e More about the journey anyways \u2764\ufe0f I did learn how to get it right later, 2.9 thousand views",
    "platform": "youtube",
@@ -1796,13 +1796,13 @@
    "id": "tt_7034583682040040751",
    "title": "Reply to @mmmmmray",
    "platform": "tiktok",
-   "views": 61140,
+   "views": 61141,
    "likes": 1862,
    "comments": 41,
    "engagementRate": "3.14",
-   "viralityScore": 3.86,
-   "multiplier": 3.86,
-   "avgViewsForPlatform": 15859,
+   "viralityScore": 3.88,
+   "multiplier": 3.88,
+   "avgViewsForPlatform": 15764,
    "date": "2021-11-25",
    "categories": [
     "other"
@@ -1935,18 +1935,18 @@
  ],
  "platformAverages": {
   "instagram": {
-   "avgViews": 14676,
-   "avgLikes": 518,
+   "avgViews": 14634,
+   "avgLikes": 516,
    "avgComments": 18,
    "avgEngagement": 5.1,
-   "posts": 683
+   "posts": 686
   },
   "tiktok": {
-   "avgViews": 15859,
-   "avgLikes": 981,
+   "avgViews": 15764,
+   "avgLikes": 976,
    "avgComments": 14,
    "avgEngagement": 4.93,
-   "posts": 193
+   "posts": 194
   },
   "youtube": {
    "avgViews": 732,
@@ -1972,18 +1972,18 @@
  },
  "engagementFunnel": {
   "instagram": {
-   "views": 8189760,
-   "likes": 354169,
-   "comments": 12392,
+   "views": 8195075,
+   "likes": 354535,
+   "comments": 12440,
    "shares": 0,
-   "likeRate": 4.32,
+   "likeRate": 4.33,
    "commentRate": 0.15,
    "shareRate": 0.0
   },
   "tiktok": {
-   "views": 2600894,
-   "likes": 189513,
-   "comments": 2872,
+   "views": 2601169,
+   "likes": 189524,
+   "comments": 2874,
    "shares": 3916,
    "likeRate": 7.29,
    "commentRate": 0.11,
@@ -3153,26 +3153,26 @@
   {
    "tag": "#dontletthisflop",
    "count": 4,
-   "avgViews": 212126,
+   "avgViews": 212127,
    "avgLikes": 19775,
    "avgEngagement": 6.83,
-   "totalViews": 848505
+   "totalViews": 848508
   },
   {
    "tag": "#entrepreneurship",
    "count": 14,
-   "avgViews": 96453,
+   "avgViews": 96454,
    "avgLikes": 5292,
    "avgEngagement": 4.89,
-   "totalViews": 964537
+   "totalViews": 964541
   },
   {
    "tag": "#airbnbhost",
    "count": 12,
-   "avgViews": 80766,
+   "avgViews": 80767,
    "avgLikes": 6219,
    "avgEngagement": 6.21,
-   "totalViews": 969202
+   "totalViews": 969206
   },
   {
    "tag": "#relationships",
@@ -3196,7 +3196,7 @@
    "avgViews": 27080,
    "avgLikes": 2167,
    "avgEngagement": 5.09,
-   "totalViews": 974901
+   "totalViews": 974908
   },
   {
    "tag": "#travelhacks",
@@ -3204,7 +3204,7 @@
    "avgViews": 19790,
    "avgLikes": 730,
    "avgEngagement": 4.63,
-   "totalViews": 178111
+   "totalViews": 178112
   },
   {
    "tag": "#greenscreen",
@@ -3212,7 +3212,7 @@
    "avgViews": 14227,
    "avgLikes": 685,
    "avgEngagement": 5.72,
-   "totalViews": 99590
+   "totalViews": 99593
   },
   {
    "tag": "#rentals",
@@ -3225,18 +3225,18 @@
   {
    "tag": "#realestate",
    "count": 16,
-   "avgViews": 12208,
+   "avgViews": 12209,
    "avgLikes": 642,
    "avgEngagement": 5.01,
-   "totalViews": 170925
+   "totalViews": 170926
   },
   {
    "tag": "#travel",
    "count": 21,
-   "avgViews": 12119,
+   "avgViews": 12120,
    "avgLikes": 396,
    "avgEngagement": 5.38,
-   "totalViews": 193909
+   "totalViews": 193921
   },
   {
    "tag": "#insurance",
@@ -3250,17 +3250,17 @@
    "tag": "#accident",
    "count": 4,
    "avgViews": 8659,
-   "avgLikes": 148,
+   "avgLikes": 152,
    "avgEngagement": 2.5,
    "totalViews": 25978
   },
   {
    "tag": "#fun",
    "count": 5,
-   "avgViews": 6708,
+   "avgViews": 6709,
    "avgLikes": 279,
    "avgEngagement": 4.48,
-   "totalViews": 20126
+   "totalViews": 20127
   },
   {
    "tag": "#to",
@@ -3276,7 +3276,7 @@
    "avgViews": 6170,
    "avgLikes": 312,
    "avgEngagement": 6.23,
-   "totalViews": 55537
+   "totalViews": 55538
   },
   {
    "tag": "#greenscreenvideo",
@@ -3306,7 +3306,7 @@
    "tag": "#carwrap",
    "count": 4,
    "avgViews": 5484,
-   "avgLikes": 59,
+   "avgLikes": 63,
    "avgEngagement": 2.33,
    "totalViews": 10968
   },
@@ -3316,7 +3316,7 @@
    "avgViews": 5357,
    "avgLikes": 156,
    "avgEngagement": 3.6,
-   "totalViews": 203591
+   "totalViews": 203597
   },
   {
    "tag": "#dji",
@@ -3332,15 +3332,15 @@
    "avgViews": 5256,
    "avgLikes": 249,
    "avgEngagement": 6.18,
-   "totalViews": 57823
+   "totalViews": 57826
   },
   {
    "tag": "#porsche",
    "count": 9,
    "avgViews": 5132,
-   "avgLikes": 195,
+   "avgLikes": 196,
    "avgEngagement": 3.58,
-   "totalViews": 35924
+   "totalViews": 35925
   },
   {
    "tag": "#turohost",
@@ -3377,10 +3377,10 @@
   {
    "tag": "#education",
    "count": 5,
-   "avgViews": 4597,
-   "avgLikes": 168,
-   "avgEngagement": 5.17,
-   "totalViews": 18389
+   "avgViews": 4598,
+   "avgLikes": 169,
+   "avgEngagement": 5.19,
+   "totalViews": 18395
   },
   {
    "tag": "#motivation",
@@ -3388,7 +3388,7 @@
    "avgViews": 4532,
    "avgLikes": 272,
    "avgEngagement": 7.39,
-   "totalViews": 22662
+   "totalViews": 22663
   },
   {
    "tag": "#airbnb",
@@ -3396,21 +3396,21 @@
    "avgViews": 4463,
    "avgLikes": 231,
    "avgEngagement": 4.58,
-   "totalViews": 75875
+   "totalViews": 75877
   },
   {
    "tag": "#ohno",
    "count": 17,
-   "avgViews": 4450,
+   "avgViews": 4451,
    "avgLikes": 133,
    "avgEngagement": 4.79,
-   "totalViews": 53409
+   "totalViews": 53413
   },
   {
    "tag": "#cars",
    "count": 19,
    "avgViews": 4396,
-   "avgLikes": 73,
+   "avgLikes": 74,
    "avgEngagement": 2.8,
    "totalViews": 57154
   },
@@ -3452,7 +3452,7 @@
    "avgViews": 3997,
    "avgLikes": 196,
    "avgEngagement": 5.53,
-   "totalViews": 51968
+   "totalViews": 51971
   },
   {
    "tag": "#credit",
@@ -3460,7 +3460,7 @@
    "avgViews": 3965,
    "avgLikes": 181,
    "avgEngagement": 5.17,
-   "totalViews": 31724
+   "totalViews": 31726
   },
   {
    "tag": "#traveltheworld",
@@ -3492,7 +3492,7 @@
    "avgViews": 3692,
    "avgLikes": 192,
    "avgEngagement": 5.51,
-   "totalViews": 110765
+   "totalViews": 110770
   },
   {
    "tag": "#funding",
@@ -3513,10 +3513,10 @@
   {
    "tag": "#financewithphil",
    "count": 26,
-   "avgViews": 3442,
+   "avgViews": 3443,
    "avgLikes": 195,
    "avgEngagement": 6.44,
-   "totalViews": 89515
+   "totalViews": 89518
   },
   {
    "tag": "#trickshots",
@@ -3856,21 +3856,21 @@
   {
    "month": "2021-11",
    "posts": 36,
-   "views": 2265141,
-   "likes": 171876,
+   "views": 2265149,
+   "likes": 171877,
    "comments": 2172
   },
   {
    "month": "2021-12",
    "posts": 47,
-   "views": 176373,
+   "views": 176381,
    "likes": 9207,
    "comments": 576
   },
   {
    "month": "2022-01",
    "posts": 36,
-   "views": 61190,
+   "views": 61195,
    "likes": 2540,
    "comments": 291
   },
@@ -3912,7 +3912,7 @@
   {
    "month": "2022-07",
    "posts": 22,
-   "views": 116866,
+   "views": 116867,
    "likes": 6775,
    "comments": 480
   },
@@ -3961,21 +3961,21 @@
   {
    "month": "2023-03",
    "posts": 17,
-   "views": 25221,
+   "views": 25223,
    "likes": 1931,
    "comments": 159
   },
   {
    "month": "2023-04",
    "posts": 44,
-   "views": 135545,
+   "views": 135556,
    "likes": 7576,
    "comments": 507
   },
   {
    "month": "2023-05",
    "posts": 38,
-   "views": 95989,
+   "views": 95992,
    "likes": 5516,
    "comments": 267
   },
@@ -4067,8 +4067,8 @@
    "month": "2024-06",
    "posts": 9,
    "views": 39666,
-   "likes": 1821,
-   "comments": 224
+   "likes": 1823,
+   "comments": 226
   },
   {
    "month": "2024-07",
@@ -4095,8 +4095,8 @@
    "month": "2024-10",
    "posts": 7,
    "views": 25096,
-   "likes": 719,
-   "comments": 49
+   "likes": 723,
+   "comments": 50
   },
   {
    "month": "2024-11",
@@ -4108,9 +4108,9 @@
   {
    "month": "2025-01",
    "posts": 16,
-   "views": 31769,
-   "likes": 2856,
-   "comments": 179
+   "views": 31775,
+   "likes": 2859,
+   "comments": 180
   },
   {
    "month": "2025-02",
@@ -4172,50 +4172,57 @@
    "month": "2025-10",
    "posts": 6,
    "views": 10238,
-   "likes": 568,
+   "likes": 569,
    "comments": 34
   },
   {
    "month": "2026-01",
    "posts": 7,
    "views": 18592,
-   "likes": 489,
-   "comments": 63
+   "likes": 507,
+   "comments": 66
   },
   {
    "month": "2026-02",
    "posts": 1,
    "views": 6768,
-   "likes": 312,
+   "likes": 313,
    "comments": 59
   },
   {
    "month": "2026-04",
    "posts": 6,
-   "views": 486,
+   "views": 487,
    "likes": 60,
    "comments": 9
   },
   {
    "month": "2026-05",
    "posts": 10,
-   "views": 2357,
+   "views": 2358,
    "likes": 102,
    "comments": 3
   },
   {
    "month": "2026-06",
    "posts": 25,
-   "views": 24018,
-   "likes": 938,
-   "comments": 71
+   "views": 24045,
+   "likes": 940,
+   "comments": 73
   },
   {
    "month": "2026-09",
    "posts": 2,
    "views": 1094,
-   "likes": 403,
-   "comments": 120
+   "likes": 420,
+   "comments": 121
+  },
+  {
+   "month": "2026-10",
+   "posts": 4,
+   "views": 5517,
+   "likes": 328,
+   "comments": 40
   }
  ],
  "followerProjections": {
@@ -4269,7 +4276,7 @@
     {
      "id": "tt_7034256779999464710",
      "platform": "tiktok",
-     "views": 930119,
+     "views": 930123,
      "likes": 72624,
      "date": "2021-11-24",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7034256779999464710"
@@ -4284,7 +4291,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 925951
+   "viewDiff": 925955
   },
   {
    "title": "Fun fact: The day after this happened someone broke in one of my other cars & stole my laptop \ud83d\ude12 #dontletthisflop  #turo",
@@ -4296,8 +4303,8 @@
     {
      "id": "tt_7031283140316499205",
      "platform": "tiktok",
-     "views": 816460,
-     "likes": 77704,
+     "views": 816461,
+     "likes": 77705,
      "date": "2021-11-16",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7031283140316499205"
     },
@@ -4311,7 +4318,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 816453
+   "viewDiff": 816454
   },
   {
    "title": "No weapon formed against me shall prosper \ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02 Gotta be aware of your surroundings \ud83d\ude05 Still tried to catch him after atte",
@@ -4494,7 +4501,7 @@
     {
      "id": "tt_7228326394923650350",
      "platform": "tiktok",
-     "views": 29432,
+     "views": 29435,
      "likes": 2176,
      "date": "2023-05-01",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7228326394923650350"
@@ -4509,7 +4516,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 29151
+   "viewDiff": 29154
   },
   {
    "title": "When #turo things go correctly \ud83d\ude07 Horror stories get the views but things are not always terrible \ud83d\ude02\ud83d\ude02\ud83d\ude02",
@@ -4582,7 +4589,7 @@
     {
      "id": "tt_7041305705344765189",
      "platform": "tiktok",
-     "views": 27821,
+     "views": 27823,
      "likes": 1137,
      "date": "2021-12-13",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7041305705344765189"
@@ -4597,7 +4604,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 27711
+   "viewDiff": 27713
   },
   {
    "title": "The world is filled with hundreds of languages\u2026yet a smile speaks in all of them \ud83d\ude01 Everyone, including myself could do n",
@@ -4969,7 +4976,7 @@
      "id": "ig_3400415194294620061_5251656103",
      "platform": "instagram",
      "views": 11525,
-     "likes": 891,
+     "likes": 893,
      "date": "2024-06-28",
      "url": "https://www.instagram.com/p/C8ws5pgxY-d/"
     },
@@ -5155,7 +5162,7 @@
      "id": "ig_3480285257172086897_5251656103",
      "platform": "instagram",
      "views": 8999,
-     "likes": 385,
+     "likes": 389,
      "date": "2024-10-16",
      "url": "https://www.instagram.com/p/DBMdQCGxXBx/"
     },
@@ -5829,7 +5836,7 @@
     {
      "id": "tt_7225969489312075051",
      "platform": "tiktok",
-     "views": 6536,
+     "views": 6537,
      "likes": 278,
      "date": "2023-04-25",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7225969489312075051"
@@ -5852,7 +5859,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 6376
+   "viewDiff": 6377
   },
   {
    "title": "World's tallest freestanding structure \u2705 Who wants to check out another Guinness World Records on a trip? \ud83d\ude07",
@@ -6251,7 +6258,7 @@
      "id": "ig_3556623510023757514_5251656103",
      "platform": "instagram",
      "views": 5838,
-     "likes": 276,
+     "likes": 277,
      "date": "2025-01-29",
      "url": "https://www.instagram.com/p/DFbqj0SxN7K/"
     },
@@ -6700,7 +6707,7 @@
     {
      "id": "tt_7218698894169885998",
      "platform": "tiktok",
-     "views": 5489,
+     "views": 5499,
      "likes": 127,
      "date": "2023-04-05",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7218698894169885998"
@@ -6715,7 +6722,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 5356
+   "viewDiff": 5366
   },
   {
    "title": "\u201cWe have to come together as one and that\u2019s something we don\u2019t know  how to do that well.\u201d \ud83d\udd25\ud83d\udd25\ud83d\udd25\ud83d\udd25",
@@ -7543,7 +7550,7 @@
      "id": "ig_3812164862433213622_5251656103",
      "platform": "instagram",
      "views": 4480,
-     "likes": 94,
+     "likes": 95,
      "date": "2026-01-17",
      "url": "https://www.instagram.com/p/DTnh76ijry2/"
     },
@@ -9627,7 +9634,7 @@
      "id": "ig_3911558566304434427_5251656103",
      "platform": "instagram",
      "views": 3378,
-     "likes": 145,
+     "likes": 146,
      "date": "2026-06-03",
      "url": "https://www.instagram.com/p/DZIpcqutkj7/"
     },
@@ -10614,7 +10621,7 @@
     {
      "id": "tt_7059519279930068271",
      "platform": "tiktok",
-     "views": 2933,
+     "views": 2935,
      "likes": 72,
      "date": "2022-01-31",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7059519279930068271"
@@ -10629,7 +10636,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 2915
+   "viewDiff": 2917
   },
   {
    "title": "First time doing a master shot(it automatically flys to capture video) on my drone\u2026\u2026\u2026.and this is why you purchase insur",
@@ -11673,8 +11680,8 @@
     {
      "id": "tt_7465540807492275487",
      "platform": "tiktok",
-     "views": 3124,
-     "likes": 143,
+     "views": 3130,
+     "likes": 145,
      "date": "2025-01-29",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7465540807492275487"
     },
@@ -11688,7 +11695,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 2586
+   "viewDiff": 2592
   },
   {
    "title": "2021 Recap Part 1 \ud83d\ude07",
@@ -11944,7 +11951,7 @@
     {
      "id": "tt_7119916409802509610",
      "platform": "tiktok",
-     "views": 1517,
+     "views": 1518,
      "likes": 37,
      "date": "2022-07-13",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7119916409802509610"
@@ -13109,7 +13116,7 @@
     {
      "id": "tt_7055017840767880495",
      "platform": "tiktok",
-     "views": 2304,
+     "views": 2306,
      "likes": 45,
      "date": "2022-01-19",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7055017840767880495"
@@ -13124,7 +13131,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 2262
+   "viewDiff": 2264
   },
   {
    "title": "All Star \u2b50\ufe0f Host Achieved \ud83d\ude0e",
@@ -18081,7 +18088,7 @@
     {
      "id": "tt_7050584066135133486",
      "platform": "tiktok",
-     "views": 1143,
+     "views": 1144,
      "likes": 31,
      "date": "2022-01-07",
      "url": "https://www.tiktok.com/@phillip.karaya/video/7050584066135133486"
@@ -18096,7 +18103,7 @@
     }
    ],
    "bestPlatform": "tiktok",
-   "viewDiff": 1142
+   "viewDiff": 1143
   },
   {
    "title": "Wealth is so much more than money \ud83d\udcb0 health, knowledge, relationships, and opportunities that enhance the quality of life",
@@ -20380,7 +20387,7 @@
    "hook": "This literally happened 1 week after a Turo customer wrecked one of my cars #entrepreneurship  ain\u2019t easy #airbnbhost",
    "postId": "tt_7034256779999464710",
    "platform": "tiktok",
-   "views": 930119,
+   "views": 930123,
    "likes": 72624,
    "engagement": 7.97,
    "engagementRate": "7.97",
@@ -20394,8 +20401,8 @@
    "hook": "Fun fact: The day after this happened someone broke in one of my other cars & stole my laptop \ud83d\ude12 #dontletthisflop  #turo",
    "postId": "tt_7031283140316499205",
    "platform": "tiktok",
-   "views": 816460,
-   "likes": 77704,
+   "views": 816461,
+   "likes": 77705,
    "engagement": 9.95,
    "engagementRate": "9.95",
    "categories": [
@@ -20422,7 +20429,7 @@
    "hook": "Check the comments for my #1 travel hack. Your welcome  #island #tropical #travel #travelhacks",
    "postId": "tt_7026081369730190598",
    "platform": "tiktok",
-   "views": 152187,
+   "views": 152188,
    "likes": 6328,
    "engagement": 5.31,
    "engagementRate": "5.31",
@@ -20479,7 +20486,7 @@
    "hook": "Reply to @starmena3 #greenscreen",
    "postId": "tt_7031995022216301870",
    "platform": "tiktok",
-   "views": 64695,
+   "views": 64696,
    "likes": 4817,
    "engagement": 7.8,
    "engagementRate": "7.80",
@@ -20492,7 +20499,7 @@
    "hook": "Reply to @mmmmmray",
    "postId": "tt_7034583682040040751",
    "platform": "tiktok",
-   "views": 61140,
+   "views": 61141,
    "likes": 1862,
    "engagement": 3.14,
    "engagementRate": "3.14",
@@ -20520,7 +20527,7 @@
    "hook": "It didnt workout this time, but next time it\u2019s i\u2019m locking it down \ud83d\ude24 Follow for more! #aquisition #business #entrepreneu",
    "postId": "tt_7228326394923650350",
    "platform": "tiktok",
-   "views": 29432,
+   "views": 29435,
    "likes": 2176,
    "engagement": 11.08,
    "engagementRate": "11.08",
@@ -20548,7 +20555,7 @@
    "hook": "Fun fact: A few hours post a car accident no two days look the same \ud83d\ude02 Still going to smile through it ! #turo #ohno #don",
    "postId": "tt_7041305705344765189",
    "platform": "tiktok",
-   "views": 27821,
+   "views": 27823,
    "likes": 1137,
    "engagement": 4.36,
    "engagementRate": "4.36",
@@ -20632,7 +20639,7 @@
    "hook": "A car club that\u2019s a lot more like a family. And as the youngest one of the pack they definitely put me on all types of g",
    "postId": "tt_7039778966231633157",
    "platform": "tiktok",
-   "views": 17061,
+   "views": 17062,
    "likes": 1321,
    "engagement": 8.89,
    "engagementRate": "8.89",
@@ -20885,7 +20892,7 @@
    "postId": "ig_3400415194294620061_5251656103",
    "platform": "instagram",
    "views": 11525,
-   "likes": 891,
+   "likes": 893,
    "engagement": 9.15,
    "engagementRate": "9.15",
    "categories": [
@@ -21056,7 +21063,7 @@
    "postId": "ig_3480285257172086897_5251656103",
    "platform": "instagram",
    "views": 8999,
-   "likes": 385,
+   "likes": 389,
    "engagement": 4.56,
    "engagementRate": "4.56",
    "categories": [
@@ -21103,25 +21110,33 @@
    "youtube": 5020,
    "threads": 1787,
    "linkedin": 1714
+  },
+  {
+   "date": "2026-10-03",
+   "instagram": 11000,
+   "tiktok": 14000,
+   "youtube": 5020,
+   "threads": 1787,
+   "linkedin": 1714
   }
  ],
  "hookTypes": [
   {
    "type": "other",
-   "count": 1448,
-   "avgViews": 4933,
+   "count": 1451,
+   "avgViews": 4927,
    "avgLikes": 217,
-   "avgEngagement": 5.0,
-   "totalViews": 4519083,
+   "avgEngagement": 5.01,
+   "totalViews": 4523071,
    "topPost": "This literally happened 1 week after a Turo customer wrecked one of my cars #entrepreneurship  ain\u2019t easy #airbnbhost"
   },
   {
    "type": "question",
-   "count": 324,
-   "avgViews": 28416,
-   "avgLikes": 660,
+   "count": 325,
+   "avgViews": 28294,
+   "avgLikes": 659,
    "avgEngagement": 2.94,
-   "totalViews": 6251525,
+   "totalViews": 6253118,
    "topPost": "What do you think the self checkout was thinking ? \ud83e\udd14"
   },
   {
@@ -21130,7 +21145,7 @@
    "avgViews": 2134,
    "avgLikes": 36,
    "avgEngagement": 2.28,
-   "totalViews": 290325,
+   "totalViews": 290328,
    "topPost": "Reply to @nemracy1k"
   },
   {
@@ -21139,7 +21154,7 @@
    "avgViews": 1723,
    "avgLikes": 84,
    "avgEngagement": 3.1,
-   "totalViews": 53440,
+   "totalViews": 53442,
    "topPost": "RIP to my 7th drone replacement! \ud83d\ude2d This is a perfect example of the importance of good insurance, especially in high ris"
   },
   {
@@ -21148,7 +21163,7 @@
    "avgViews": 3657,
    "avgLikes": 110,
    "avgEngagement": 3.25,
-   "totalViews": 113368,
+   "totalViews": 113370,
    "topPost": "\u201cNobody does anything significant by themselves!\u201d Things are never hard with the proper guidance\ud83d\ude0e#realestate #entreprene"
   },
   {
@@ -21157,7 +21172,7 @@
    "avgViews": 1241,
    "avgLikes": 64,
    "avgEngagement": 2.81,
-   "totalViews": 23589,
+   "totalViews": 23591,
    "topPost": "Based on a true story unfortunately \ud83e\udd72"
   },
   {
@@ -21181,36 +21196,36 @@
  ],
  "lastPosted": {
   "instagram": {
-   "lastDate": "2026-09-18",
-   "daysSince": 9,
-   "lastTitle": "Made 5,000 websites in 2 weeks in the background while I did other things and even this video in about 10 (Anyone that e",
-   "lastId": "ig_3988981312806879246_5251656103",
-   "totalPosts": 683
+   "lastDate": "2026-10-02",
+   "daysSince": 1,
+   "lastTitle": "I\u2019m building the websites. Who\u2019s ready to help sell them? \ud83e\udef1\ud83c\udffe\u200d\ud83e\udef2\ud83c\udffd",
+   "lastId": "ig_3999434604870732884_5251656103",
+   "totalPosts": 686
   },
   "tiktok": {
-   "lastDate": "2026-06-23",
-   "daysSince": 96,
-   "lastTitle": "No more typing when you don\u2019t want too \ud83d\ude0c",
-   "lastId": "tt_7654796959949016351",
-   "totalPosts": 193
+   "lastDate": "2026-10-01",
+   "daysSince": 2,
+   "lastTitle": "Come see what happens next \ud83d\ude07",
+   "lastId": "tt_7691839390380789023",
+   "totalPosts": 194
   },
   "youtube": {
    "lastDate": "2025-08-03",
-   "daysSince": 420,
+   "daysSince": 426,
    "lastTitle": "You don\u2019t have to have money to start a business.. use the banks money instead!, 151 views",
    "lastId": "yt_GLJonGVG3zA",
    "totalPosts": 644
   },
   "threads": {
    "lastDate": "2026-06-22",
-   "daysSince": 97,
+   "daysSince": 103,
    "lastTitle": "And you can get AI to run this entire process top to bottom in all types of markets \ud83d\ude0e I actually still have way more peo",
    "lastId": "th_3925522951847297573",
    "totalPosts": 567
   },
   "linkedin": {
    "lastDate": "2023-02-08",
-   "daysSince": 1327,
+   "daysSince": 1333,
    "lastTitle": "Awesome time with some awesome people! The future is definitely bright!",
    "lastId": "li_7029102857215778816",
    "totalPosts": 16
@@ -21222,14 +21237,14 @@
    "postsPerWeek": 1.5,
    "postsPerMonth": 6.3,
    "longestGap": 86,
-   "totalPosts": 683
+   "totalPosts": 686
   },
   "tiktok": {
-   "avgDaysBetween": 9.6,
+   "avgDaysBetween": 10.0,
    "postsPerWeek": 0.7,
-   "postsPerMonth": 3.1,
+   "postsPerMonth": 3.0,
    "longestGap": 254,
-   "totalPosts": 193
+   "totalPosts": 194
   },
   "youtube": {
    "avgDaysBetween": 1.5,
@@ -28841,9 +28856,9 @@
    "totalMutual": 4588
   }
  },
- "generatedAt": "2026-09-28T02:39:26+00:00",
+ "generatedAt": "2026-10-03T16:26:56+00:00",
  "dataAsOf": {
-  "posts": "2026-09-21T21:28:42+00:00",
+  "posts": "2026-10-03T16:23:59+00:00",
   "comments": "2026-02-22"
  },
  "questionCount": 559,
