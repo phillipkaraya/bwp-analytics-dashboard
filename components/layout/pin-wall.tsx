@@ -134,6 +134,7 @@ export function PinWall({ onSuccess }: PinWallProps) {
                   value={v}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKey(i, e)}
+                  type="password"
                   inputMode="numeric"
                   pattern="[0-9]*"
                   maxLength={1}
