@@ -684,7 +684,7 @@ test("providers index: registry, getProvider, createSession over a dataset", asy
   assert.ok(body.system[1].text.includes("Posts: 0 rows."));
 });
 
-test("local-cli stub: unavailable readiness, send returns an unknown error", async () => {
+test("local-cli: unpaired readiness, send requires connection", async () => {
   assert.equal(localCliProvider.id, "local-cli");
   assert.equal(localCliProvider.needsKey, false);
   const off = await localCliProvider.readiness({ getKey: () => null, isLocalhost: false });
@@ -699,7 +699,7 @@ test("local-cli stub: unavailable readiness, send returns an unknown error", asy
   });
   const end = await session.send("x", recorder().handlers, new AbortController().signal);
   assert.equal(end.kind, "error");
-  if (end.kind === "error") assert.equal(end.error.code, "unknown");
+  if (end.kind === "error") assert.equal(end.error.code, "forbidden");
 });
 
 test("reset during streaming cannot resurrect the cleared conversation", async () => {

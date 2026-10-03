@@ -116,9 +116,10 @@ export function ChatPanel() {
 
   const emptyData = !!data && data.posts.length === 0;
   const needsKey = !!provider?.needsKey && !hasKey;
-  const settingsView = showSettings || (needsKey && !!data);
+  const needsConnection = settings.provider === "local-cli" && !ctx.localConnection;
+  const settingsView = showSettings || ((needsKey || needsConnection) && !!data);
   const lastTurn = chat.turns[chat.turns.length - 1];
-  const composerDisabled = !session || emptyData || dataError || needsKey;
+  const composerDisabled = !session || emptyData || dataError || needsKey || needsConnection;
 
   return (
     <Dialog
@@ -221,6 +222,7 @@ export function ChatPanel() {
                   <div role="log" aria-live="polite" aria-relevant="additions" aria-busy={chat.streaming} className="space-y-5">
                     {chat.turns.map((turn, i) => (
                       <ChatMessage
+                        provider={settings.provider}
                         key={turn.id}
                         turn={turn}
                         meta={chat.meta[turn.id]}
@@ -265,6 +267,7 @@ export function ChatPanel() {
               showUsage={settings.showUsage}
               lastUsage={lastTurn?.usage}
               sessionUsage={chat.sessionUsage}
+              usageUrl={settings.provider === "local-cli" ? "https://claude.ai/settings/usage" : undefined}
             />
           </>
         )}

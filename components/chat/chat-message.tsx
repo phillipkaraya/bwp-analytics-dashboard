@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { PLATFORMS } from "@/lib/derive";
 import type { Platform, Post } from "@/lib/types";
 import type { ContentVault } from "@/lib/types";
-import type { ChatTurn, ToolTrace as ToolTraceItem } from "@/lib/chat/types";
+import type { ChatTurn, ProviderId, ToolTrace as ToolTraceItem } from "@/lib/chat/types";
 import type { TurnMeta } from "@/lib/chat/use-chat";
 import { extractCitations, holdIncompleteMarkers, normalizeVoice, renderMarkdown } from "@/lib/chat/markdown";
 import { toRow } from "@/lib/chat/tools/rows";
@@ -123,7 +123,7 @@ interface EndBlock {
   action: "retry" | "editKey" | "newChat" | "rest" | null;
 }
 
-function describeEnd(turn: ChatTurn): EndBlock | null {
+export function describeEnd(turn: ChatTurn, provider: ProviderId = "anthropic-key"): EndBlock | null {
   switch (turn.end) {
     case null:
     case "done":
@@ -148,6 +148,12 @@ function describeEnd(turn: ChatTurn): EndBlock | null {
       };
     case "error": {
       const err = turn.error;
+      if (provider === "local-cli" && err) return {
+        tone: err.code === "forbidden" || err.code === "bad_request" ? "negative" : "warn",
+        eyebrow: err.code === "rate_limited" ? (/plan limit/i.test(err.message) ? "Claude plan limit" : "Connector busy") : "Local Claude connection",
+        text: normalizeVoice(err.message),
+        action: err.code === "rate_limited" ? null : err.code === "network" || err.code === "forbidden" ? "editKey" : "retry",
+      };
       switch (err?.code) {
         case "no_key":
           return { tone: "negative", eyebrow: "No key", text: "Add your Anthropic API key to ask questions.", action: "editKey" };
@@ -223,6 +229,7 @@ function describeEnd(turn: ChatTurn): EndBlock | null {
 
 interface ChatMessageProps {
   turn: ChatTurn;
+  provider?: ProviderId;
   meta?: TurnMeta;
   /** This is the turn currently streaming. */
   live: boolean;
@@ -241,6 +248,7 @@ const DOT_DELAYS = ["0ms", "150ms", "300ms"];
 
 export function ChatMessage({
   turn,
+  provider = "anthropic-key",
   meta,
   live,
   hint,
@@ -296,7 +304,7 @@ export function ChatMessage({
       .filter((c): c is CardData => c !== null);
   }, [live, hasCitations, turn.end, parsed, postsById]);
 
-  const end = describeEnd(turn);
+  const end = describeEnd(turn, provider);
   const usage = turn.usage;
   const cachedPct =
     usage && usage.input + usage.cacheRead + usage.cacheWrite > 0
@@ -366,7 +374,7 @@ export function ChatMessage({
                   </Button>
                 ) : end.action === "editKey" ? (
                   <Button variant="outline" size="xs" onClick={onEditKey}>
-                    Edit key
+                    {provider === "local-cli" ? "Connection settings" : "Edit key"}
                   </Button>
                 ) : end.action === "newChat" ? (
                   <Button variant="outline" size="xs" onClick={onNewChat}>

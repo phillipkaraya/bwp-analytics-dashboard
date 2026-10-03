@@ -32,6 +32,7 @@ interface ChatComposerProps {
   showUsage: boolean;
   lastUsage: Usage | undefined;
   sessionUsage: Usage;
+  usageUrl?: string;
 }
 
 export function ChatComposer({
@@ -48,6 +49,7 @@ export function ChatComposer({
   showUsage,
   lastUsage,
   sessionUsage,
+  usageUrl = "https://console.anthropic.com/settings/usage",
 }: ChatComposerProps) {
   const [value, setValue] = useState("");
   const composingRef = useRef(false);
@@ -104,7 +106,7 @@ export function ChatComposer({
     <div className="border-t border-border bg-card px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       {turnCount >= TRANSCRIPT_MAX_TURNS && (
         <div className="mb-3 rounded-md border border-border bg-muted/40 p-3 text-sm text-ink-soft">
-          <p>This chat is getting long. Start a new chat to keep answers sharp and cheap.</p>
+          <p>This chat is getting long. Start a new chat to keep answers focused.</p>
           <div className="mt-2">
             <Button variant="outline" size="xs" onClick={onNewChat}>
               New chat
@@ -155,7 +157,7 @@ export function ChatComposer({
             {usageLine}
             {" · "}
             <a
-              href="https://console.anthropic.com/settings/usage"
+              href={usageUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-ink"

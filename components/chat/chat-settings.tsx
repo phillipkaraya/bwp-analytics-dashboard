@@ -13,6 +13,8 @@ import type { Effort, ProviderId } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
 import { StateBlock } from "./state-block";
 import { useChatContext } from "./chat-root";
+import { LocalConnectorSettings } from "./local-connector-settings";
+import { PERSONAL_MODEL_LABEL } from "@/lib/chat/local-connection";
 
 /** Printed in the footer so a rename is a one-line fix. Mirrors CHAT_MODEL
  *  in lib/chat/providers/anthropic-key.ts and the pinned SDK version. */
@@ -29,12 +31,12 @@ const EYEBROW = "font-mono text-[10px] uppercase tracking-[0.18em] text-ink-mute
 
 const PROVIDER_HINTS: Record<ProviderId, string> = {
   "anthropic-key": "Pay per question on your own account",
-  "local-cli": "Needs the local helper. Coming in a later update.",
+  "local-cli": "Use your Claude Code sign-in on this Mac",
 };
 
 const PROVIDER_LABELS: Record<ProviderId, string> = {
   "anthropic-key": "Anthropic API key",
-  "local-cli": "Local CLI (Claude, Codex or Gemini)",
+  "local-cli": "Local Claude Code",
 };
 
 export function ChatSettingsScreen() {
@@ -87,7 +89,7 @@ export function ChatSettingsScreen() {
         <div className="grid gap-2" role="radiogroup" aria-label="Provider">
           {providerIds.map((id) => {
             const on = settings.provider === id;
-            const disabled = id === "local-cli" || chat.streaming;
+            const disabled = chat.streaming || test === "testing";
             const meta = providers.find((p) => p.id === id);
             return (
               <button
@@ -110,6 +112,8 @@ export function ChatSettingsScreen() {
           })}
         </div>
       </section>
+
+      {settings.provider === "local-cli" && <LocalConnectorSettings />}
 
       {needsKey && (
         <section className="space-y-3">
@@ -247,7 +251,7 @@ export function ChatSettingsScreen() {
             <TabsTrigger disabled={chat.streaming} value="high">High</TabsTrigger>
           </TabsList>
         </Tabs>
-        <p className="text-xs text-ink-muted">High thinks longer and costs more. Changing it restarts the cached prefix once.</p>
+        <p className="text-xs text-ink-muted">{settings.provider === "local-cli" ? "High thinks longer and uses more of your Claude plan limits." : "High thinks longer and costs more. Changing it restarts the cached prefix once."}</p>
       </section>
 
       <section className="space-y-2">
@@ -273,7 +277,7 @@ export function ChatSettingsScreen() {
       </section>
 
       <p className="font-mono text-[10px] text-ink-muted">
-        {CHAT_MODEL_LABEL} · {SDK_VERSION_LABEL}
+        {settings.provider === "local-cli" ? `${PERSONAL_MODEL_LABEL} · Claude Agent SDK 0.3.286` : `${CHAT_MODEL_LABEL} · ${SDK_VERSION_LABEL}`}
       </p>
     </div>
   );

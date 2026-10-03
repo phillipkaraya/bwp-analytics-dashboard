@@ -19,6 +19,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -33,6 +34,7 @@ import { buildDataCard } from "@/lib/chat/system-prompt";
 import { clearTranscript } from "@/lib/chat/transcript";
 import type { ChatProvider, ChatSession, ChatSettings } from "@/lib/chat/types";
 import { useChat, type UseChatResult } from "@/lib/chat/use-chat";
+import { disconnectLocalHelper, getLocalConnection, subscribeLocalConnection, type LocalConnection } from "@/lib/chat/local-connection";
 
 /** Dev only: a scenario name for lib/chat/providers/mock-fetch.ts. */
 export const MOCK_STORAGE_KEY = "bwp_chat_mock";
@@ -64,6 +66,7 @@ export interface ChatContextValue {
   hasKey: boolean;
   keyMask: string | null;
   keyBlocked: boolean;
+  localConnection: LocalConnection | null;
   saveKey: (key: string) => Promise<"ok" | "rejected" | "offline" | "blocked" | "limited">;
   forgetSavedKey: () => void;
   chat: UseChatResult;
@@ -107,6 +110,7 @@ function detectMac(): boolean {
 }
 
 export function ChatRoot({ children }: { children: ReactNode }) {
+  const localConnection = useSyncExternalStore(subscribeLocalConnection, getLocalConnection, () => null);
   const [open, setOpenState] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [settings, setSettings] = useState<ChatSettings>(() => readSettings());
@@ -285,6 +289,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
       subscribeAuth(() => {
         if (isAuthenticated()) return;
         clearTranscript();
+        disconnectLocalHelper();
         newChat();
         setOpenState(false);
         setShowSettings(false);
@@ -343,6 +348,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
       hasKey: keyInfo.hasKey,
       keyMask: keyInfo.keyMask,
       keyBlocked,
+      localConnection,
       saveKey,
       forgetSavedKey,
       chat,
@@ -368,6 +374,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
       session,
       keyInfo,
       keyBlocked,
+      localConnection,
       saveKey,
       forgetSavedKey,
       chat,

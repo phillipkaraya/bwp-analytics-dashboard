@@ -1,7 +1,7 @@
 // Offline tool assertions (spec section 7, step 2).
 //
 // Builds the assistant's dataset from public/data/*.json with the clock
-// pinned to 2026-09-28T12:00:00Z and runs every tool through the same
+// pinned to 2026-10-03T12:00:00Z and runs every tool through the same
 // runner the provider uses, then a second pass over the template's empty
 // stubs. Nothing here touches the network or a key.
 //
@@ -30,7 +30,7 @@ import { renderToolDefs, DEFS_JSON_PATH } from "./export-tool-defs";
 const ROOT = resolve(__dirname, "..");
 const BWP_DATA = resolve(ROOT, "public/data");
 const TEMPLATE_DATA = resolve(ROOT, "../social-analytics-dashboard-template/public/data");
-const NOW = Date.parse("2026-09-28T12:00:00Z");
+const NOW = Date.parse("2026-10-03T12:00:00Z");
 const PLATFORM_FILES = ["instagram", "tiktok", "youtube", "threads", "linkedin"] as const;
 const FORBIDDEN_KEYS = ["followData", "followerProjections", "thumbnailUrl"];
 
@@ -146,8 +146,8 @@ const hints: number[] = [];
 const run = createToolRunner(data, { onCommentsLoading: () => hints.push(Date.now()) });
 
 test("dataset facts the assertions rely on", () => {
-  assert.equal(data.rawPostCount, 2103);
-  assert.equal(data.posts.length, 2099);
+  assert.equal(data.rawPostCount, 2107);
+  assert.equal(data.posts.length, 2103);
   assert.equal(data.now(), NOW);
 });
 
@@ -167,15 +167,15 @@ test("defs.json matches TOOL_DEFS (rerun scripts/export-tool-defs.ts after editi
   assert.equal(readFileSync(DEFS_JSON_PATH, "utf8"), renderToolDefs());
 });
 
-test("top_posts: last 30 days are the two September Instagram posts with the viewless carousel marked", async () => {
+test("top_posts: last 30 days include the refreshed October posts and viewless carousels", async () => {
   const env = parse<{ rows: PostRow[]; postsInWindow: number; notes: string[]; window: { start: string; end: string } }>(
     await run("top_posts", { days: 30, platforms: null, types: null, metric: "reach", order: "desc", limit: 25 }),
   );
-  assert.equal(env.postsInWindow, 2);
-  assert.equal(env.rows.length, 2);
-  assert.deepEqual(env.window, { days: 30, start: "2026-08-30", end: "2026-09-28" });
-  const reel = env.rows[0];
-  const carousel = env.rows[1];
+  assert.equal(env.postsInWindow, 6);
+  assert.equal(env.rows.length, 6);
+  assert.deepEqual(env.window, { days: 30, start: "2026-09-04", end: "2026-10-03" });
+  const reel = env.rows.find(r => r.id === "ig_3988981312806879246_5251656103")!;
+  const carousel = env.rows.find(r => r.id === "ig_3986484940837355954_5251656103")!;
   assert.equal(reel.id, "ig_3988981312806879246_5251656103");
   assert.equal(reel.type, "reel");
   assert.equal(reel.views, 1094);
@@ -184,10 +184,16 @@ test("top_posts: last 30 days are the two September Instagram posts with the vie
   assert.equal(carousel.type, "carousel");
   assert.equal(carousel.views, "not measured");
   assert.equal(carousel.reachMetric, "likes");
-  assert.equal(carousel.reach, 391);
-  assert.equal(carousel.likes, 391);
-  assert.ok(env.rows.every((r) => r.platform === "instagram" && r.date >= "2026-09-01"));
-  assert.ok(env.notes.some((n) => n.startsWith("Only 2 posts fall in this window")));
+  assert.equal(carousel.reach, 403);
+  assert.equal(carousel.likes, 403);
+  assert.ok(env.rows.every((r) => ["instagram", "tiktok"].includes(r.platform) && r.date >= "2026-09-04"));
+  const week = parse<{ rows: PostRow[]; postsInWindow: number; notes: string[] }>(
+    await run("top_posts", { days: 7, platforms: null, types: null, metric: "reach", order: "desc", limit: 25 }),
+  );
+  assert.equal(week.postsInWindow, 4);
+  assert.equal(week.rows.filter(r => r.platform === "instagram").length, 3);
+  assert.equal(week.rows.filter(r => r.platform === "tiktok").length, 1);
+  assert.ok(week.notes.some(n => n.startsWith("Only 4 posts fall in this window")));
 });
 
 test("top_posts: shortform expands to reel, video and short only", async () => {
@@ -233,10 +239,8 @@ test("every Threads or LinkedIn row anywhere has views 'not measured'", async ()
 });
 
 test("window_summary {30, 60, 90}: empty prior windows give null changes and the note; viewPosts matches postHasViews", async () => {
-  // The spec expected every prior window to be empty; in the real data only
-  // the 30 day prior window is. The 60 day prior window (2026-06-01 to
-  // 2026-07-30) holds 25 posts and the 90 day one (2026-04-01 to 2026-06-30)
-  // holds 41, so those two get real percent changes.
+  // The October 3 scrape has six recent posts. The prior 60-day window
+  // contains five posts and the prior 90-day window contains 41.
   type Stats = { posts: number; viewPosts: number; views: number };
   type Row = { days: number; start: string; end: string; current: Stats; previous: Stats & { start: string; end: string }; change: Record<string, number | null>; byPlatform: Array<{ platform: string; posts: number }> };
   const env = parse<{ windows: Row[]; notes: string[] }>(await run("window_summary", { windows: [30, 60, 90], platforms: null, types: null }));
@@ -257,7 +261,7 @@ test("window_summary {30, 60, 90}: empty prior windows give null changes and the
     assert.equal(w.previous.viewPosts, inPrior.filter(postHasViews).length);
     assert.equal(w.current.views, inWindow.filter(postHasViews).reduce((s, p) => s + Number(p.views), 0));
     assert.equal(w.byPlatform.reduce((s, r) => s + r.posts, 0), inWindow.length);
-    assert.equal(w.end, "2026-09-28");
+    assert.equal(w.end, "2026-10-03");
     assert.equal(new Date(w.previous.end).getTime() + DAY, new Date(w.start).getTime());
     if (w.previous.posts === 0) {
       assert.ok(Object.values(w.change).every((v) => v === null), `${w.days} days: every change null`);
@@ -269,11 +273,11 @@ test("window_summary {30, 60, 90}: empty prior windows give null changes and the
   }
   const by = Object.fromEntries(env.windows.map((w) => [w.days, w]));
   assert.equal(by[30].previous.posts, 0);
-  assert.equal(by[60].previous.posts, 25);
+  assert.equal(by[60].previous.posts, 5);
   assert.equal(by[90].previous.posts, 41);
-  assert.equal(by[30].current.posts, 2);
-  assert.equal(by[30].current.viewPosts, 1);
-  assert.equal(by[90].change.posts, Math.round(((2 - 41) / 41) * 100 * 100) / 100);
+  assert.equal(by[30].current.posts, 6);
+  assert.equal(by[30].current.viewPosts, 4);
+  assert.equal(by[90].change.posts, Math.round(((6 - 41) / 41) * 100 * 100) / 100);
 });
 
 test("window_summary 365: a real prior window yields numeric percent changes", async () => {
@@ -293,25 +297,25 @@ test("platform_breakdown: viewless platforms say 'not measured' and days since l
   assert.equal(by.threads.lifetimeAvgViews, "not measured");
   assert.equal(by.linkedin.lifetimeAvgViews, "not measured");
   assert.equal(typeof by.instagram.lifetimeAvgViews, "number");
-  assert.equal(by.instagram.lastPosted, "2026-09-18");
-  assert.equal(by.instagram.daysSinceLastPost, Math.floor((NOW - Date.parse("2026-09-18")) / DAY));
-  assert.equal(by.instagram.daysSinceLastPost, 10);
+  assert.equal(by.instagram.lastPosted, "2026-10-02");
+  assert.equal(by.instagram.daysSinceLastPost, Math.floor((NOW - Date.parse("2026-10-02")) / DAY));
+  assert.equal(by.instagram.daysSinceLastPost, 1);
   assert.equal(by.linkedin.lastPosted, "2023-02-08");
   assert.equal(by.linkedin.daysSinceLastPost, Math.floor((NOW - Date.parse("2023-02-08")) / DAY));
   assert.equal(by.instagram.followers, 11000);
-  assert.equal(by.instagram.posts, 683);
+  assert.equal(by.instagram.posts, 686);
   assert.ok(by.threads.postsPerWeekLifetime > 0);
   const windowed = parse<{ rows: Row[] }>(await run("platform_breakdown", { days: 30 }));
-  assert.equal(windowed.rows.find((r) => r.platform === "instagram")?.posts, 2);
-  assert.equal(windowed.rows.find((r) => r.platform === "tiktok")?.posts, 0);
+  assert.equal(windowed.rows.find((r) => r.platform === "instagram")?.posts, 5);
+  assert.equal(windowed.rows.find((r) => r.platform === "tiktok")?.posts, 1);
 });
 
 test("monthly_trend {months: 6}: calendar months ending now, zero rows for 2026-07 and 2026-08", async () => {
   type Row = { month: string; posts: number; views: number; viewPosts: number; avgEngagementRate: number | null };
   const env = parse<{ rows: Row[]; from: string; to: string }>(await run("monthly_trend", { months: 6, platforms: null, types: null }));
-  assert.deepEqual(env.rows.map((r) => r.month), ["2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09"]);
-  assert.equal(env.from, "2026-04");
-  assert.equal(env.to, "2026-09");
+  assert.deepEqual(env.rows.map((r) => r.month), ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10"]);
+  assert.equal(env.from, "2026-05");
+  assert.equal(env.to, "2026-10");
   const by = Object.fromEntries(env.rows.map((r) => [r.month, r]));
   assert.deepEqual([by["2026-07"].posts, by["2026-07"].views, by["2026-07"].avgEngagementRate], [0, 0, null]);
   assert.deepEqual([by["2026-08"].posts, by["2026-08"].views, by["2026-08"].avgEngagementRate], [0, 0, null]);
@@ -385,8 +389,8 @@ test("hashtag_stats {tags: ['#dontletthisflop']} returns 4 uses, and the top lis
   assert.equal(env.rows[0].platforms.tiktok, 4);
   assert.equal(env.rows[0].topPostReachMetric, "views");
   assert.equal(env.postsWithHashtags, 413);
-  assert.equal(env.totalPosts, 2099);
-  assert.ok(env.notes.some((n) => n.startsWith("Only 413 of the 2099 posts")));
+  assert.equal(env.totalPosts, 2103);
+  assert.ok(env.notes.some((n) => n.startsWith("Only 413 of the 2103 posts")));
   const top = parse<{ rows: Row[] }>(await run("hashtag_stats", { tags: null, days: null, platforms: null, limit: 5 }));
   const expected = (data.analytics.hashtagPerformance ?? []).slice(0, 5).map((h) => h.tag.toLowerCase());
   assert.deepEqual(top.rows.map((r) => r.tag), expected);
@@ -436,7 +440,7 @@ test("comment_insights sentiment: precomputed totals without a load, per platfor
     await run("comment_insights", { kind: "sentiment", postId: null, query: null, platforms: null, limit: 5 }),
   );
   assert.deepEqual(overall.counts, { positive: 5300, neutral: 2187, negative: 512, question: 559, total: 7999 });
-  assert.ok(overall.notes.some((n) => n.startsWith("Comments were last collected on 2026-02-22; posts run to 2026-09-21")));
+  assert.ok(overall.notes.some((n) => n.startsWith("Comments were last collected on 2026-02-22; posts run to 2026-10-03")));
   const per = parse<{ counts: Record<string, number>; byPlatform: Array<{ platform: string; total: number }> }>(
     await run("comment_insights", { kind: "sentiment", postId: null, query: null, platforms: ["youtube", "threads"], limit: 5 }),
   );
@@ -464,13 +468,13 @@ test("post_detail resolves by id and by url and errors cleanly on an unknown pos
   assert.match(JSON.parse(missing.content).error, /No post matches/);
 });
 
-test("follower_growth returns 5 snapshots with latestDelta since 2026-09-16", async () => {
+test("follower_growth returns 6 snapshots with latestDelta since 2026-09-21", async () => {
   type Res = { current: Record<string, number>; snapshots: Array<{ date: string; linkedin: number | null }>; latestDelta: { from: string; to: string; days: number; total: number }; sinceFirst: { from: string; byPlatform: Record<string, number | null> }; notes: string[] };
   const env = parse<Res>(await run("follower_growth", {}));
-  assert.equal(env.snapshots.length, 5);
-  assert.equal(env.latestDelta.from, "2026-09-16");
-  assert.equal(env.latestDelta.to, "2026-09-21");
-  assert.equal(env.latestDelta.days, 5);
+  assert.equal(env.snapshots.length, 6);
+  assert.equal(env.latestDelta.from, "2026-09-21");
+  assert.equal(env.latestDelta.to, "2026-10-03");
+  assert.equal(env.latestDelta.days, 12);
   assert.equal(env.latestDelta.total, 0);
   assert.equal(env.sinceFirst.from, "2026-03-28");
   assert.equal(env.sinceFirst.byPlatform.instagram, 28);
@@ -478,7 +482,7 @@ test("follower_growth returns 5 snapshots with latestDelta since 2026-09-16", as
   assert.equal(env.snapshots[0].linkedin, null);
   assert.equal(env.current.instagram, 11000);
   assert.ok(env.notes.some((n) => n.startsWith("No change between the last two snapshots")));
-  assert.ok(env.notes.some((n) => n === "Only 5 snapshots exist; the earliest is 2026-03-28"));
+  assert.ok(env.notes.some((n) => n === "Only 6 snapshots exist; the earliest is 2026-03-28"));
 });
 
 test("content_insights: topics, a topic's posts, hooks, viral and cross posts", async () => {
@@ -490,7 +494,7 @@ test("content_insights: topics, a topic's posts, hooks, viral and cross posts", 
   const comedy = parse<{ rows: PostRow[]; topic: { slug: string; count: number } }>(
     await run("content_insights", { section: "topics", topic: "Comedy", platforms: null, limit: 3 }),
   );
-  assert.equal(comedy.topic.count, 798);
+  assert.equal(comedy.topic.count, 800);
   assert.equal(comedy.rows.length, 3);
   assert.ok(comedy.rows.every((r) => r.topics.includes("comedy")));
   const unknown = await run("content_insights", { section: "topics", topic: "nope", platforms: null, limit: 3 });

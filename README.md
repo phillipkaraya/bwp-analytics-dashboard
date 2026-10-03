@@ -92,9 +92,9 @@ The Ask button in the header (or Cmd/Ctrl+K) opens an assistant that
 answers questions about the loaded data: best reels in a window, posting
 times, hashtag performance, follower growth, what the comments ask for.
 
-It runs entirely in the browser. The page calls the Anthropic API directly
-with your own API key, and every figure comes from a lookup over the JSON
-the dashboard already loaded. The lookups are listed under each answer and
+With the API-key provider, the page calls Anthropic directly from your browser.
+The Local Claude Code provider instead uses your native Claude sign-in through
+a helper on this Mac. Both providers look up figures in the dashboard JSON. The lookups are listed under each answer and
 open to the raw result. A number the assistant states that no lookup
 returned is underlined so you can treat it with suspicion.
 
@@ -105,8 +105,11 @@ The key is stored only in this browser's localStorage under
 store or the repo, and Forget key removes it. The transcript lives in
 sessionStorage and clears when the tab closes.
 
-A local helper route for subscription CLIs (Claude Code, Codex, Gemini
-CLI) is stubbed in `lib/chat/providers/local-cli.ts` and not wired up yet.
+For the personal Claude connector, start `pnpm chat:helper`, copy the masked
+code from http://127.0.0.1:5557/connect, then choose **Local Claude Code** in
+settings and connect. It works from the live dashboard on this Mac. See
+[Local connector setup](docs/local-cli-connector.md) for native sign-in and
+reconnection steps. Claude plan limits apply to questions.
 
 ## Deploy
 

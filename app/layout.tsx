@@ -18,7 +18,7 @@ export default function RootLayout({
         <head>
           <meta
             httpEquiv="Content-Security-Policy"
-            content="connect-src 'self' https://api.anthropic.com http://localhost:5556 http://127.0.0.1:5556"
+            content="connect-src 'self' https://api.anthropic.com http://localhost:5556 http://127.0.0.1:5556 http://127.0.0.1:5557"
           />
         </head>
       ) : null}
