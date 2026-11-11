@@ -2,9 +2,17 @@
 
 export type Platform = "instagram" | "tiktok" | "youtube" | "threads" | "linkedin";
 
+/** Which set of pages a post belongs to: Phil's own profiles ("personal") or
+ *  the Build With Phil pages ("brand"). Mirrors ACCOUNTS in scrape/handles.py. */
+export type Account = "personal" | "brand";
+/** What the account switch can show: one account, or every account together. */
+export type AccountScope = "all" | Account;
+
 export interface Post {
   id: string;
   platform: Platform;
+  /** Stamped by the loader from the file the post came from, never stored. */
+  account?: Account;
   type?: string; // reel | carousel | story | video | short | post
   date: string; // YYYY-MM-DD
   time?: string; // HH:MM
@@ -42,26 +50,26 @@ export interface Comment {
   replied?: boolean;
 }
 
-export interface FollowerSnapshot {
-  date: string; // YYYY-MM-DD
-  instagram: number;
-  tiktok: number;
-  youtube: number;
-  threads: number;
-  /** Added 2026-09-05; older snapshots do not carry it. */
-  linkedin?: number;
-}
+/** One day's follower counts. A platform is absent when the account was not
+ *  on it, or was not scraped there, on that day (LinkedIn joined 2026-09-05;
+ *  the brand pages cover fewer platforms than the personal ones). */
+export type FollowerSnapshot = { date: string } & Partial<Record<Platform, number>>;
 
-export interface ScrapeState {
-  followers: Record<Platform, number>;
+/** One account's scrape status: follower counts plus a block per platform. */
+export type AccountScrapeState = {
+  followers?: Partial<Record<Platform, number>>;
+  followersUpdated?: Partial<Record<Platform, string>>;
+} & Partial<Record<Platform, PlatformScrapeState>>;
+
+/** scrape_state.json. The personal account sits at the top level, where it
+ *  always has; every other account has the same shape under `accounts`. */
+export type ScrapeState = {
+  followers: Partial<Record<Platform, number>>;
+  followersUpdated?: Partial<Record<Platform, string>>;
   lastAutoCheck?: string;
   needsRefresh?: boolean;
-  instagram?: PlatformScrapeState;
-  tiktok?: PlatformScrapeState;
-  youtube?: PlatformScrapeState;
-  threads?: PlatformScrapeState;
-  linkedin?: PlatformScrapeState;
-}
+  accounts?: Partial<Record<Account, AccountScrapeState>>;
+} & Partial<Record<Platform, PlatformScrapeState>>;
 
 export interface PlatformScrapeState {
   status?: string;
@@ -194,6 +202,9 @@ export interface FunnelStage {
 
 export interface AnalyticsBundle {
   generatedAt?: string; // ISO, written by scrape/analyze.py
+  /** Absent on the every-account bundle (analytics.json); the account name on
+   *  analytics.<account>.json. */
+  scope?: Account;
   dataAsOf?: { posts?: string; comments?: string };
   postingHeatmap?: HeatmapCell[][];
   bestPostingTimes?: BestPostingTime[];

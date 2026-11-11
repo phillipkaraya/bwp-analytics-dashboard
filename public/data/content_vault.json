@@ -1,15 +1,15 @@
 {
- "generatedAt": "2026-10-09T22:02:00+00:00",
- "totalPosts": 2144,
+ "generatedAt": "2026-11-11T23:19:49+00:00",
+ "totalPosts": 2154,
  "categories": [
   {
    "slug": "comedy",
    "label": "Comedy",
-   "count": 820,
-   "totalViews": 8739225,
-   "avgViews": 16213,
+   "count": 830,
+   "totalViews": 8739536,
+   "avgViews": 15919,
    "platforms": {
-    "instagram": 313,
+    "instagram": 323,
     "tiktok": 52,
     "youtube": 212,
     "threads": 240,
@@ -492,6 +492,7 @@
     "yt_Fj0-TmOntNs",
     "tt_7647912724986350879",
     "tt_7654796959949016351",
+    "ig_3999921080901769580_28536850942",
     "yt_UyOFvj2NdAQ",
     "yt_pyEFUSXRDxE",
     "yt_8fK1wi_FESA",
@@ -529,6 +530,7 @@
     "yt_YZKf7IpL8t0",
     "yt_zZMoxsboysE",
     "yt_Vuj1PPsNUq0",
+    "ig_3999921823394243087_28536850942",
     "yt_RcNltDNaqdc",
     "yt_90JRRygvbq8",
     "yt_dt0vd-h8ftA",
@@ -537,21 +539,29 @@
     "yt_z3-B6D98RGo",
     "yt_K8hGgUN7pNU",
     "yt_lhSgUNIF-Iw",
+    "ig_3999917996595057689_28536850942",
     "yt_IRfaqzhL-4Y",
     "yt_Y9CWrad1AaY",
     "yt_sbODsOsbOoE",
     "yt_RL2Ql57N01o",
     "yt_3d3vEyI3Jfg",
     "yt_Y4uqSHmYnHo",
+    "ig_3999910799471372110_28536850942",
+    "ig_3999906079512193869_28536850942",
     "yt_8taRdwEDyHw",
     "yt_gHaPnuIqVRg",
     "yt_fkWBDXbjb9s",
+    "ig_3999917188789026082_28536850942",
+    "ig_3999916282659875517_28536850942",
     "yt_VrOXn1FcuqY",
     "yt_Y-t1yCxriQ4",
     "yt_aRkVTdjLB5A",
+    "ig_3999913529644457289_28536850942",
     "yt_9OU5plIH-5E",
     "yt__hDXDI0PE8U",
     "yt_ytq4BM7nID0",
+    "ig_3999915675609866654_28536850942",
+    "ig_3999914892021707772_28536850942",
     "yt_aWDQzB-Tfzk",
     "yt_S98V65ZIUcw",
     "yt_Z-lglIj0UlU",
@@ -1717,11 +1727,11 @@
   {
    "slug": "finance",
    "label": "Finance",
-   "count": 340,
-   "totalViews": 535661,
-   "avgViews": 1969,
+   "count": 342,
+   "totalViews": 535670,
+   "avgViews": 1955,
    "platforms": {
-    "instagram": 144,
+    "instagram": 146,
     "tiktok": 61,
     "youtube": 84,
     "threads": 45,
@@ -1996,8 +2006,10 @@
     "yt_VU_7-pRfW9k",
     "yt_CUO7O8O20d4",
     "yt_wbzgUTFUFYI",
+    "ig_3999906079512193869_28536850942",
     "yt_i-Ou7wu_7nI",
     "yt_s3CwcPN3gX4",
+    "ig_3999913529644457289_28536850942",
     "yt_7QOmXqw5x_8",
     "yt__hri2tegw2Y",
     "ig_3629417943433284321_5251656103",
@@ -2073,11 +2085,11 @@
   {
    "slug": "cars",
    "label": "Cars",
-   "count": 303,
-   "totalViews": 2406261,
-   "avgViews": 11140,
+   "count": 313,
+   "totalViews": 2406572,
+   "avgViews": 10648,
    "platforms": {
-    "instagram": 99,
+    "instagram": 109,
     "tiktok": 34,
     "youtube": 90,
     "threads": 79,
@@ -2255,6 +2267,7 @@
     "yt_0-RxgtHhh_k",
     "yt_fBIUMX6CGQM",
     "yt_LFpZ5VWgZ68",
+    "ig_3999921080901769580_28536850942",
     "yt_pyEFUSXRDxE",
     "tt_7321534342096850207",
     "yt_UeILZd-QlpY",
@@ -2278,26 +2291,35 @@
     "yt_xEpjA5cVkuk",
     "yt_d3O7lR0weBE",
     "yt_Vuj1PPsNUq0",
+    "ig_3999921823394243087_28536850942",
     "yt_TfSbA96qOpM",
     "yt_83hQBEQhwx4",
     "yt_K8hGgUN7pNU",
     "yt_M8aleLkv8F0",
+    "ig_3999917996595057689_28536850942",
     "yt_CUydQQJavAs",
     "yt__T89tMGi-ag",
     "yt_Y9CWrad1AaY",
     "yt_RL2Ql57N01o",
     "yt_Y4uqSHmYnHo",
+    "ig_3999910799471372110_28536850942",
+    "ig_3999906079512193869_28536850942",
     "yt_DDiC7-4UN_g",
     "yt_dkddK-MWPFs",
     "yt_Sfcam2YaUMM",
     "yt_JQMyItp1oAM",
     "yt_cQUpfNXGH-w",
     "yt_zYmVr4m4xfk",
+    "ig_3999917188789026082_28536850942",
+    "ig_3999916282659875517_28536850942",
+    "ig_3999913529644457289_28536850942",
     "yt_z6l86W8KEIA",
     "yt_ytq4BM7nID0",
     "yt_yrV8qJoyM58",
     "yt_EoIMeGsN7wE",
     "yt_uKvavtyP1mU",
+    "ig_3999915675609866654_28536850942",
+    "ig_3999914892021707772_28536850942",
     "yt_Jm2Yq2mkefo",
     "yt_Z-lglIj0UlU",
     "ig_3137531043964530316_5251656103",
@@ -2392,11 +2414,11 @@
   {
    "slug": "entrepreneurship",
    "label": "Entrepreneurship",
-   "count": 293,
-   "totalViews": 1384253,
-   "avgViews": 6687,
+   "count": 294,
+   "totalViews": 1384259,
+   "avgViews": 6655,
    "platforms": {
-    "instagram": 135,
+    "instagram": 136,
     "tiktok": 44,
     "youtube": 58,
     "threads": 47,
@@ -2603,6 +2625,7 @@
     "yt_a3XGRucEoEA",
     "yt_wO0tblU2xpU",
     "yt_CUO7O8O20d4",
+    "ig_3999910799471372110_28536850942",
     "yt_uVOSzyWtIyo",
     "yt_i-Ou7wu_7nI",
     "yt_3iqHFUkYi1g",
@@ -3767,11 +3790,11 @@
   {
    "slug": "motivation",
    "label": "Motivation",
-   "count": 152,
-   "totalViews": 217721,
-   "avgViews": 2419,
+   "count": 153,
+   "totalViews": 217725,
+   "avgViews": 2392,
    "platforms": {
-    "instagram": 88,
+    "instagram": 89,
     "tiktok": 11,
     "youtube": 23,
     "threads": 25,
@@ -3865,6 +3888,7 @@
     "yt_-5Il0O-FXfI",
     "yt_3C8HimCSwtI",
     "yt_Sfcam2YaUMM",
+    "ig_3999917188789026082_28536850942",
     "yt_z6l86W8KEIA",
     "yt__hri2tegw2Y",
     "yt_Jm2Yq2mkefo",
@@ -12124,6 +12148,50 @@
   "li_6638556967713456129": [
    "finance",
    "education"
+  ],
+  "ig_3999921823394243087_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999921080901769580_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999917996595057689_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999917188789026082_28536850942": [
+   "cars",
+   "motivation",
+   "comedy"
+  ],
+  "ig_3999916282659875517_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999915675609866654_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999914892021707772_28536850942": [
+   "cars",
+   "comedy"
+  ],
+  "ig_3999913529644457289_28536850942": [
+   "finance",
+   "cars",
+   "comedy"
+  ],
+  "ig_3999910799471372110_28536850942": [
+   "cars",
+   "entrepreneurship",
+   "comedy"
+  ],
+  "ig_3999906079512193869_28536850942": [
+   "finance",
+   "cars",
+   "comedy"
   ]
  }
 }

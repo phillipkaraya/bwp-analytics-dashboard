@@ -20,7 +20,16 @@ import type { FollowerSnapshot, Platform } from "@/lib/types";
 /** Two points are a line, not a trend. The chart waits for a third. */
 export const MIN_POINTS = 3;
 
-export function FollowerHistory({ history, ordinal }: { history: FollowerSnapshot[]; ordinal: number }) {
+export function FollowerHistory({
+  history,
+  ordinal,
+  platforms = PLATFORMS,
+}: {
+  history: FollowerSnapshot[];
+  ordinal: number;
+  /** The platforms of the account in view; every platform by default. */
+  platforms?: Platform[];
+}) {
   const sorted = [...history]
     .filter((h) => h && h.date)
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -47,7 +56,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
                   <th className="px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
                     Snapshot
                   </th>
-                  {PLATFORMS.map((p) => (
+                  {platforms.map((p) => (
                     <th
                       key={p}
                       className="px-3 py-2 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted"
@@ -60,7 +69,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
               <tbody>
                 {sorted.length === 0 ? (
                   <tr>
-                    <td colSpan={PLATFORMS.length + 1} className="px-3 py-6 text-center text-sm text-ink-muted">
+                    <td colSpan={platforms.length + 1} className="px-3 py-6 text-center text-sm text-ink-muted">
                       No snapshots yet.
                     </td>
                   </tr>
@@ -68,7 +77,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
                   sorted.map((h) => (
                     <tr key={h.date} className="border-b border-border even:bg-muted/30 last:border-b-0">
                       <td className="px-3 py-2 text-ink">{fmtDate(h.date)}</td>
-                      {PLATFORMS.map((p) => (
+                      {platforms.map((p) => (
                         <td key={p} className="px-3 py-2 text-right text-ink-soft">
                           {fmt(toNum(h[p]))}
                         </td>
@@ -87,7 +96,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
 
   const data = sorted.map((h) => ({
     date: parseDate(h.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "2-digit" }),
-    ...Object.fromEntries(PLATFORMS.map((p) => [p, h[p] === undefined ? null : toNum(h[p])])),
+    ...Object.fromEntries(platforms.map((p) => [p, h[p] === undefined ? null : toNum(h[p])])),
   }));
   const first = sorted[0];
   const last = sorted[sorted.length - 1];
@@ -100,7 +109,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
         hint={`${sorted.length} snapshots, ${fmtDate(first.date)} to ${fmtDate(last.date)}`}
         action={
           <ul className="flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
-            {PLATFORMS.map((p) => {
+            {platforms.map((p) => {
               // Measure from the first snapshot that has this platform.
               const firstWith = sorted.find((h) => h[p] !== undefined) ?? first;
               const d = toNum(last[p]) - toNum(firstWith[p]);
@@ -158,7 +167,7 @@ export function FollowerHistory({ history, ordinal }: { history: FollowerSnapsho
                   </span>
                 )}
               />
-              {PLATFORMS.map((p) => (
+              {platforms.map((p) => (
                 <Line
                   key={p}
                   type="monotone"

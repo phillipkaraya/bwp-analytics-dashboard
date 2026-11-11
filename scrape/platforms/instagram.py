@@ -21,16 +21,16 @@ from __future__ import annotations
 import json
 import re
 import time
-from pathlib import Path
 from typing import Any
 
 from scrape.cdp import CDP, CDPError
-from scrape.handles import HANDLES
+from scrape.handles import DEFAULT_ACCOUNT, data_file, handle_for
 from scrape.incremental import STOP_AFTER_KNOWN, load_existing, merge
 
-DATA_FILE = Path(__file__).resolve().parent.parent.parent / "public" / "data" / "instagram_posts.json"
-HANDLE = HANDLES["instagram"]
-PAGE_URL = f"https://www.instagram.com/{HANDLE}/"
+# The personal account's file and handle, kept for anything that imports them.
+# scrape() resolves its own from the `account` argument.
+DATA_FILE = data_file("instagram")
+HANDLE = handle_for("instagram")
 TIMELINE_KEYS = (
     "xdt_api__v1__feed__user_timeline_graphql_connection",
     "xdt_api__v1__feed__user_timeline_graphql_connection_v2",
@@ -226,6 +226,16 @@ def _timeline_nodes(body: str) -> tuple[list[dict], bool | None]:
     return nodes, has_next
 
 
+def _owner_username(item: dict) -> str:
+    """Username of the account that published this node, lowercased, or ""
+    when the node does not say."""
+    for key in ("user", "owner"):
+        who = item.get(key)
+        if isinstance(who, dict) and who.get("username"):
+            return str(who["username"]).lower()
+    return ""
+
+
 def _parse_post(item: dict) -> dict:
     """Convert an Instagram media node to our Post schema (same shape the
     old /api/v1/feed/user items had, so ids stay stable: ig_<pk>_<owner>)."""
@@ -267,15 +277,29 @@ def _parse_post(item: dict) -> dict:
     }
 
 
-def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
+def scrape(max_pages: int = 60, on_progress=None, full: bool = False,
+           account: str = DEFAULT_ACCOUNT) -> dict:
     """Scrape posts from instagram.com/<handle>/ by capturing the page's own
     GraphQL timeline responses while scrolling.
 
     Incremental (default): stops after STOP_AFTER_KNOWN consecutive posts
     that already exist locally. full=True (master sweep) scrolls until the
     grid is exhausted, refreshing metrics on every post.
+
+    `account` picks the handle and the posts file (scrape/handles.py). The
+    profile only has to be visible to the signed-in session, not owned by it.
     """
-    existing, known_ids = load_existing(DATA_FILE)
+    handle = handle_for("instagram", account)
+    out_file = data_file("instagram", account)
+    page_url = f"https://www.instagram.com/{handle}/"
+    # A profile grid also shows collab posts published by someone else. The
+    # personal file has always kept them; a newer account's file holds only
+    # what that account published, so a shared post is not counted twice
+    # when both accounts are viewed together.
+    own_only = account != DEFAULT_ACCOUNT
+    skipped_foreign = 0
+    empty = False  # a profile that has published nothing yet is not a failure
+    existing, known_ids = load_existing(out_file)
     cdp = CDP()
     posts_by_id: dict[str, dict] = {}
     consecutive_known = 0
@@ -284,13 +308,18 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
     saw_timeline = False
 
     def drain() -> int:
-        nonlocal consecutive_known, saw_timeline
+        nonlocal consecutive_known, saw_timeline, skipped_foreign
         new_in_round = 0
         for entry in cdp.evaluate(_DRAIN_BODIES) or []:
             nodes, _has_next = _timeline_nodes(entry.get("body") or "")
             if nodes:
                 saw_timeline = True
             for node in nodes:
+                if own_only:
+                    owner = _owner_username(node)
+                    if owner and owner != handle.lower():
+                        skipped_foreign += 1
+                        continue
                 p = _parse_post(node)
                 if p["id"] in known_ids:
                     consecutive_known += 1
@@ -302,8 +331,8 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
         return new_in_round
 
     try:
-        cdp.new_tab(PAGE_URL)
-        cdp.wait_for_load(timeout=20, expect_url_substring=HANDLE)
+        cdp.new_tab(page_url)
+        cdp.wait_for_load(timeout=20, expect_url_substring=handle)
         time.sleep(1.5)
         followers = _followers_from_meta(cdp)
 
@@ -314,7 +343,7 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
         cdp.add_init_script(_INSTALL_HOOK)
         cdp.evaluate("window.location.reload()")
         time.sleep(0.5)
-        cdp.wait_for_load(timeout=20, expect_url_substring=HANDLE)
+        cdp.wait_for_load(timeout=20, expect_url_substring=handle)
         cdp.evaluate(_INSTALL_HOOK)  # no-op if the init script ran; safety net otherwise
         time.sleep(2.5)
         embedded = cdp.evaluate("window.__FWP_IG_harvest ? window.__FWP_IG_harvest() : 0") or 0
@@ -329,7 +358,7 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
 
         if on_progress:
             on_progress("hook installed", {
-                "handle": HANDLE, "existingPosts": len(existing),
+                "handle": handle, "existingPosts": len(existing),
                 "followers": followers, "embeddedPayloads": embedded,
             })
 
@@ -358,6 +387,15 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
         drain()  # anything left in the buffer
 
         if not saw_timeline:
+            missing = cdp.evaluate(
+                "/Sorry, this page isn't available|Page Not Found/i.test(document.body ? document.body.innerText : '')"
+            )
+            if missing:
+                raise CDPError(f"instagram.com/{handle}/ does not exist or is not visible to the signed-in session.")
+            empty = cdp.evaluate(
+                "/No posts yet/i.test(document.body ? document.body.innerText : '')"
+            )
+        if not saw_timeline and not empty:
             raise CDPError(
                 "No timeline GraphQL responses captured on the profile page. "
                 "Instagram may have changed its query names (see TIMELINE_KEYS) or the profile did not render."
@@ -376,8 +414,8 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
     if on_progress and fixed:
         on_progress("viewless engagement recomputed", {"posts": fixed, "followers": followers})
     merged.sort(key=lambda p: p.get("date", "") or "0", reverse=True)
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    DATA_FILE.write_text(json.dumps(merged, indent=2))
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    out_file.write_text(json.dumps(merged, indent=2))
 
     new_count = sum(1 for p in new_posts if p["id"] not in known_ids)
     return {
@@ -386,4 +424,5 @@ def scrape(max_pages: int = 60, on_progress=None, full: bool = False) -> dict:
         "stoppedEarly": stopped_early,
         "lastPostId": merged[0]["id"] if merged else None,
         "followers": followers,
+        "skippedForeign": skipped_foreign,
     }

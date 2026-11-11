@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { loadAllPosts, loadContentVault } from "@/lib/data";
+import { useAccountScope } from "@/lib/account";
+import { AccountSwitch } from "@/components/layout/account-switch";
 import type { ContentVault, Platform, Post, VaultCategory } from "@/lib/types";
-import { PLATFORMS, postHasViews, toNum } from "@/lib/derive";
+import { PLATFORMS, accountLabel, postHasViews, toNum } from "@/lib/derive";
 import { fmt, fmtDate, fmtShort, platformLabel, platformShort } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { HeroPanel, PageHero } from "@/components/layout/page-hero";
@@ -43,14 +45,23 @@ export function Vault() {
   const [copied, setCopied] = useState<number | null>(null);
   const [linkSheet, setLinkSheet] = useState<string | null>(null);
 
+  const [scope] = useAccountScope();
+
   useEffect(() => {
-    Promise.all([loadContentVault(), loadAllPosts()])
+    let cancelled = false;
+    Promise.all([loadContentVault(scope), loadAllPosts(scope)])
       .then(([v, p]) => {
+        if (cancelled) return;
         setVault(v);
         setPosts(p);
       })
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [scope]);
 
   const byId = useMemo(() => {
     const m = new Map<string, Post>();
@@ -144,6 +155,7 @@ export function Vault() {
     return (
       <PageHero
         eyebrow="Loading vault"
+        controls={<AccountSwitch />}
         title={
           <>
             Content <span className="italic">Vault</span>
@@ -160,9 +172,10 @@ export function Vault() {
   return (
     <>
       <PageHero
-        eyebrow={`${fmt(vault.totalPosts)} posts · ${topics.length} topics${
+        eyebrow={`${accountLabel[scope]} · ${fmt(vault.totalPosts)} posts · ${topics.length} topics${
           vault.generatedAt ? ` · filed ${fmtDate(vault.generatedAt)}` : ""
         }`}
+        controls={<AccountSwitch />}
         title={
           <>
             Content <span className="italic">Vault</span>

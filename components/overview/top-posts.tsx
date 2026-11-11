@@ -50,15 +50,17 @@ function WindowSwitch({ days, onDays }: { days: TopPostsDays; onDays: (d: TopPos
 /** One checkbox chip per platform. Unchecked chips go grey; the dot keeps
  *  the platform colour so the row still reads as the five platforms. */
 function PlatformChecks({
+  platforms,
   checked,
   onToggle,
 }: {
+  platforms: Platform[];
   checked: ReadonlySet<Platform>;
   onToggle: (p: Platform) => void;
 }) {
   return (
     <div role="group" aria-label="Platforms" className="flex flex-wrap gap-1.5">
-      {PLATFORMS.map((p) => {
+      {platforms.map((p) => {
         const on = checked.has(p);
         return (
           <button
@@ -85,7 +87,6 @@ function PlatformChecks({
   );
 }
 
-const ALL_PLATFORMS: ReadonlySet<Platform> = new Set(PLATFORMS);
 
 /** The table's window starts on the Overview's window when that is one of
  *  its own (30, 60, 90) and on 30 days otherwise; after that it is its own
@@ -96,9 +97,19 @@ function seedDays(days: number): TopPostsDays {
   return (TOP_POSTS_WINDOWS as readonly number[]).includes(days) ? (days as TopPostsDays) : 30;
 }
 
-export function TopPosts({ posts, days: overviewDays = 30 }: { posts: Post[]; days?: number }) {
+export function TopPosts({
+  posts,
+  days: overviewDays = 30,
+  platforms = PLATFORMS,
+}: {
+  posts: Post[];
+  days?: number;
+  /** The platforms of the account in view. The parent remounts this table
+   *  (key) when the account changes, so the checks start over with them. */
+  platforms?: Platform[];
+}) {
   const [days, setDays] = useState<TopPostsDays>(() => seedDays(overviewDays));
-  const [checked, setChecked] = useState<ReadonlySet<Platform>>(ALL_PLATFORMS);
+  const [checked, setChecked] = useState<ReadonlySet<Platform>>(() => new Set(platforms));
   const top = topPosts(posts, days, 10, checked);
 
   function toggle(p: Platform) {
@@ -111,11 +122,11 @@ export function TopPosts({ posts, days: overviewDays = 30 }: { posts: Post[]; da
   }
 
   const hint =
-    checked.size === PLATFORMS.length
+    checked.size === platforms.length
       ? `${windowLabel(days)}, every platform, ranked by views`
       : checked.size === 0
         ? `${windowLabel(days)}, no platform checked`
-        : `${windowLabel(days)}, ${PLATFORMS.filter((p) => checked.has(p))
+        : `${windowLabel(days)}, ${platforms.filter((p) => checked.has(p))
             .map((p) => platformLabel[p])
             .join(", ")}, ranked by views`;
 
@@ -128,7 +139,7 @@ export function TopPosts({ posts, days: overviewDays = 30 }: { posts: Post[]; da
       action={
         <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
           <WindowSwitch days={days} onDays={setDays} />
-          <PlatformChecks checked={checked} onToggle={toggle} />
+          <PlatformChecks platforms={platforms} checked={checked} onToggle={toggle} />
         </div>
       }
       bodyClassName="-mx-5"

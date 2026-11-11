@@ -45,8 +45,14 @@ function loadDataset(dir: string): ChatData {
   return makeChatData(
     {
       posts,
-      analytics: readJson(dir, "analytics.json", {}),
-      vault: readJson(dir, "content_vault.json", { generatedAt: "", totalPosts: 0, categories: [], byPost: {} }),
+      // The assertions pin the personal pages' figures, so the fixture reads
+      // the personal bundle; a dataset without accounts has only the plain file.
+      analytics: readJson(dir, "analytics.personal.json", readJson(dir, "analytics.json", {})),
+      vault: readJson(
+        dir,
+        "content_vault.personal.json",
+        readJson(dir, "content_vault.json", { generatedAt: "", totalPosts: 0, categories: [], byPost: {} }),
+      ),
       history: readJson(dir, "follower_history.json", []),
       scrape: readJson(dir, "scrape_state.json", { followers: { instagram: 0, tiktok: 0, youtube: 0, threads: 0, linkedin: 0 } }),
       comments: () => Promise.resolve(readJson<Comment[]>(dir, "comments.json", [])),

@@ -3,7 +3,7 @@ import { Numbered } from "@/components/charts/numbered";
 import { Section } from "@/components/charts/section";
 import { fmt, fmtPct, platformLabel, platformShort } from "@/lib/format";
 import { PLATFORMS, byPlatform, hasViews, totals, avgEngagementRate } from "@/lib/derive";
-import type { Post } from "@/lib/types";
+import type { Platform, Post } from "@/lib/types";
 
 const PLATFORM_COLOR: Record<string, string> = {
   Instagram: "var(--ig)",
@@ -23,15 +23,22 @@ const PLATFORM_SHORT: Record<string, string> = Object.fromEntries(
   ]),
 );
 
-export function PlatformCharts({ posts }: { posts: Post[] }) {
+export function PlatformCharts({
+  posts,
+  platforms = PLATFORMS,
+}: {
+  posts: Post[];
+  /** The platforms of the account in view; every platform by default. */
+  platforms?: Platform[];
+}) {
   const grouped = byPlatform(posts, (p) => p.platform);
-  const engagementData = PLATFORMS.map((p) => ({
+  const engagementData = platforms.map((p) => ({
     platform: platformLabel[p],
     rate: Number(avgEngagementRate(grouped[p]).toFixed(2)),
   }));
 
   // Viewless platforms (Threads, LinkedIn) get a likes bar that says so.
-  const viewsData = PLATFORMS.map((p) => ({
+  const viewsData = platforms.map((p) => ({
     platform: hasViews(p) ? platformLabel[p] : `${platformLabel[p]} (likes)`,
     views: hasViews(p) ? totals(grouped[p]).views : totals(grouped[p]).likes,
   }));

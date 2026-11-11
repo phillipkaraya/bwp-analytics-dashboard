@@ -9,6 +9,7 @@
 // Relative imports only: tsx runs this in Node without the Next alias.
 
 import type {
+  AccountScope,
   AnalyticsBundle,
   Comment,
   ContentVault,
@@ -16,6 +17,7 @@ import type {
   Post,
   ScrapeState,
 } from "../types";
+import { accountLabel } from "../derive";
 import {
   loadAllPosts,
   loadAnalytics,
@@ -34,6 +36,9 @@ export interface ChatData {
   scrape: ScrapeState;
   comments: () => Promise<Comment[]>; // lazy, memoized: the 2.6 MB file loads only when a comment tool needs it
   now: () => number; // pinned per session; injectable in tests
+  /** Which pages this dataset covers ("All Pages", "Build With Phil"...), as
+   *  the pages switch names them. Absent when the caller did not say. */
+  pages?: string;
 }
 
 export interface RawChatData {
@@ -44,6 +49,7 @@ export interface RawChatData {
   scrape: ScrapeState;
   /** An array for tests, or a loader for the lazy path. Absent means none. */
   comments?: Comment[] | (() => Promise<Comment[]>);
+  pages?: string;
 }
 
 const STRIPPED_ANALYTICS_KEYS = ["followData", "followerProjections"] as const;
@@ -80,6 +86,7 @@ export function makeChatData(raw: RawChatData, now: () => number = () => Date.no
     vault: raw.vault ?? EMPTY_VAULT,
     history: Array.isArray(raw.history) ? raw.history : [],
     scrape: raw.scrape ?? EMPTY_SCRAPE,
+    ...(raw.pages ? { pages: raw.pages } : {}),
     comments: () => {
       if (!pending) {
         pending = Promise.resolve()
@@ -106,33 +113,46 @@ export function peekComments(data: ChatData): Comment[] | null {
   return loadedComments.get(data) ?? null;
 }
 
-let memo: Promise<ChatData> | null = null;
+const memo = new Map<AccountScope, Promise<ChatData>>();
 
-/** Module memo: built once per page, shared by every panel open. A rejected
- *  load clears the memo so a later open can try again. */
-export function getChatData(): Promise<ChatData> {
-  if (!memo) {
-    memo = Promise.all([
-      loadAllPosts(),
-      loadAnalytics(),
-      loadContentVault(),
-      loadFollowerHistory(),
-      loadScrapeState(),
+/** Module memo: built once per page for each pages scope, shared by every
+ *  panel open. The assistant reads the same pages as the tab on screen, so
+ *  its figures match what Phil is looking at. A rejected load clears its
+ *  entry so a later open can try again. */
+export function getChatData(scope: AccountScope = "all"): Promise<ChatData> {
+  let pending = memo.get(scope);
+  if (!pending) {
+    pending = Promise.all([
+      loadAllPosts(scope),
+      loadAnalytics(scope),
+      loadContentVault(scope),
+      loadFollowerHistory(scope),
+      loadScrapeState(scope),
     ])
       .then(([posts, analytics, vault, history, scrape]) =>
-        makeChatData({ posts, analytics, vault, history, scrape, comments: loadComments }),
+        makeChatData({
+          posts,
+          analytics,
+          vault,
+          history,
+          scrape,
+          // Comments were collected on the personal pages only.
+          comments: scope === "brand" ? [] : loadComments,
+          pages: accountLabel[scope],
+        }),
       )
       .catch((err: unknown) => {
-        memo = null;
+        memo.delete(scope);
         throw err;
       });
+    memo.set(scope, pending);
   }
-  return memo;
+  return pending;
 }
 
 /** Forget the memo (after a data refresh, or in tests). */
 export function resetChatData(): void {
-  memo = null;
+  memo.clear();
 }
 
 /** Comment postIds carry no owner suffix ("ig_<mediaId>") while Instagram

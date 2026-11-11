@@ -26,6 +26,7 @@ import {
 import { isAuthenticated, subscribeAuth } from "@/lib/auth";
 import type { Post } from "@/lib/types";
 import { getChatData, type ChatData } from "@/lib/chat/data";
+import { useAccountScope } from "@/lib/account";
 import { createSession, getProvider, PROVIDERS } from "@/lib/chat/providers";
 import { createAnthropicKeyProvider } from "@/lib/chat/providers/anthropic-key";
 import { createToolRunner } from "@/lib/chat/tools/run";
@@ -154,11 +155,18 @@ export function ChatRoot({ children }: { children: ReactNode }) {
     }
   }, [settings.provider, mock, mockFetch]);
 
-  // Data is built on first open, not on page load.
+  // Data is built on first open, not on page load, and rebuilt when the
+  // pages switch changes so the assistant answers about the pages on screen.
+  const [scope] = useAccountScope();
+  const [dataScope, setDataScope] = useState(scope);
+  if (dataScope !== scope) {
+    setDataScope(scope);
+    setData(null);
+  }
   useEffect(() => {
     if (!open || data) return;
     let live = true;
-    getChatData()
+    getChatData(scope)
       .then((d) => {
         if (!live) return;
         setData(d);
@@ -170,7 +178,7 @@ export function ChatRoot({ children }: { children: ReactNode }) {
     return () => {
       live = false;
     };
-  }, [open, data]);
+  }, [open, data, scope]);
 
   // Dev-only mock, re-read on every open so a changed scenario takes effect
   // without a reload. Production never runs this branch and never imports

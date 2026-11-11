@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { loadAllPosts } from "@/lib/data";
+import { useAccountScope } from "@/lib/account";
+import { AccountSwitch } from "@/components/layout/account-switch";
 import type { Post, Platform } from "@/lib/types";
-import { PLATFORMS, avgEngagementRate, byPlatform, hasViews, postHasViews, toNum, totals } from "@/lib/derive";
+import { PLATFORMS, accountLabel, avgEngagementRate, byPlatform, hasViews, postHasViews, toNum, totals } from "@/lib/derive";
 import { HeroPanel, HeroRow, PageHero } from "@/components/layout/page-hero";
 import { PlatformDot } from "@/components/charts/platform-badge";
 import { fmt, fmtDate, fmtPct, fmtShort, platformLabel } from "@/lib/format";
@@ -35,12 +37,19 @@ export function Posts() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState<Post | null>(null);
 
+  const [scope] = useAccountScope();
+
   useEffect(() => {
-    loadAllPosts().then((p) => {
+    let cancelled = false;
+    loadAllPosts(scope).then((p) => {
+      if (cancelled) return;
       setPosts(p);
       setLoading(false);
     });
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [scope]);
 
   const filtered = useMemo(() => {
     let out = posts;
@@ -99,15 +108,16 @@ export function Posts() {
   }, [filtered]);
 
   if (loading) {
-    return <PageHero eyebrow="Loading posts" title="Post Analysis" />;
+    return <PageHero eyebrow="Loading posts" title="Post Analysis" controls={<AccountSwitch />} />;
   }
 
   return (
     <>
       <PageHero
-        eyebrow={`${fmt(filtered.length)} of ${fmt(posts.length)} posts${
+        eyebrow={`${accountLabel[scope]} · ${fmt(filtered.length)} of ${fmt(posts.length)} posts${
           platform === "all" ? "" : ` · ${platformLabel[platform]}`
         }${search.trim() ? ` · matching "${search.trim()}"` : ""}`}
+        controls={<AccountSwitch />}
         title="Post Analysis"
         lede="Every post the scraper knows about. Filter, sort, and click a row for the full detail."
         stats={[

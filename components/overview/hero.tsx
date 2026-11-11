@@ -12,7 +12,9 @@ import {
   windowTotals,
   type WindowDays,
 } from "@/lib/derive";
-import type { FollowerSnapshot, Post, ScrapeState } from "@/lib/types";
+import type { AccountScope, FollowerSnapshot, Platform, Post, ScrapeState } from "@/lib/types";
+import { accountLabel } from "@/lib/derive";
+import { AccountSwitch } from "@/components/layout/account-switch";
 import { PlatformDot } from "@/components/charts/platform-badge";
 import { HeroPanel, HeroRow, PageHero, SignedCount } from "@/components/layout/page-hero";
 import { cn } from "@/lib/utils";
@@ -24,6 +26,9 @@ interface HeroProps {
   /** Rolling window in days: Phil's choice, or pickWindow() until he makes one. */
   days: WindowDays;
   onDays: (d: WindowDays) => void;
+  /** The account in view and the platforms it covers. */
+  scope: AccountScope;
+  platforms: Platform[];
 }
 
 /** 7 / 30 / 60 / 90 day switch on the eyebrow row (Phil, 2026-09-16). */
@@ -57,12 +62,12 @@ function WindowSelect({ days, onDays }: { days: WindowDays; onDays: (d: WindowDa
 }
 
 /** The Overview band: the chosen window at display size, followers on the right. */
-export function Hero({ posts, scrape, history, days, onDays }: HeroProps) {
+export function Hero({ posts, scrape, history, days, onDays, scope, platforms }: HeroProps) {
   const cur = windowTotals(posts, days);
   const prev = windowTotals(posts, days, days);
   const deltas = followerDeltas(history);
   const last = platformLastPosted(posts);
-  const totalFollowers = PLATFORMS.reduce(
+  const totalFollowers = platforms.reduce(
     (sum, p) => sum + (scrape.followers?.[p] ?? 0),
     0,
   );
@@ -87,8 +92,13 @@ export function Hero({ posts, scrape, history, days, onDays }: HeroProps) {
 
   return (
     <PageHero
-      eyebrow={`${windowLabel(days)} · all platforms`}
-      controls={<WindowSelect days={days} onDays={onDays} />}
+      eyebrow={`${windowLabel(days)} · ${accountLabel[scope]}`}
+      controls={
+        <div className="flex flex-wrap items-center gap-2">
+          <AccountSwitch />
+          <WindowSelect days={days} onDays={onDays} />
+        </div>
+      }
       stats={[
         viewsStat,
         { label: "Posts published", value: fmtShort(cur.posts), pct: pctChange(cur.posts, prev.posts) },
@@ -127,7 +137,7 @@ export function Hero({ posts, scrape, history, days, onDays }: HeroProps) {
             )}
           </div>
           <ul className="mt-5 space-y-2.5">
-            {PLATFORMS.map((p) => (
+            {platforms.map((p) => (
               <HeroRow
                 key={p}
                 label={

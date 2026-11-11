@@ -1,6 +1,16 @@
 // Computed/derived data from raw posts + comments. Pure functions, no side effects.
 
-import type { Post, Comment, Platform, FollowerSnapshot } from "./types";
+import type {
+  Account,
+  AccountScope,
+  AccountScrapeState,
+  Comment,
+  FollowerSnapshot,
+  Platform,
+  PlatformScrapeState,
+  Post,
+  ScrapeState,
+} from "./types";
 
 const DAY = 86_400_000;
 
@@ -11,6 +21,108 @@ export const PLATFORMS: Platform[] = [
   "threads",
   "linkedin",
 ];
+
+// --- Accounts ---------------------------------------------------------------
+// Two sets of pages since 2026-11-11: Phil's own profiles and the Build With
+// Phil pages. Mirrors ACCOUNTS in scrape/handles.py; a platform is listed for
+// an account once a reader scrapes it there.
+
+export const ACCOUNTS: Account[] = ["personal", "brand"];
+export const ACCOUNT_SCOPES: AccountScope[] = ["all", "personal", "brand"];
+export const DEFAULT_ACCOUNT: Account = "personal";
+
+export const ACCOUNT_PLATFORMS: Record<Account, Platform[]> = {
+  personal: ["instagram", "tiktok", "youtube", "threads", "linkedin"],
+  brand: ["instagram", "tiktok"],
+};
+
+export const accountLabel: Record<AccountScope, string> = {
+  all: "All Pages",
+  personal: "Phillip Karaya",
+  brand: "Build With Phil",
+};
+
+export function isAccountScope(v: unknown): v is AccountScope {
+  return typeof v === "string" && (ACCOUNT_SCOPES as string[]).includes(v);
+}
+
+/** A post with no stamp predates accounts, so it is a personal one. */
+export function accountOf(p: Post): Account {
+  return p.account ?? DEFAULT_ACCOUNT;
+}
+
+/** Every item for "all", otherwise only the chosen account's. */
+export function filterByAccount<T extends Post>(posts: T[], scope: AccountScope): T[] {
+  return scope === "all" ? posts : posts.filter((p) => accountOf(p) === scope);
+}
+
+/** Platforms the scope covers, in the dashboard's order. */
+export function scopePlatforms(scope: AccountScope): Platform[] {
+  if (scope !== "all") return ACCOUNT_PLATFORMS[scope];
+  return PLATFORMS.filter((p) => ACCOUNTS.some((a) => ACCOUNT_PLATFORMS[a].includes(p)));
+}
+
+function accountState(state: ScrapeState, account: Account): AccountScrapeState {
+  return account === DEFAULT_ACCOUNT ? state : (state.accounts?.[account] ?? {});
+}
+
+/**
+ * scrape_state.json as one scope sees it. One account: that account's own
+ * followers and per-platform blocks. "all": followers added up per platform,
+ * post counts added up, and the most recent scrape time of the two.
+ */
+export function scopedScrapeState(state: ScrapeState, scope: AccountScope): ScrapeState {
+  const accounts = scope === "all" ? ACCOUNTS : [scope];
+  const out: ScrapeState = { followers: {}, followersUpdated: {} };
+  for (const account of accounts) {
+    const s = accountState(state, account);
+    for (const p of ACCOUNT_PLATFORMS[account]) {
+      const n = s.followers?.[p];
+      if (n !== undefined) out.followers[p] = (out.followers[p] ?? 0) + n;
+      const block = s[p];
+      if (!block) continue;
+      const prev: PlatformScrapeState | undefined = out[p];
+      if (!prev) {
+        out[p] = { ...block };
+        continue;
+      }
+      const newer = (block.lastScrapedDate ?? "") > (prev.lastScrapedDate ?? "") ? block : prev;
+      out[p] = {
+        ...newer,
+        totalScraped: (prev.totalScraped ?? 0) + (block.totalScraped ?? 0),
+        // One account failing must stay visible when the scope covers both.
+        status: [prev.status, block.status].includes("error") ? "error" : newer.status,
+      };
+    }
+  }
+  return out;
+}
+
+/**
+ * Follower series of several accounts added together. An account that has no
+ * point on a given day contributes its most recent earlier count, so a page
+ * that was scraped yesterday does not vanish from today's total.
+ */
+export function mergeFollowerHistory(series: FollowerSnapshot[][]): FollowerSnapshot[] {
+  const live = series.filter((s) => s.length > 0);
+  if (live.length <= 1) return live[0] ?? [];
+  const sorted = live.map((s) => [...s].sort((a, b) => a.date.localeCompare(b.date)));
+  const dates = [...new Set(sorted.flatMap((s) => s.map((h) => h.date)))].sort();
+  return dates.map((date) => {
+    const snap: FollowerSnapshot = { date };
+    for (const s of sorted) {
+      for (const p of PLATFORMS) {
+        let latest: number | undefined;
+        for (const h of s) {
+          if (h.date > date) break;
+          if (h[p] !== undefined) latest = h[p];
+        }
+        if (latest !== undefined) snap[p] = (snap[p] ?? 0) + latest;
+      }
+    }
+    return snap;
+  });
+}
 
 /**
  * Threads publishes likes, replies and reposts but no view count, so every

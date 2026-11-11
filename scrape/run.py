@@ -4,6 +4,7 @@ BWP scrape runner: headless CLI, no HTTP server.
 
     python3 scrape/run.py                          # incremental, all platforms
     python3 scrape/run.py --platforms instagram,tiktok
+    python3 scrape/run.py --account brand          # only the Build With Phil pages
     python3 scrape/run.py --full                   # master sweep: re-page everything
     python3 scrape/run.py --no-analyze             # skip analytics/vault rebuild
     python3 scrape/run.py --analyze-only           # just rebuild derived JSON
@@ -43,12 +44,18 @@ for _stream in (sys.stdout, sys.stderr):
 from scrape import analyze  # noqa: E402
 from scrape.cdp import CDP, CDPError, default_port  # noqa: E402
 from scrape.platforms import studio  # noqa: E402
+from scrape.handles import DEFAULT_ACCOUNT  # noqa: E402
 from scrape.server import (  # noqa: E402
+    ACCOUNT_NAMES,
     PLATFORM_RUNNERS,
     PLATFORMS,
+    RUNNERS,
     load_scrape_state,
+    record_platform_error,
     record_platform_result,
+    resolve_accounts,
     save_scrape_state,
+    targets_for,
 )
 
 LEASE_PURPOSE = "bwp-analytics scrape (scrape/run.py)"
@@ -115,6 +122,8 @@ def release_lease(name: str, env: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--platforms", default=",".join(PLATFORMS), help="comma-separated subset")
+    ap.add_argument("--account", default="all", choices=["all", *ACCOUNT_NAMES],
+                    help="which set of pages: personal (phillip.karaya), brand (Build With Phil) or all (default)")
     ap.add_argument("--full", action="store_true", help="master sweep: ignore incremental early-stop")
     ap.add_argument("--no-analyze", action="store_true", help="skip rebuilding analytics/vault/history")
     ap.add_argument("--analyze-only", action="store_true", help="only rebuild derived JSON, no scraping")
@@ -129,9 +138,14 @@ def main() -> int:
         return 0
 
     platforms = [p.strip() for p in args.platforms.split(",") if p.strip()]
-    bad = [p for p in platforms if p not in PLATFORM_RUNNERS]
+    known = set(PLATFORM_RUNNERS) | {p for _a, p in RUNNERS}
+    bad = [p for p in platforms if p not in known]
     if bad:
         print(f"unknown platform(s): {', '.join(bad)}", file=sys.stderr)
+        return 2
+    targets = targets_for(resolve_accounts(args.account), platforms)
+    if not targets:
+        print(f"nothing to scrape: the {args.account} account has no reader for {', '.join(platforms)}", file=sys.stderr)
         return 2
 
     check_memory()
@@ -146,18 +160,20 @@ def main() -> int:
     claim_lease("https://www.instagram.com/")
 
     mode = "FULL SWEEP" if args.full else "incremental"
-    print(f"bwp scrape [{mode}] on Chrome :{default_port()} -> {', '.join(platforms)}")
+    print(f"bwp scrape [{mode}] on Chrome :{default_port()} -> "
+          + ", ".join(p if a == DEFAULT_ACCOUNT else f"{a}:{p}" for a, p in targets))
 
     state = load_scrape_state()
     errors: dict[str, str] = {}
     results: dict[str, dict] = {}
     t0 = time.time()
 
-    for platform in platforms:
-        runner = PLATFORM_RUNNERS[platform]
+    for account, platform in targets:
+        runner = RUNNERS[(account, platform)]
+        label = platform if account == DEFAULT_ACCOUNT else f"{account}:{platform}"
         started = time.time()
 
-        def progress(stage: str, info: dict, _p=platform) -> None:
+        def progress(stage: str, info: dict, _p=label) -> None:
             if not args.quiet:
                 brief = ", ".join(f"{k}={v}" for k, v in info.items() if k in (
                     "page", "round", "newPosts", "totalPosts", "consecutiveKnown", "reason"
@@ -166,11 +182,11 @@ def main() -> int:
 
         try:
             result = runner(on_progress=progress, full=args.full)
-            record_platform_result(state, platform, result)
+            record_platform_result(state, platform, result, account)
             save_scrape_state(state)
-            results[platform] = result
+            results[label] = result
             print(
-                f"  {platform}: +{result.get('newPosts', 0)} new, "
+                f"  {label}: +{result.get('newPosts', 0)} new, "
                 f"{result.get('totalScraped', 0)} total"
                 f"{', stopped early' if result.get('stoppedEarly') else ''}"
                 f"{', followers ' + str(result['followers']) if result.get('followers') else ''}"
@@ -179,7 +195,9 @@ def main() -> int:
             # The public page gives views only for these two; the signed-in
             # studio gives the rest. A studio failure (not signed in, layout
             # change) is reported but never undoes the base reader's result.
-            if platform in studio.ENRICHERS and not args.no_studio:
+            # The studio shows whichever account is signed in, which is the
+            # personal one, so only that account's files are enriched.
+            if account == DEFAULT_ACCOUNT and platform in studio.ENRICHERS and not args.no_studio:
                 try:
                     stats = studio.ENRICHERS[platform](on_progress=progress)
                     result["studio"] = stats
@@ -188,16 +206,13 @@ def main() -> int:
                     result["studioError"] = str(e)
                     print(f"  {platform} studio: SKIPPED {str(e)[:160]}", file=sys.stderr)
         except CDPError as e:
-            errors[platform] = str(e)
-            sub = state.get(platform, {}) or {}
-            sub["status"] = "error"
-            sub["lastError"] = str(e)
-            state[platform] = sub
+            errors[label] = str(e)
+            record_platform_error(state, platform, str(e), account)
             save_scrape_state(state)
-            print(f"  {platform}: FAILED {e}", file=sys.stderr)
+            print(f"  {label}: FAILED {e}", file=sys.stderr)
         except Exception as e:  # noqa: BLE001
-            errors[platform] = f"{type(e).__name__}: {e}"
-            print(f"  {platform}: FAILED {type(e).__name__}: {e}", file=sys.stderr)
+            errors[label] = f"{type(e).__name__}: {e}"
+            print(f"  {label}: FAILED {type(e).__name__}: {e}", file=sys.stderr)
 
     if results and not args.no_analyze:
         summary = analyze.run()

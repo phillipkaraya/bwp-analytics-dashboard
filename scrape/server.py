@@ -23,6 +23,7 @@ Endpoints:
 
 from __future__ import annotations
 
+import functools
 import json
 import sys
 import threading
@@ -38,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scrape import analyze  # noqa: E402
 from scrape.cdp import CDPError  # noqa: E402
+from scrape.handles import ACCOUNTS, DEFAULT_ACCOUNT  # noqa: E402
 from scrape.platforms import instagram, linkedin, tiktok, youtube, threads  # noqa: E402
 
 PORT = 5556
@@ -95,9 +97,57 @@ PLATFORM_RUNNERS = {
     "linkedin": linkedin.scrape,
 }
 
+# Readers that take an `account` argument and can therefore scrape any account
+# listed for their platform in scrape/handles.py. The rest are personal only.
+ACCOUNT_AWARE = {"instagram": instagram.scrape, "tiktok": tiktok.scrape}
 
-def record_platform_result(state: dict, platform: str, result: dict) -> None:
+# (account, platform) -> callable(on_progress=, full=). An account gets a
+# platform when handles.py lists a handle for it AND a reader can scrape it.
+RUNNERS: dict[tuple[str, str], object] = {}
+for _account, _handles in ACCOUNTS.items():
+    for _platform in _handles:
+        if _account == DEFAULT_ACCOUNT and _platform in PLATFORM_RUNNERS:
+            RUNNERS[(_account, _platform)] = PLATFORM_RUNNERS[_platform]
+        elif _platform in ACCOUNT_AWARE:
+            RUNNERS[(_account, _platform)] = functools.partial(ACCOUNT_AWARE[_platform], account=_account)
+
+ACCOUNT_NAMES = list(ACCOUNTS)
+
+
+def resolve_accounts(value) -> list[str]:
+    """Turn a request's account value ("all", one name, a list, None) into
+    the list of known accounts it means. Unknown names are dropped."""
+    if value in (None, "", "all"):
+        return list(ACCOUNT_NAMES)
+    names = value if isinstance(value, list) else [value]
+    return [a for a in ACCOUNT_NAMES if a in names]
+
+
+def targets_for(accounts: list[str], platforms: list[str]) -> list[tuple[str, str]]:
+    """Every (account, platform) pair that has a runner, account by account."""
+    return [(a, p) for a in accounts for p in platforms if (a, p) in RUNNERS]
+
+
+def state_bucket(state: dict, account: str = DEFAULT_ACCOUNT) -> dict:
+    """The part of scrape_state that belongs to one account. The personal
+    account lives at the top level, where it always has; every other account
+    gets the same shape under state["accounts"][<name>]."""
+    if account == DEFAULT_ACCOUNT:
+        return state
+    return state.setdefault("accounts", {}).setdefault(account, {})
+
+
+def record_platform_error(state: dict, platform: str, message: str, account: str = DEFAULT_ACCOUNT) -> None:
+    bucket = state_bucket(state, account)
+    sub = bucket.get(platform, {}) or {}
+    sub["status"] = "error"
+    sub["lastError"] = message
+    bucket[platform] = sub
+
+
+def record_platform_result(state: dict, platform: str, result: dict, account: str = DEFAULT_ACCOUNT) -> None:
     """Write one platform's scrape result into scrape_state (in place)."""
+    state = state_bucket(state, account)
     sub = state.get(platform, {}) or {}
     sub["lastScrapedDate"] = now_iso()
     sub["status"] = "complete"
@@ -117,7 +167,7 @@ def record_platform_result(state: dict, platform: str, result: dict) -> None:
         state.setdefault("followersUpdated", {})[platform] = now_iso()
 
 
-def run_scrape(job_id: str, platforms: list[str], full: bool = False) -> None:
+def run_scrape(job_id: str, platforms: list[str], full: bool = False, accounts: list[str] | None = None) -> None:
     """Worker thread — runs the platform scrapers sequentially and updates
     the in-memory job state + scrape_state.json as it goes, then rebuilds
     analytics.json / content_vault.json / follower_history.json."""
@@ -126,38 +176,37 @@ def run_scrape(job_id: str, platforms: list[str], full: bool = False) -> None:
     completed = 0
     errors: dict[str, str] = {}
 
-    for platform in platforms:
-        runner = PLATFORM_RUNNERS.get(platform)
-        if not runner:
-            continue
-        update_job(job_id, currentPlatform=platform)
+    targets = targets_for(accounts or [DEFAULT_ACCOUNT], platforms)
+    for account, platform in targets:
+        runner = RUNNERS[(account, platform)]
+        # Personal keeps its bare platform name so existing clients read the
+        # same job fields; other accounts are labeled "<account>:<platform>".
+        label = platform if account == DEFAULT_ACCOUNT else f"{account}:{platform}"
+        update_job(job_id, currentPlatform=platform, currentAccount=account)
 
-        def progress(stage: str, info: dict) -> None:
-            update_job(job_id, currentStage=f"{platform}: {stage}", currentInfo=info)
+        def progress(stage: str, info: dict, _label=label) -> None:
+            update_job(job_id, currentStage=f"{_label}: {stage}", currentInfo=info)
 
         try:
             result = runner(on_progress=progress, full=full)
-            record_platform_result(state, platform, result)
+            record_platform_result(state, platform, result, account)
             save_scrape_state(state)
         except CDPError as e:
-            errors[platform] = str(e)
-            sub = state.get(platform, {}) or {}
-            sub["status"] = "error"
-            sub["lastError"] = str(e)
-            state[platform] = sub
+            errors[label] = str(e)
+            record_platform_error(state, platform, str(e), account)
             save_scrape_state(state)
         except Exception as e:  # noqa: BLE001
-            errors[platform] = f"{type(e).__name__}: {e}"
+            errors[label] = f"{type(e).__name__}: {e}"
 
         completed += 1
         update_job(
             job_id,
-            progress=int(completed / len(platforms) * 100),
+            progress=int(completed / len(targets) * 100),
             errors=errors if errors else None,
         )
 
     # Rebuild the derived files so Insights + Vault reflect the new posts.
-    if len(errors) < len(platforms):
+    if len(errors) < len(targets):
         update_job(job_id, currentStage="analyzing")
         try:
             analyze.run()
@@ -165,7 +214,7 @@ def run_scrape(job_id: str, platforms: list[str], full: bool = False) -> None:
             errors["analyze"] = f"{type(e).__name__}: {e}"
 
     final_status = "complete" if not errors else (
-        "complete" if len(errors) < len(platforms) else "error"
+        "complete" if len(errors) < len(targets) else "error"
     )
     update_job(
         job_id,
@@ -243,21 +292,26 @@ class Handler(BaseHTTPRequestHandler):
                 body = {}
 
         platforms = body.get("platforms") or PLATFORMS
-        platforms = [p for p in platforms if p in PLATFORM_RUNNERS]
-        if not platforms:
-            self._json(400, {"error": "no valid platforms"})
+        # `account` is "all", one account name or a list of names. A request
+        # without it means the personal account, as it did before accounts existed.
+        accounts = resolve_accounts(body.get("account") or DEFAULT_ACCOUNT)
+        targets = targets_for(accounts, [p for p in platforms if isinstance(p, str)])
+        if not targets:
+            self._json(400, {"error": "no valid platforms for the requested account"})
             return
+        platforms = list(dict.fromkeys(p for _a, p in targets))
         full = body.get("mode") == "full"
 
         job_id = uuid.uuid4().hex[:12]
         # Incremental runs touch only the newest posts (~1 min/platform).
         # A full sweep re-pages everything (~3 min/platform, IG the longest).
-        eta_seconds = (180 if full else 60) * len(platforms)
+        eta_seconds = (180 if full else 60) * len(targets)
         job = {
             "id": job_id,
             "status": "queued",
             "mode": "full" if full else "incremental",
             "platforms": platforms,
+            "accounts": accounts,
             "startedAt": now_iso(),
             "etaSeconds": eta_seconds,
             "currentPlatform": None,
@@ -269,7 +323,7 @@ class Handler(BaseHTTPRequestHandler):
             JOBS[job_id] = job
 
         threading.Thread(
-            target=run_scrape, args=(job_id, platforms, full), daemon=True
+            target=run_scrape, args=(job_id, platforms, full, accounts), daemon=True
         ).start()
         self._json(200, job)
 
@@ -285,7 +339,8 @@ def main() -> None:
     print(f"  data dir: {DATA_DIR}")
     print(f"  Chrome CDP port: {default_port()} (override with CHROME_CDP_PORT)")
     print("  platforms: instagram, tiktok, youtube, threads, linkedin (all real, Chrome-CDP)")
-    print("  endpoints: GET /ping  POST /scrape {platforms?, mode?: 'full'}  GET /scrape-status?id=<jobId>")
+    print("  accounts: " + ", ".join(f"{a} ({', '.join(p for x, p in RUNNERS if x == a)})" for a in ACCOUNT_NAMES))
+    print("  endpoints: GET /ping  POST /scrape {platforms?, account?: 'all'|name, mode?: 'full'}  GET /scrape-status?id=<jobId>")
     HTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
 
 

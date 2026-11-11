@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { loadScrapeState } from "@/lib/data";
+import { scopePlatforms } from "@/lib/derive";
+import { useAccountScope } from "@/lib/account";
 import type { ScrapeState } from "@/lib/types";
 import { relativeTime } from "@/lib/format";
 import { signOut } from "@/lib/auth";
@@ -31,20 +33,19 @@ export function DataStatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
   const [state, setState] = useState<ScrapeState | null>(null);
   const [open, setOpen] = useState(false);
   const dark = tone === "dark";
+  const [scope] = useAccountScope();
 
   useEffect(() => {
     let live = true;
-    loadScrapeState()
-      .then((s) => {
+    // Freshness of the pages in view: one account, or the most recent
+    // scrape of either when every page is shown.
+    Promise.all([loadScrapeState(scope), loadScrapeState()])
+      .then(([s, raw]) => {
         if (!live) return;
         setState(s);
         const last = [
-          s.instagram?.lastScrapedDate,
-          s.tiktok?.lastScrapedDate,
-          s.youtube?.lastScrapedDate,
-          s.threads?.lastScrapedDate,
-          s.linkedin?.lastScrapedDate,
-          s.lastAutoCheck,
+          ...scopePlatforms(scope).map((p) => s[p]?.lastScrapedDate),
+          scope === "brand" ? undefined : raw.lastAutoCheck,
         ]
           .filter((d): d is string => !!d)
           .sort()
@@ -60,7 +61,7 @@ export function DataStatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
     return () => {
       live = false;
     };
-  }, []);
+  }, [scope]);
 
   const stale = fresh?.stale ?? true;
 
@@ -111,6 +112,8 @@ export function DataStatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
         onOpenChange={setOpen}
         lastScrapedDate={fresh?.last}
         state={state}
+        account={scope}
+        key={scope}
       />
     </div>
   );

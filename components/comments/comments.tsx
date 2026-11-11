@@ -116,7 +116,9 @@ export function Comments() {
   return (
     <>
       <PageHero
-        eyebrow={`${fmt(filtered.length)} of ${fmt(comments.length)} comments`}
+        // Comments were collected on the personal pages only, so this tab
+        // does not follow the pages switch; it says whose comments these are.
+        eyebrow={`Phillip Karaya pages · ${fmt(filtered.length)} of ${fmt(comments.length)} comments`}
         title="Comments"
         lede="What the audience said back, how it felt, and the questions worth answering."
         stats={[

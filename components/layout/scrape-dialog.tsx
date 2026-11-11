@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PlatformDot } from "@/components/charts/platform-badge";
-import { PLATFORMS } from "@/lib/derive";
+import { accountLabel, scopePlatforms } from "@/lib/derive";
 import {
   pingScraper,
   startScrape,
@@ -28,7 +28,7 @@ import {
   type ScraperHealth,
 } from "@/lib/scrape-client";
 import { fmtDate, platformLabel, relativeTime } from "@/lib/format";
-import type { Platform, ScrapeState } from "@/lib/types";
+import type { AccountScope, Platform, ScrapeState } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface ScrapeDialogProps {
@@ -37,6 +37,9 @@ interface ScrapeDialogProps {
   lastScrapedDate?: string;
   /** Per-platform scrape state, for the post count and last run on each toggle. */
   state?: ScrapeState | null;
+  /** The pages in view on the dashboard; the run refreshes these. The parent
+   *  remounts the dialog (key) when it changes, so the toggles start over. */
+  account?: AccountScope;
 }
 
 // The two ways to run it. Minutes per platform match the ETA the scraper
@@ -70,7 +73,9 @@ export function ScrapeDialog({
   onOpenChange,
   lastScrapedDate,
   state,
+  account = "all",
 }: ScrapeDialogProps) {
+  const platforms = scopePlatforms(account);
   // undefined = still probing, null = service offline, object = reachable.
   const [health, setHealth] = useState<ScraperHealth | null | undefined>(
     undefined,
@@ -80,7 +85,7 @@ export function ScrapeDialog({
   // What the next run does. Both persist across open/close within a page
   // load so a second run does not reset a deliberate narrower choice.
   const [mode, setMode] = useState<ScrapeMode>("incremental");
-  const [selected, setSelected] = useState<Platform[]>(PLATFORMS);
+  const [selected, setSelected] = useState<Platform[]>(platforms);
   const pollRef = useRef<number | null>(null);
 
   // Probe health when the dialog opens. The "checking" state is the reset
@@ -117,7 +122,7 @@ export function ScrapeDialog({
   async function handleStart() {
     if (selected.length === 0) return;
     setStarting(true);
-    const started = await startScrape({ platforms: selected, mode });
+    const started = await startScrape({ platforms: selected, mode, account });
     setStarting(false);
     if (started) setJob(started);
   }
@@ -180,6 +185,8 @@ export function ScrapeDialog({
             selected={selected}
             onSelected={setSelected}
             state={state}
+            account={account}
+            platforms={platforms}
           />
         )}
 
@@ -260,12 +267,16 @@ function ReadyToStart({
   selected,
   onSelected,
   state,
+  account,
+  platforms,
 }: {
   mode: ScrapeMode;
   onMode: (m: ScrapeMode) => void;
   selected: Platform[];
   onSelected: Dispatch<SetStateAction<Platform[]>>;
   state?: ScrapeState | null;
+  account: AccountScope;
+  platforms: Platform[];
 }) {
   const perPlatform = MODES.find((m) => m.value === mode)?.minutes ?? 1;
   const minutes = perPlatform * selected.length;
@@ -276,12 +287,16 @@ function ReadyToStart({
     onSelected((prev) =>
       prev.includes(p)
         ? prev.filter((x) => x !== p)
-        : PLATFORMS.filter((x) => x === p || prev.includes(x)),
+        : platforms.filter((x) => x === p || prev.includes(x)),
     );
   }
 
   return (
     <div className="space-y-4 text-sm text-ink-soft">
+      <p className="rounded-md bg-brand-soft/60 px-3 py-2 text-xs text-ink-soft">
+        Refreshing <span className="font-medium text-ink">{accountLabel[account]}</span>. Change it
+        with the pages switch at the top of any tab.
+      </p>
       <div>
         <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
           What to fetch
@@ -330,7 +345,7 @@ function ReadyToStart({
             <button
               type="button"
               className="text-brand hover:underline"
-              onClick={() => onSelected(PLATFORMS)}
+              onClick={() => onSelected(platforms)}
             >
               All
             </button>
@@ -344,7 +359,7 @@ function ReadyToStart({
           </div>
         </div>
         <ul className="mt-2 space-y-1.5" aria-label="Platforms to scrape">
-          {PLATFORMS.map((p) => {
+          {platforms.map((p) => {
             const on = selected.includes(p);
             const s = state?.[p];
             return (

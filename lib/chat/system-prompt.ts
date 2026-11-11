@@ -71,6 +71,14 @@ function sumValues(record: unknown): number {
 export function buildDataCard(data: ChatData): string {
   const now = data.now();
   const lines: string[] = ["DATA CARD (what the dashboard holds right now)", `Today: ${isoDate(now)}`];
+  // Two sets of pages exist: Phillip Karaya (his own profiles) and Build With
+  // Phil (the brand pages). The dashboard's pages switch decides which one
+  // every figure here and every tool result covers.
+  if (data.pages) {
+    lines.push(
+      `Pages in view: ${data.pages}. Every figure below and every tool result covers these pages only; the pages switch at the top of each tab changes them.`,
+    );
+  }
 
   const posts = data.posts;
   if (posts.length === 0) {

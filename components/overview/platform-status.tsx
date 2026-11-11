@@ -11,21 +11,36 @@ import type { FollowerSnapshot, Platform, Post, ScrapeState } from "@/lib/types"
 import { cn } from "@/lib/utils";
 
 /** One card, one cell per platform: followers, delta, cadence and last post. */
+// Tailwind only ships classes it can read as literals, so the column count
+// is looked up rather than interpolated.
+const LG_COLS: Record<number, string> = {
+  1: "lg:grid-cols-1",
+  2: "lg:grid-cols-2",
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+  6: "lg:grid-cols-6",
+  7: "lg:grid-cols-7",
+};
+
 export function PlatformStatusRow({
   posts,
   scrape,
   history,
+  platforms = PLATFORMS,
 }: {
   posts: Post[];
   scrape: ScrapeState;
   history: FollowerSnapshot[];
+  /** The platforms of the account in view; every platform by default. */
+  platforms?: Platform[];
 }) {
   const grouped = byPlatform(posts, (p) => p.platform);
   const deltas = followerDeltas(history);
 
   return (
-    <div className="card rise grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-      {PLATFORMS.map((p, i) => {
+    <div className={cn("card rise grid grid-cols-1 sm:grid-cols-2", LG_COLS[platforms.length] ?? "lg:grid-cols-5")}>
+      {platforms.map((p, i) => {
         const last = platformLastPosted(grouped[p]);
         const cad = platformCadence(grouped[p]);
         const followers = scrape.followers?.[p] ?? 0;
@@ -57,10 +72,15 @@ export function PlatformStatusRow({
               <span
                 className={cn(
                   "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]",
-                  quiet ? "bg-warn-soft text-warn" : "bg-positive-soft text-positive",
+                  // A page that has published nothing is neither active nor quiet.
+                  last.date === null
+                    ? "bg-muted text-ink-muted"
+                    : quiet
+                      ? "bg-warn-soft text-warn"
+                      : "bg-positive-soft text-positive",
                 )}
               >
-                {quiet ? "quiet" : "active"}
+                {last.date === null ? "no posts" : quiet ? "quiet" : "active"}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-baseline gap-x-2">

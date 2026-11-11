@@ -27,15 +27,15 @@ from __future__ import annotations
 import json
 import re
 import time
-from pathlib import Path
 
 from scrape.cdp import CDP, CDPError
-from scrape.handles import HANDLES
+from scrape.handles import DEFAULT_ACCOUNT, data_file, handle_for
 from scrape.incremental import STOP_AFTER_KNOWN, load_existing, merge
 
-DATA_FILE = Path(__file__).resolve().parent.parent.parent / "public" / "data" / "tiktok_posts.json"
-HANDLE = HANDLES["tiktok"]
-PAGE_URL = f"https://www.tiktok.com/@{HANDLE}"
+# The personal account's file and handle, kept for anything that imports them.
+# scrape() resolves its own from the `account` argument.
+DATA_FILE = data_file("tiktok")
+HANDLE = handle_for("tiktok")
 
 
 _EXTRACT_TILES = """
@@ -146,30 +146,44 @@ def _to_post(tile: dict) -> dict | None:
     }
 
 
-def scrape(max_pages: int = 80, on_progress=None, full: bool = False) -> dict:
+def scrape(max_pages: int = 80, on_progress=None, full: bool = False,
+           account: str = DEFAULT_ACCOUNT) -> dict:
     """Scroll the profile grid and extract tiles from the DOM.
 
     Incremental (default): the grid renders newest-first, so once a scroll
     round adds no unseen posts and at least STOP_AFTER_KNOWN known posts are
     on screen, we stop. full=True scrolls until the grid is exhausted.
+
+    `account` picks the handle and the posts file (scrape/handles.py). The
+    profile page is public, so no account has to be signed in.
     """
-    existing, known_ids = load_existing(DATA_FILE)
+    handle = handle_for("tiktok", account)
+    out_file = data_file("tiktok", account)
+    page_url = f"https://www.tiktok.com/@{handle}"
+    existing, known_ids = load_existing(out_file)
     cdp = CDP()
     posts_by_id: dict[str, dict] = {}
     followers = 0
     stopped_early = False
 
     try:
-        cdp.new_tab(PAGE_URL)
-        cdp.wait_for_load(timeout=25, expect_url_substring=f"@{HANDLE}")
+        cdp.new_tab(page_url)
+        cdp.wait_for_load(timeout=25, expect_url_substring=f"@{handle}")
         time.sleep(3.5)
 
         # Sanity check: did the page actually render?
         rendered = cdp.evaluate("document.querySelectorAll('a[href*=\"/video/\"]').length") or 0
-        if rendered == 0:
+        # A profile that has published nothing shows its header and an empty
+        # grid. That is a real zero, not a block: the header only renders
+        # when the profile itself loaded.
+        empty_profile = rendered == 0 and bool(cdp.evaluate(
+            "!!document.querySelector('[data-e2e=\"followers-count\"]') && "
+            "/No content|has not published|hasn.t published|No videos/i.test(document.body.innerText)"
+        ))
+        if rendered == 0 and not empty_profile:
             err_text = cdp.evaluate("document.body.innerText.slice(0,200)") or ""
             raise CDPError(
-                f"TikTok page didn't render posts for @{HANDLE} "
+                f"TikTok page didn't render posts for @{handle} "
                 f"(0 video links in DOM). Likely rate-limited / captcha. "
                 f"Body text: {err_text[:150]}"
             )
@@ -242,8 +256,8 @@ def scrape(max_pages: int = 80, on_progress=None, full: bool = False) -> dict:
     merged = merge(existing, new_posts)
     merged.sort(key=lambda p: p.get("views", 0), reverse=True)
 
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    DATA_FILE.write_text(json.dumps(merged, indent=2))
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    out_file.write_text(json.dumps(merged, indent=2))
 
     new_count = sum(1 for p in new_posts if p["id"] not in known_ids)
     return {

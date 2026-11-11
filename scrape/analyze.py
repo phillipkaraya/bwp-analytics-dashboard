@@ -4,12 +4,19 @@ Rebuild the derived JSON the dashboard reads, from the raw scraped posts.
 
     python3 scrape/analyze.py          (or: python3 scrape/run.py --analyze-only)
 
-Inputs  (public/data/):  instagram_posts.json, tiktok_posts.json,
-                         youtube_posts.json, threads_posts.json,
-                         linkedin_posts.json, comments.json, scrape_state.json
+Inputs  (public/data/):  <platform>_posts.json for the personal account,
+                         <account>_<platform>_posts.json for every other
+                         account in scrape/handles.py, comments.json,
+                         scrape_state.json
 Outputs (public/data/):  analytics.json        -> Insights tab (lib/types.ts AnalyticsBundle)
                          content_vault.json    -> Content Vault tab
                          follower_history.json -> follower growth series (appended, never rewritten)
+
+Every derived file is written once per scope. The plain names above cover
+every account together; analytics.<account>.json and
+content_vault.<account>.json cover one account each (personal, brand), and
+follower_history.<account>.json holds the follower series of a non-personal
+account. The dashboard's account switch picks which one it loads.
 
 Topic classification uses scrape/categories.json (editable, whole-word
 keyword match, multi-label). Comment sentiment is labeled here too, by
@@ -36,6 +43,7 @@ from typing import Any, Iterable
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:  # `python3 scrape/analyze.py` as well as `from scrape import analyze`
     sys.path.insert(0, str(ROOT))
+from scrape.handles import ACCOUNTS, DEFAULT_ACCOUNT, data_file  # noqa: E402
 from scrape.sentiment import classify_comments  # noqa: E402
 DATA_DIR = ROOT / "public" / "data"
 CATEGORIES_FILE = Path(__file__).resolve().parent / "categories.json"
@@ -47,6 +55,39 @@ SCRAPE_STATE_FILE = DATA_DIR / "scrape_state.json"
 ANALYTICS_FILE = DATA_DIR / "analytics.json"
 VAULT_FILE = DATA_DIR / "content_vault.json"
 HISTORY_FILE = DATA_DIR / "follower_history.json"
+
+# "all" is every account together and keeps the plain file names the
+# dashboard has always read; each account also gets its own scoped files.
+ALL_SCOPE = "all"
+SCOPES = [ALL_SCOPE, *ACCOUNTS]
+
+
+def scoped_file(base: Path, scope: str) -> Path:
+    """analytics.json for "all", analytics.<scope>.json for one account."""
+    return base if scope == ALL_SCOPE else base.with_name(f"{base.stem}.{scope}{base.suffix}")
+
+
+def history_file(account: str) -> Path:
+    """The personal follower series keeps its name; other accounts are suffixed."""
+    return HISTORY_FILE if account == DEFAULT_ACCOUNT else scoped_file(HISTORY_FILE, account)
+
+
+def account_platforms(account: str) -> list[str]:
+    """Platforms an account has a handle for, in the dashboard's order."""
+    return [p for p in PLATFORMS if p in ACCOUNTS.get(account, {})]
+
+
+def scope_platforms(scope: str) -> list[str]:
+    if scope == ALL_SCOPE:
+        return [p for p in PLATFORMS if any(p in h for h in ACCOUNTS.values())]
+    return account_platforms(scope)
+
+
+def account_state(state: dict, account: str) -> dict:
+    """One account's slice of scrape_state.json (see state_bucket in server.py)."""
+    if account == DEFAULT_ACCOUNT:
+        return state
+    return ((state.get("accounts") or {}).get(account)) or {}
 
 VIRAL_MULTIPLIER = 3.0
 MIN_HASHTAG_USES = 3
@@ -213,9 +254,9 @@ def posting_heatmap(posts: list[dict]) -> tuple[list[list[dict]], list[dict]]:
     return out, best[:20]
 
 
-def platform_averages(posts: list[dict]) -> dict:
+def platform_averages(posts: list[dict], platforms: list[str] = PLATFORMS) -> dict:
     out = {}
-    for plat in PLATFORMS:
+    for plat in platforms:
         ps = [p for p in posts if p.get("platform") == plat]
         viewed = [p for p in ps if _num(p.get("views")) > 0]
         out[plat] = {
@@ -272,9 +313,9 @@ def content_categories(posts: list[dict], cats: dict[str, list[str]]) -> dict:
     return dict(sorted(out.items(), key=lambda kv: kv[1]["count"], reverse=True))
 
 
-def engagement_funnel(posts: list[dict]) -> dict:
+def engagement_funnel(posts: list[dict], platforms: list[str] = PLATFORMS) -> dict:
     out = {}
-    for plat in PLATFORMS:
+    for plat in platforms:
         ps = [p for p in posts if p.get("platform") == plat]
         views = sum(_num(p.get("views")) for p in ps)
         likes = sum(_num(p.get("likes")) for p in ps)
@@ -495,11 +536,11 @@ def comment_sections(comments: list[dict], posts_by_id: dict[str, dict]) -> dict
     }
 
 
-def last_posted_and_cadence(posts: list[dict]) -> tuple[dict, dict]:
+def last_posted_and_cadence(posts: list[dict], platforms: list[str] = PLATFORMS) -> tuple[dict, dict]:
     today = date.today()
     last: dict = {}
     cadence: dict = {}
-    for plat in PLATFORMS:
+    for plat in platforms:
         dated = sorted(
             (p for p in posts if p.get("platform") == plat and p.get("date")),
             key=lambda p: p["date"],
@@ -541,71 +582,104 @@ def last_posted_and_cadence(posts: list[dict]) -> tuple[dict, dict]:
 # --------------------------------------------------------------------------
 # follower history
 # --------------------------------------------------------------------------
-def update_follower_history(state: dict, seed: list[dict] | None) -> list[dict]:
+def update_follower_history(
+    state: dict,
+    seed: list[dict] | None,
+    path: Path = HISTORY_FILE,
+    platforms: list[str] = PLATFORMS,
+) -> list[dict]:
     """Append today's follower counts, but only when a scrape actually ran
-    today. Re-running the analyzer on old data must not invent data points."""
-    history = _load_json(HISTORY_FILE, None)
-    if not isinstance(history, list):
+    today. Re-running the analyzer on old data must not invent data points.
+
+    `state` is one account's slice of scrape_state.json and `path` that
+    account's series. A series that does not exist yet is created only once
+    there is a point to put in it."""
+    history = _load_json(path, None)
+    existed = isinstance(history, list)
+    if not existed:
         history = list(seed or [])
     followers = state.get("followers") or {}
     today = date.today().isoformat()
     updated = state.get("followersUpdated") or {}
-    fresh_today = any(str(updated.get(p) or "").startswith(today) for p in PLATFORMS)
-    if fresh_today and any(int(_num(followers.get(p))) > 0 for p in PLATFORMS):
-        snap = {"date": today, **{p: int(_num(followers.get(p))) for p in PLATFORMS}}
+    fresh_today = any(str(updated.get(p) or "").startswith(today) for p in platforms)
+    if fresh_today and any(int(_num(followers.get(p))) > 0 for p in platforms):
+        snap = {"date": today, **{p: int(_num(followers.get(p))) for p in platforms}}
         history = [h for h in history if h.get("date") != today] + [snap]
     history.sort(key=lambda h: h.get("date", ""))
-    HISTORY_FILE.write_text(json.dumps(history, indent=2))
+    if existed or history:
+        path.write_text(json.dumps(history, indent=2))
     return history
 
 
 # --------------------------------------------------------------------------
-def run(verbose: bool = False) -> dict:
+def load_posts() -> list[dict]:
+    """Every account's posts, each stamped with its platform and account.
+    The file a post sits in is what decides its account."""
     posts: list[dict] = []
-    for plat, path in POST_FILES.items():
-        raw = _load_json(path, [])
-        if isinstance(raw, list):
+    seen: set[str] = set()
+    for account in ACCOUNTS:
+        for plat in account_platforms(account):
+            raw = _load_json(data_file(plat, account), [])
+            if not isinstance(raw, list):
+                continue
             for p in raw:
-                if isinstance(p, dict) and p.get("id"):
+                if isinstance(p, dict) and p.get("id") and p["id"] not in seen:
+                    seen.add(p["id"])
                     p.setdefault("platform", plat)
+                    p["account"] = account
                     posts.append(p)
-    comments = [c for c in _load_json(COMMENTS_FILE, []) if isinstance(c, dict) and c.get("id")]
-    # Label anything without a current label; the file is the cache.
-    sent = classify_comments(comments, os.environ.get("GROQ_API_KEY"))
-    if sent["queued"]:
-        COMMENTS_FILE.write_text(json.dumps(comments, indent=1, ensure_ascii=False))
-    state = _load_json(SCRAPE_STATE_FILE, {})
-    previous = _load_json(ANALYTICS_FILE, {})
+    return posts
+
+
+def build_scope(
+    scope: str,
+    posts: list[dict],
+    comment_data: dict | None,
+    comments_as_of: str,
+    state: dict,
+    histories: dict[str, list[dict]],
+    clf: Classifier,
+    generated_at: str,
+) -> tuple[dict, dict]:
+    """Analytics bundle and Content Vault for one scope ("all" or an account)."""
+    platforms = scope_platforms(scope)
+    accounts = list(ACCOUNTS) if scope == ALL_SCOPE else [scope]
+    out_file = scoped_file(ANALYTICS_FILE, scope)
+    previous = _load_json(out_file, None)
     if not isinstance(previous, dict):
-        previous = {}
+        # First run with accounts: the personal bundle starts from what
+        # analytics.json held, so nothing carried over is lost.
+        previous = _load_json(ANALYTICS_FILE, {}) if scope == DEFAULT_ACCOUNT else {}
+        if not isinstance(previous, dict):
+            previous = {}
 
-    clf = Classifier(_load_json(CATEGORIES_FILE, {}))
     cats = {p["id"]: clf.classify(p) for p in posts}
-    posts_by_id = {p["id"]: p for p in posts}
-
     heatmap, best_times = posting_heatmap(posts)
-    averages = platform_averages(posts)
+    averages = platform_averages(posts, platforms)
     top_hooks, hook_types = hooks(posts, cats)
-    last, cadence = last_posted_and_cadence(posts)
-    comment_data = comment_sections(comments, posts_by_id)
-    comments_as_of = comment_data.pop("_commentsAsOf")
-    history = update_follower_history(state, previous.get("followerHistory"))
-
+    last, cadence = last_posted_and_cadence(posts, platforms)
     posts_as_of = max(
-        (str((state.get(p) or {}).get("lastScrapedDate") or "") for p in PLATFORMS),
+        (
+            str((account_state(state, a).get(p) or {}).get("lastScrapedDate") or "")
+            for a in accounts
+            for p in account_platforms(a)
+        ),
         default="",
     )
+    # A bundle that covers every account carries the personal follower series,
+    # as analytics.json always has; a single account carries its own.
+    history = histories.get(DEFAULT_ACCOUNT if scope == ALL_SCOPE else scope, [])
 
     analytics = {
         **previous,  # keep anything we do not regenerate (e.g. revenue)
-        "generatedAt": _now_iso(),
-        "dataAsOf": {"posts": posts_as_of, "comments": comments_as_of},
+        "generatedAt": generated_at,
+        "dataAsOf": {"posts": posts_as_of, "comments": comments_as_of if comment_data else ""},
         "postingHeatmap": heatmap,
         "bestPostingTimes": best_times,
         "platformAverages": averages,
         "viralPosts": viral_posts(posts, averages, cats),
         "contentCategories": content_categories(posts, cats),
-        "engagementFunnel": engagement_funnel(posts),
+        "engagementFunnel": engagement_funnel(posts, platforms),
         "growthVelocity": growth_velocity(posts),
         "hashtagPerformance": hashtag_performance(posts),
         "crossPosts": cross_posts(posts),
@@ -614,12 +688,19 @@ def run(verbose: bool = False) -> dict:
         "lastPosted": last,
         "cadenceStats": cadence,
         "followerHistory": history,
-        **comment_data,
+        **(comment_data or {}),
     }
     # Keys we no longer produce must not survive via **previous.
     for dead in ("responseRate", "revenue"):
         analytics.pop(dead, None)
-    ANALYTICS_FILE.write_text(json.dumps(analytics, indent=1))
+    if scope != ALL_SCOPE:
+        analytics["scope"] = scope
+    if not comment_data:
+        # The comment snapshot belongs to the personal account, so a bundle
+        # for another account carries none of its sections.
+        for key in COMMENT_KEYS:
+            analytics.pop(key, None)
+    out_file.write_text(json.dumps(analytics, indent=1))
 
     # Content Vault --------------------------------------------------------
     buckets: dict[str, list[dict]] = defaultdict(list)
@@ -641,20 +722,68 @@ def run(verbose: bool = False) -> dict:
         })
     categories.sort(key=lambda c: c["count"], reverse=True)
     vault = {
-        "generatedAt": analytics["generatedAt"],
+        "generatedAt": generated_at,
         "totalPosts": len(posts),
         "categories": categories,
         "byPost": cats,
     }
-    VAULT_FILE.write_text(json.dumps(vault, indent=1))
+    scoped_file(VAULT_FILE, scope).write_text(json.dumps(vault, indent=1))
+    return analytics, vault
 
+
+COMMENT_KEYS = (
+    "topCommenters", "audienceOverlap", "highValueComments",
+    "questionCount", "commentSentiment", "sentimentSources",
+)
+
+
+def run(verbose: bool = False) -> dict:
+    posts = load_posts()
+    comments = [c for c in _load_json(COMMENTS_FILE, []) if isinstance(c, dict) and c.get("id")]
+    # Label anything without a current label; the file is the cache.
+    sent = classify_comments(comments, os.environ.get("GROQ_API_KEY"))
+    if sent["queued"]:
+        COMMENTS_FILE.write_text(json.dumps(comments, indent=1, ensure_ascii=False))
+    state = _load_json(SCRAPE_STATE_FILE, {})
+    previous = _load_json(ANALYTICS_FILE, {})
+    if not isinstance(previous, dict):
+        previous = {}
+
+    clf = Classifier(_load_json(CATEGORIES_FILE, {}))
+    posts_by_id = {p["id"]: p for p in posts}
+    comment_data = comment_sections(comments, posts_by_id)
+    comments_as_of = comment_data.pop("_commentsAsOf")
+
+    histories = {
+        account: update_follower_history(
+            account_state(state, account),
+            previous.get("followerHistory") if account == DEFAULT_ACCOUNT else None,
+            history_file(account),
+            PLATFORMS if account == DEFAULT_ACCOUNT else account_platforms(account),
+        )
+        for account in ACCOUNTS
+    }
+
+    generated_at = _now_iso()
+    built: dict[str, tuple[dict, dict]] = {}
+    for scope in SCOPES:
+        scoped = posts if scope == ALL_SCOPE else [p for p in posts if p.get("account") == scope]
+        # Comments were collected on the personal pages only.
+        with_comments = scope in (ALL_SCOPE, DEFAULT_ACCOUNT)
+        built[scope] = build_scope(
+            scope, scoped, comment_data if with_comments else None, comments_as_of,
+            state, histories, clf, generated_at,
+        )
+
+    analytics, vault = built[ALL_SCOPE]
     summary = {
         "posts": len(posts),
+        "byAccount": dict(Counter(p["account"] for p in posts)),
         "comments": len(comments),
         "viral": len(analytics["viralPosts"]),
         "crossPosts": len(analytics["crossPosts"]),
-        "categories": {c["slug"]: c["count"] for c in categories},
-        "historyPoints": len(history),
+        "categories": {c["slug"]: c["count"] for c in vault["categories"]},
+        "historyPoints": len(histories[DEFAULT_ACCOUNT]),
         "sentiment": {"labeledNow": sent["queued"], "byModel": sent["llm"], "byLexicon": sent["lexicon"]},
     }
     if verbose:

@@ -10,6 +10,9 @@ export type ScrapeMode = "incremental" | "full";
 export interface StartScrapeOptions {
   platforms?: string[];
   mode?: ScrapeMode;
+  /** "all", "personal" or "brand". The service treats a request without it
+   *  as the personal pages, which is all it knew before accounts. */
+  account?: string;
 }
 
 export interface ScrapeJob {
@@ -57,6 +60,7 @@ export async function startScrape(
       body: JSON.stringify({
         ...(opts.platforms ? { platforms: opts.platforms } : {}),
         mode: opts.mode ?? "incremental",
+        ...(opts.account ? { account: opts.account } : {}),
       }),
     });
     if (!res.ok) return null;

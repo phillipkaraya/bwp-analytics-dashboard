@@ -1,0 +1,1201 @@
+{
+ "generatedAt": "2026-11-11T23:19:49+00:00",
+ "dataAsOf": {
+  "posts": "2026-11-11T23:16:27+00:00",
+  "comments": ""
+ },
+ "postingHeatmap": [
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ],
+  [
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 2,
+    "avgEngagement": 0.0,
+    "avgViews": 6
+   },
+   {
+    "count": 8,
+    "avgEngagement": 0.2,
+    "avgViews": 37
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   }
+  ]
+ ],
+ "bestPostingTimes": [
+  {
+   "day": 6,
+   "hour": 13,
+   "count": 8,
+   "avgEngagement": 0.2,
+   "avgViews": 37
+  }
+ ],
+ "platformAverages": {
+  "instagram": {
+   "avgViews": 31,
+   "avgLikes": 0,
+   "avgComments": 0,
+   "avgEngagement": 0.16,
+   "posts": 10
+  },
+  "tiktok": {
+   "avgViews": 0,
+   "avgLikes": 0,
+   "avgComments": 0,
+   "avgEngagement": 0.0,
+   "posts": 0
+  }
+ },
+ "viralPosts": [
+  {
+   "id": "ig_3999921080901769580_28536850942",
+   "title": "I said \u201cmake it affordable,\u201d not \u201cshow me the actual numbers\u201d \ud83d\ude02",
+   "platform": "instagram",
+   "views": 253,
+   "likes": 4,
+   "comments": 0,
+   "engagementRate": "1.58",
+   "viralityScore": 8.16,
+   "multiplier": 8.16,
+   "avgViewsForPlatform": 31,
+   "date": "2026-10-03",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCkwfUvxls/"
+  }
+ ],
+ "contentCategories": {
+  "cars": {
+   "count": 10,
+   "avgViews": 31,
+   "avgLikes": 0,
+   "avgEngagement": 0.16,
+   "totalViews": 311
+  },
+  "comedy": {
+   "count": 10,
+   "avgViews": 31,
+   "avgLikes": 0,
+   "avgEngagement": 0.16,
+   "totalViews": 311
+  },
+  "finance": {
+   "count": 2,
+   "avgViews": 4,
+   "avgLikes": 0,
+   "avgEngagement": 0.0,
+   "totalViews": 9
+  },
+  "motivation": {
+   "count": 1,
+   "avgViews": 4,
+   "avgLikes": 0,
+   "avgEngagement": 0.0,
+   "totalViews": 4
+  },
+  "entrepreneurship": {
+   "count": 1,
+   "avgViews": 6,
+   "avgLikes": 0,
+   "avgEngagement": 0.0,
+   "totalViews": 6
+  }
+ },
+ "engagementFunnel": {
+  "instagram": {
+   "views": 311,
+   "likes": 4,
+   "comments": 0,
+   "shares": 0,
+   "likeRate": 1.29,
+   "commentRate": 0.0,
+   "shareRate": 0.0
+  },
+  "tiktok": {
+   "views": 0,
+   "likes": 0,
+   "comments": 0,
+   "shares": 0,
+   "likeRate": 0,
+   "commentRate": 0,
+   "shareRate": 0
+  }
+ },
+ "growthVelocity": [
+  {
+   "month": "2026-10",
+   "posts": 10,
+   "views": 311,
+   "likes": 4,
+   "comments": 0
+  }
+ ],
+ "hashtagPerformance": [
+  {
+   "tag": "#claudeai",
+   "count": 3,
+   "avgViews": 86,
+   "avgLikes": 1,
+   "avgEngagement": 0.53,
+   "totalViews": 258
+  },
+  {
+   "tag": "#cars",
+   "count": 10,
+   "avgViews": 31,
+   "avgLikes": 0,
+   "avgEngagement": 0.16,
+   "totalViews": 311
+  },
+  {
+   "tag": "#soundon",
+   "count": 10,
+   "avgViews": 31,
+   "avgLikes": 0,
+   "avgEngagement": 0.16,
+   "totalViews": 311
+  },
+  {
+   "tag": "#chatgpt",
+   "count": 6,
+   "avgViews": 7,
+   "avgLikes": 0,
+   "avgEngagement": 0.0,
+   "totalViews": 47
+  }
+ ],
+ "crossPosts": [],
+ "topHooks": [
+  {
+   "hook": "I said \u201cmake it affordable,\u201d not \u201cshow me the actual numbers\u201d \ud83d\ude02",
+   "postId": "ig_3999921080901769580_28536850942",
+   "platform": "instagram",
+   "views": 253,
+   "likes": 4,
+   "engagement": 1.58,
+   "engagementRate": "1.58",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCkwfUvxls/"
+  },
+  {
+   "hook": "Kept changing the prompt until it said yes \ud83d\ude02",
+   "postId": "ig_3999921823394243087_28536850942",
+   "platform": "instagram",
+   "views": 20,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCk7S0vyIP/"
+  },
+  {
+   "hook": "The returns are mostly engine noises \ud83d\ude02",
+   "postId": "ig_3999917996595057689_28536850942",
+   "platform": "instagram",
+   "views": 11,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCkDm1vZQZ/"
+  },
+  {
+   "hook": "The mechanic fixed the car. Now somebody fix me \ud83d\ude02",
+   "postId": "ig_3999910799471372110_28536850942",
+   "platform": "instagram",
+   "views": 6,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "entrepreneurship",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCia3_vWdO/"
+  },
+  {
+   "hook": "Asked for fuel savings. It suggested walking. We\u2019re starting a new chat \ud83d\ude02",
+   "postId": "ig_3999906079512193869_28536850942",
+   "platform": "instagram",
+   "views": 6,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "finance",
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeChWMMP-tN/"
+  },
+  {
+   "hook": "I told it to focus on the horsepower, not the resale value \ud83d\ude02",
+   "postId": "ig_3999917188789026082_28536850942",
+   "platform": "instagram",
+   "views": 4,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "motivation",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCj32gv70i/"
+  },
+  {
+   "hook": "It found the problem. Apparently it\u2019s me \ud83d\ude02",
+   "postId": "ig_3999916282659875517_28536850942",
+   "platform": "instagram",
+   "views": 4,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCjqqnPiq9/"
+  },
+  {
+   "hook": "Apparently \u201cinstant noodles and new tires\u201d is a budget \ud83d\ude02",
+   "postId": "ig_3999913529644457289_28536850942",
+   "platform": "instagram",
+   "views": 3,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "finance",
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCjCmqvJ1J/"
+  },
+  {
+   "hook": "Typed \u201cclunk clunk\u201d and asked it to fix the price too \ud83d\ude02",
+   "postId": "ig_3999915675609866654_28536850942",
+   "platform": "instagram",
+   "views": 2,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCjh1QPiGe/"
+  },
+  {
+   "hook": "I\u2019ve built enough character. Can we fix the car now? \ud83d\ude02",
+   "postId": "ig_3999914892021707772_28536850942",
+   "platform": "instagram",
+   "views": 2,
+   "likes": 0,
+   "engagement": 0.0,
+   "engagementRate": "0.00",
+   "categories": [
+    "cars",
+    "comedy"
+   ],
+   "url": "https://www.instagram.com/p/DeCjWbev7P8/"
+  }
+ ],
+ "hookTypes": [
+  {
+   "type": "other",
+   "count": 9,
+   "avgViews": 34,
+   "avgLikes": 0,
+   "avgEngagement": 0.18,
+   "totalViews": 309,
+   "topPost": "I said \u201cmake it affordable,\u201d not \u201cshow me the actual numbers\u201d \ud83d\ude02"
+  },
+  {
+   "type": "question",
+   "count": 1,
+   "avgViews": 2,
+   "avgLikes": 0,
+   "avgEngagement": 0.0,
+   "totalViews": 2,
+   "topPost": "I\u2019ve built enough character. Can we fix the car now? \ud83d\ude02"
+  }
+ ],
+ "lastPosted": {
+  "instagram": {
+   "lastDate": "2026-10-03",
+   "daysSince": 39,
+   "lastTitle": "Asked for fuel savings. It suggested walking. We\u2019re starting a new chat \ud83d\ude02",
+   "lastId": "ig_3999906079512193869_28536850942",
+   "totalPosts": 10
+  }
+ },
+ "cadenceStats": {
+  "instagram": {
+   "avgDaysBetween": 0.0,
+   "postsPerWeek": 0,
+   "postsPerMonth": 0,
+   "longestGap": 0,
+   "totalPosts": 10
+  }
+ },
+ "followerHistory": [
+  {
+   "date": "2026-11-11",
+   "instagram": 9,
+   "tiktok": 0
+  }
+ ],
+ "scope": "brand"
+}

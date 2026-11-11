@@ -794,14 +794,14 @@
     "avgViews": 1812
    },
    {
-    "count": 18,
-    "avgEngagement": 1.74,
-    "avgViews": 1150
+    "count": 20,
+    "avgEngagement": 1.56,
+    "avgViews": 1036
    },
    {
-    "count": 33,
-    "avgEngagement": 2.29,
-    "avgViews": 866
+    "count": 41,
+    "avgEngagement": 1.88,
+    "avgViews": 704
    },
    {
     "count": 7,
@@ -999,11 +999,11 @@
  ],
  "contentCategories": {
   "comedy": {
-   "count": 820,
-   "avgViews": 16213,
-   "avgLikes": 482,
-   "avgEngagement": 3.26,
-   "totalViews": 8739225
+   "count": 830,
+   "avgViews": 15919,
+   "avgLikes": 476,
+   "avgEngagement": 3.2,
+   "totalViews": 8739536
   },
   "other": {
    "count": 478,
@@ -1020,25 +1020,25 @@
    "totalViews": 598231
   },
   "finance": {
-   "count": 340,
-   "avgViews": 1969,
+   "count": 342,
+   "avgViews": 1955,
    "avgLikes": 80,
-   "avgEngagement": 4.33,
-   "totalViews": 535661
+   "avgEngagement": 4.3,
+   "totalViews": 535670
   },
   "cars": {
-   "count": 303,
-   "avgViews": 11140,
-   "avgLikes": 584,
-   "avgEngagement": 3.66,
-   "totalViews": 2406261
+   "count": 313,
+   "avgViews": 10648,
+   "avgLikes": 566,
+   "avgEngagement": 3.5,
+   "totalViews": 2406572
   },
   "entrepreneurship": {
-   "count": 293,
-   "avgViews": 6687,
-   "avgLikes": 348,
-   "avgEngagement": 4.86,
-   "totalViews": 1384253
+   "count": 294,
+   "avgViews": 6655,
+   "avgLikes": 347,
+   "avgEngagement": 4.83,
+   "totalViews": 1384259
   },
   "travel": {
    "count": 231,
@@ -1076,11 +1076,11 @@
    "totalViews": 268486
   },
   "motivation": {
-   "count": 152,
-   "avgViews": 2419,
-   "avgLikes": 130,
-   "avgEngagement": 11.9,
-   "totalViews": 217721
+   "count": 153,
+   "avgViews": 2392,
+   "avgLikes": 129,
+   "avgEngagement": 11.77,
+   "totalViews": 217725
   },
   "food": {
    "count": 39,
@@ -1106,9 +1106,9 @@
    "likes": 198558,
    "comments": 710,
    "engagementRate": "3.49",
-   "viralityScore": 399.3,
-   "multiplier": 399.3,
-   "avgViewsForPlatform": 14377,
+   "viralityScore": 406.28,
+   "multiplier": 406.28,
+   "avgViewsForPlatform": 14130,
    "date": "2024-07-29",
    "categories": [
     "comedy"
@@ -1159,9 +1159,9 @@
    "likes": 44217,
    "comments": 176,
    "engagementRate": "11.08",
-   "viralityScore": 28.13,
-   "multiplier": 28.13,
-   "avgViewsForPlatform": 14377,
+   "viralityScore": 28.62,
+   "multiplier": 28.62,
+   "avgViewsForPlatform": 14130,
    "date": "2024-04-01",
    "categories": [
     "comedy",
@@ -1425,9 +1425,9 @@
    "likes": 6085,
    "comments": 255,
    "engagementRate": "6.30",
-   "viralityScore": 7.01,
-   "multiplier": 7.01,
-   "avgViewsForPlatform": 14377,
+   "viralityScore": 7.14,
+   "multiplier": 7.14,
+   "avgViewsForPlatform": 14130,
    "date": "2024-05-15",
    "categories": [
     "real_estate",
@@ -1507,6 +1507,25 @@
    "url": "https://www.youtube.com/shorts/veUZILBwcN0"
   },
   {
+   "id": "ig_3170799671290667311_5251656103",
+   "title": "Music Videos Look Very Different Than Driving through Midtown \ud83d\ude02\ud83d\ude02 Not my cup of tea personally but I support people howev",
+   "platform": "instagram",
+   "views": 88909,
+   "likes": 4041,
+   "comments": 82,
+   "engagementRate": "4.69",
+   "viralityScore": 6.29,
+   "multiplier": 6.29,
+   "avgViewsForPlatform": 14130,
+   "date": "2023-08-16",
+   "categories": [
+    "cars",
+    "comedy",
+    "lifestyle"
+   ],
+   "url": "https://www.instagram.com/p/CwA8YBdNKEv/"
+  },
+  {
    "id": "yt_4DNI-cIddMI",
    "title": "I\u2019ll tell you now nobody stopped \ud83d\ude02 Got calls from friends who saw me driving by though \ud83d\udcaa\ud83c\udffe \u201dNever, 4.4 thousand views",
    "platform": "youtube",
@@ -1522,25 +1541,6 @@
     "comedy"
    ],
    "url": "https://www.youtube.com/shorts/4DNI-cIddMI"
-  },
-  {
-   "id": "ig_3170799671290667311_5251656103",
-   "title": "Music Videos Look Very Different Than Driving through Midtown \ud83d\ude02\ud83d\ude02 Not my cup of tea personally but I support people howev",
-   "platform": "instagram",
-   "views": 88909,
-   "likes": 4041,
-   "comments": 82,
-   "engagementRate": "4.69",
-   "viralityScore": 6.18,
-   "multiplier": 6.18,
-   "avgViewsForPlatform": 14377,
-   "date": "2023-08-16",
-   "categories": [
-    "cars",
-    "comedy",
-    "lifestyle"
-   ],
-   "url": "https://www.instagram.com/p/CwA8YBdNKEv/"
   },
   {
    "id": "yt_j5diBi1jLzo",
@@ -1606,9 +1606,9 @@
    "likes": 631,
    "comments": 35,
    "engagementRate": "0.85",
-   "viralityScore": 5.55,
-   "multiplier": 5.55,
-   "avgViewsForPlatform": 14377,
+   "viralityScore": 5.65,
+   "multiplier": 5.65,
+   "avgViewsForPlatform": 14130,
    "date": "2023-11-05",
    "categories": [
     "comedy",
@@ -1935,11 +1935,11 @@
  ],
  "platformAverages": {
   "instagram": {
-   "avgViews": 14377,
-   "avgLikes": 509,
-   "avgComments": 18,
-   "avgEngagement": 5.06,
-   "posts": 697
+   "avgViews": 14130,
+   "avgLikes": 502,
+   "avgComments": 17,
+   "avgEngagement": 4.98,
+   "posts": 707
   },
   "tiktok": {
    "avgViews": 15590,
@@ -1972,8 +1972,8 @@
  },
  "engagementFunnel": {
   "instagram": {
-   "views": 8209585,
-   "likes": 355040,
+   "views": 8209896,
+   "likes": 355044,
    "comments": 12555,
    "shares": 0,
    "likeRate": 4.32,
@@ -3407,14 +3407,6 @@
    "totalViews": 53416
   },
   {
-   "tag": "#cars",
-   "count": 19,
-   "avgViews": 4396,
-   "avgLikes": 74,
-   "avgEngagement": 2.8,
-   "totalViews": 57154
-  },
-  {
    "tag": "#with",
    "count": 3,
    "avgViews": 4380,
@@ -3549,6 +3541,14 @@
    "avgLikes": 54,
    "avgEngagement": 3.73,
    "totalViews": 6756
+  },
+  {
+   "tag": "#abundanceoveranxiety",
+   "count": 3,
+   "avgViews": 3316,
+   "avgLikes": 3,
+   "avgEngagement": 0.43,
+   "totalViews": 6632
   }
  ],
  "growthVelocity": [
@@ -4219,9 +4219,9 @@
   },
   {
    "month": "2026-10",
-   "posts": 39,
-   "views": 30336,
-   "likes": 1053,
+   "posts": 49,
+   "views": 30647,
+   "likes": 1057,
    "comments": 157
   }
  ],
@@ -21266,20 +21266,20 @@
  "hookTypes": [
   {
    "type": "other",
-   "count": 1467,
-   "avgViews": 4854,
-   "avgLikes": 215,
-   "avgEngagement": 4.96,
-   "totalViews": 4534382,
+   "count": 1476,
+   "avgViews": 4808,
+   "avgLikes": 214,
+   "avgEngagement": 4.92,
+   "totalViews": 4534691,
    "topPost": "This literally happened 1 week after a Turo customer wrecked one of my cars #entrepreneurship  ain\u2019t easy #airbnbhost"
   },
   {
    "type": "question",
-   "count": 329,
-   "avgViews": 27798,
-   "avgLikes": 651,
-   "avgEngagement": 2.91,
-   "totalViews": 6254722,
+   "count": 330,
+   "avgViews": 27675,
+   "avgLikes": 649,
+   "avgEngagement": 2.89,
+   "totalViews": 6254724,
    "topPost": "What do you think the self checkout was thinking ? \ud83e\udd14"
   },
   {
@@ -21340,35 +21340,35 @@
  "lastPosted": {
   "instagram": {
    "lastDate": "2026-10-09",
-   "daysSince": 0,
+   "daysSince": 33,
    "lastTitle": "Day 8 showing that you could make 1000x the amount just by trying and doing something new \ud83d\ude02\ud83d\udd25",
    "lastId": "ig_4003815943925640773_5251656103",
-   "totalPosts": 697
+   "totalPosts": 707
   },
   "tiktok": {
    "lastDate": "2026-10-08",
-   "daysSince": 1,
+   "daysSince": 34,
    "lastTitle": "Creators and coaches: your inbox replies should sound like you. You should still approve them. The Viral Inbox Reply Sys",
    "lastId": "tt_7694362393752735006",
    "totalPosts": 197
   },
   "youtube": {
    "lastDate": "2026-10-09",
-   "daysSince": 0,
+   "daysSince": 33,
    "lastTitle": "Day 8 showing that you could make 1000x the amount just by trying and doing something new \ud83d\ude02\ud83d\udd25, 212 views",
    "lastId": "yt_8fK1wi_FESA",
    "totalPosts": 666
   },
   "threads": {
    "lastDate": "2026-06-23",
-   "daysSince": 108,
+   "daysSince": 141,
    "lastTitle": "A employee for $200 a month that works harder than a $4000 a month employee \ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02",
    "lastId": "th_3926289600053650647",
    "totalPosts": 568
   },
   "linkedin": {
    "lastDate": "2023-02-08",
-   "daysSince": 1339,
+   "daysSince": 1372,
    "lastTitle": "Awesome time with some awesome people! The future is definitely bright!",
    "lastId": "li_7029102857215778816",
    "totalPosts": 16
@@ -21376,11 +21376,11 @@
  },
  "cadenceStats": {
   "instagram": {
-   "avgDaysBetween": 4.7,
+   "avgDaysBetween": 4.6,
    "postsPerWeek": 1.5,
-   "postsPerMonth": 6.4,
+   "postsPerMonth": 6.5,
    "longestGap": 86,
-   "totalPosts": 697
+   "totalPosts": 707
   },
   "tiktok": {
    "avgDaysBetween": 9.9,
@@ -28999,9 +28999,9 @@
    "totalMutual": 4588
   }
  },
- "generatedAt": "2026-10-09T22:02:00+00:00",
+ "generatedAt": "2026-11-11T23:19:49+00:00",
  "dataAsOf": {
-  "posts": "2026-10-09T22:01:57+00:00",
+  "posts": "2026-11-11T23:16:27+00:00",
   "comments": "2026-02-22"
  },
  "questionCount": 559,
