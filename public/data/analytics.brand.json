@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-12T01:05:44+00:00",
+ "generatedAt": "2026-11-12T02:26:53+00:00",
  "dataAsOf": {
-  "posts": "2026-11-12T01:05:43+00:00",
+  "posts": "2026-11-12T02:26:53+00:00",
   "comments": ""
  },
  "postingHeatmap": [
@@ -473,14 +473,14 @@
     "avgViews": 20
    },
    {
-    "count": 8,
+    "count": 10,
     "avgEngagement": 0.0,
-    "avgViews": 22
+    "avgViews": 17
    },
    {
-    "count": 4,
+    "count": 5,
     "avgEngagement": 0.0,
-    "avgViews": 15
+    "avgViews": 12
    },
    {
     "count": 7,
@@ -1022,7 +1022,7 @@
    "avgLikes": 0,
    "avgComments": 0,
    "avgEngagement": 0.0,
-   "posts": 0
+   "posts": 3
   },
   "x": {
    "avgViews": 23,
@@ -1481,40 +1481,47 @@
    "avgEngagement": 0.42,
    "totalViews": 5582
   },
-  "cars": {
-   "count": 73,
-   "avgViews": 30,
-   "avgLikes": 0,
-   "avgEngagement": 0.24,
-   "totalViews": 2254
-  },
   "other": {
-   "count": 73,
+   "count": 75,
    "avgViews": 11,
    "avgLikes": 0,
    "avgEngagement": 0.23,
    "totalViews": 850
   },
+  "cars": {
+   "count": 74,
+   "avgViews": 30,
+   "avgLikes": 0,
+   "avgEngagement": 0.24,
+   "totalViews": 2254
+  },
   "education": {
-   "count": 69,
+   "count": 70,
    "avgViews": 31,
    "avgLikes": 0,
    "avgEngagement": 0.26,
    "totalViews": 2081
   },
   "finance": {
-   "count": 54,
+   "count": 55,
    "avgViews": 29,
    "avgLikes": 0,
    "avgEngagement": 0.17,
    "totalViews": 1593
   },
   "sports": {
-   "count": 53,
+   "count": 54,
    "avgViews": 28,
    "avgLikes": 0,
    "avgEngagement": 0.07,
    "totalViews": 1495
+  },
+  "real_estate": {
+   "count": 51,
+   "avgViews": 30,
+   "avgLikes": 0,
+   "avgEngagement": 0.22,
+   "totalViews": 1543
   },
   "travel": {
    "count": 51,
@@ -1522,13 +1529,6 @@
    "avgLikes": 0,
    "avgEngagement": 0.06,
    "totalViews": 1449
-  },
-  "real_estate": {
-   "count": 50,
-   "avgViews": 30,
-   "avgLikes": 0,
-   "avgEngagement": 0.22,
-   "totalViews": 1543
   },
   "lifestyle": {
    "count": 46,
@@ -1538,7 +1538,7 @@
    "totalViews": 1279
   },
   "entrepreneurship": {
-   "count": 43,
+   "count": 44,
    "avgViews": 39,
    "avgLikes": 0,
    "avgEngagement": 0.24,
@@ -1659,6 +1659,13 @@
    "posts": 25,
    "views": 517,
    "likes": 4,
+   "comments": 0
+  },
+  {
+   "month": "2026-11",
+   "posts": 3,
+   "views": 0,
+   "likes": 0,
    "comments": 0
   }
  ],
@@ -2568,7 +2575,7 @@
  "hookTypes": [
   {
    "type": "other",
-   "count": 302,
+   "count": 303,
    "avgViews": 22,
    "avgLikes": 0,
    "avgEngagement": 0.33,
@@ -2629,6 +2636,13 @@
    "lastId": "ig_3999906079512193869_28536850942",
    "totalPosts": 10
   },
+  "facebook": {
+   "lastDate": "2026-11-11",
+   "daysSince": 0,
+   "lastTitle": "",
+   "lastId": "fb_122101377933545279",
+   "totalPosts": 3
+  },
   "x": {
    "lastDate": "2026-10-08",
    "daysSince": 34,
@@ -2644,6 +2658,13 @@
    "postsPerMonth": 0,
    "longestGap": 0,
    "totalPosts": 10
+  },
+  "facebook": {
+   "avgDaysBetween": 0.0,
+   "postsPerWeek": 0,
+   "postsPerMonth": 0,
+   "longestGap": 0,
+   "totalPosts": 3
   },
   "x": {
    "avgDaysBetween": 4.2,

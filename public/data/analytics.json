@@ -468,14 +468,14 @@
     "avgViews": 796
    },
    {
-    "count": 33,
-    "avgEngagement": 1.19,
-    "avgViews": 947
+    "count": 35,
+    "avgEngagement": 1.12,
+    "avgViews": 893
    },
    {
-    "count": 14,
-    "avgEngagement": 0.8,
-    "avgViews": 719
+    "count": 15,
+    "avgEngagement": 0.74,
+    "avgViews": 671
    },
    {
     "count": 31,
@@ -1006,35 +1006,35 @@
    "totalViews": 8744807
   },
   "other": {
-   "count": 573,
+   "count": 575,
    "avgViews": 1264,
-   "avgLikes": 37,
+   "avgLikes": 36,
    "avgEngagement": 3.8,
    "totalViews": 458997
   },
   "education": {
-   "count": 452,
+   "count": 453,
    "avgViews": 1893,
    "avgLikes": 90,
    "avgEngagement": 6.04,
    "totalViews": 600312
   },
   "finance": {
-   "count": 406,
+   "count": 407,
    "avgViews": 1648,
    "avgLikes": 67,
    "avgEngagement": 3.64,
    "totalViews": 537254
   },
   "cars": {
-   "count": 395,
+   "count": 396,
    "avgViews": 8333,
-   "avgLikes": 448,
+   "avgLikes": 447,
    "avgEngagement": 2.79,
    "totalViews": 2408515
   },
   "entrepreneurship": {
-   "count": 356,
+   "count": 357,
    "avgViews": 5565,
    "avgLikes": 286,
    "avgEngagement": 4.08,
@@ -1048,7 +1048,7 @@
    "totalViews": 472985
   },
   "real_estate": {
-   "count": 266,
+   "count": 267,
    "avgViews": 2428,
    "avgLikes": 97,
    "avgEngagement": 2.97,
@@ -1062,7 +1062,7 @@
    "totalViews": 586888
   },
   "sports": {
-   "count": 248,
+   "count": 249,
    "avgViews": 4846,
    "avgLikes": 233,
    "avgEngagement": 2.33,
@@ -2037,7 +2037,7 @@
    "avgLikes": 0,
    "avgComments": 0,
    "avgEngagement": 0.0,
-   "posts": 129
+   "posts": 132
   },
   "x": {
    "avgViews": 23,
@@ -4322,7 +4322,7 @@
   },
   {
    "month": "2026-11",
-   "posts": 9,
+   "posts": 12,
    "views": 0,
    "likes": 0,
    "comments": 0
@@ -26812,7 +26812,7 @@
  "hookTypes": [
   {
    "type": "other",
-   "count": 1856,
+   "count": 1857,
    "avgViews": 3677,
    "avgLikes": 170,
    "avgEngagement": 3.84,
@@ -26922,9 +26922,9 @@
   "facebook": {
    "lastDate": "2026-11-11",
    "daysSince": 0,
-   "lastTitle": "In 1990, Robert Tappan Morris became the first person ever convicted of computer fraud in America. Here's how it happene",
-   "lastId": "fb_122295684938132629",
-   "totalPosts": 129
+   "lastTitle": "",
+   "lastId": "fb_122101377933545279",
+   "totalPosts": 132
   },
   "x": {
    "lastDate": "2026-10-08",
@@ -26971,11 +26971,11 @@
    "totalPosts": 16
   },
   "facebook": {
-   "avgDaysBetween": 7.0,
+   "avgDaysBetween": 6.8,
    "postsPerWeek": 1.0,
-   "postsPerMonth": 4.3,
+   "postsPerMonth": 4.4,
    "longestGap": 224,
-   "totalPosts": 129
+   "totalPosts": 132
   },
   "x": {
    "avgDaysBetween": 4.2,
@@ -34573,9 +34573,9 @@
    "totalMutual": 4588
   }
  },
- "generatedAt": "2026-11-12T01:05:44+00:00",
+ "generatedAt": "2026-11-12T02:26:53+00:00",
  "dataAsOf": {
-  "posts": "2026-11-12T01:05:43+00:00",
+  "posts": "2026-11-12T02:26:53+00:00",
   "comments": "2026-02-22"
  },
  "questionCount": 559,

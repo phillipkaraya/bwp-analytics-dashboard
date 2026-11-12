@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-11-12T01:05:44+00:00",
- "totalPosts": 2710,
+ "generatedAt": "2026-11-12T02:26:53+00:00",
+ "totalPosts": 2713,
  "categories": [
   {
    "slug": "comedy",
@@ -1122,7 +1122,7 @@
   {
    "slug": "other",
    "label": "Other",
-   "count": 573,
+   "count": 575,
    "totalViews": 458997,
    "avgViews": 1264,
    "platforms": {
@@ -1131,7 +1131,7 @@
     "youtube": 190,
     "threads": 126,
     "linkedin": 1,
-    "facebook": 22,
+    "facebook": 24,
     "x": 73
    },
    "postIds": [
@@ -1707,13 +1707,15 @@
     "fb_122210585726132629",
     "fb_122163346802132629",
     "fb_122163320204132629",
-    "fb_358992823955101"
+    "fb_358992823955101",
+    "fb_122101380183545279",
+    "fb_122101377933545279"
    ]
   },
   {
    "slug": "education",
    "label": "Education",
-   "count": 452,
+   "count": 453,
    "totalViews": 600312,
    "avgViews": 1893,
    "platforms": {
@@ -1722,7 +1724,7 @@
     "youtube": 74,
     "threads": 62,
     "linkedin": 9,
-    "facebook": 17,
+    "facebook": 18,
     "x": 69
    },
    "postIds": [
@@ -2176,6 +2178,7 @@
     "fb_122162988350132629",
     "fb_122162357216132629",
     "fb_122161844834132629",
+    "fb_122101399191545279",
     "x_1468566337660280832",
     "x_1457895652399140870"
    ]
@@ -2183,7 +2186,7 @@
   {
    "slug": "finance",
    "label": "Finance",
-   "count": 406,
+   "count": 407,
    "totalViews": 537254,
    "avgViews": 1648,
    "platforms": {
@@ -2192,7 +2195,7 @@
     "youtube": 84,
     "threads": 45,
     "linkedin": 6,
-    "facebook": 12,
+    "facebook": 13,
     "x": 52
    },
    "postIds": [
@@ -2601,13 +2604,14 @@
     "fb_122162357216132629",
     "fb_122162022770132629",
     "fb_122161979474132629",
-    "fb_122161844834132629"
+    "fb_122161844834132629",
+    "fb_122101399191545279"
    ]
   },
   {
    "slug": "cars",
    "label": "Cars",
-   "count": 395,
+   "count": 396,
    "totalViews": 2408515,
    "avgViews": 8333,
    "platforms": {
@@ -2616,7 +2620,7 @@
     "youtube": 90,
     "threads": 79,
     "linkedin": 1,
-    "facebook": 19,
+    "facebook": 20,
     "x": 63
    },
    "postIds": [
@@ -3014,13 +3018,14 @@
     "fb_122164050080132629",
     "fb_122163181154132629",
     "fb_122162179664132629",
-    "fb_122161844834132629"
+    "fb_122161844834132629",
+    "fb_122101399191545279"
    ]
   },
   {
    "slug": "entrepreneurship",
    "label": "Entrepreneurship",
-   "count": 356,
+   "count": 357,
    "totalViews": 1385897,
    "avgViews": 5565,
    "platforms": {
@@ -3029,7 +3034,7 @@
     "youtube": 58,
     "threads": 47,
     "linkedin": 9,
-    "facebook": 20,
+    "facebook": 21,
     "x": 42
    },
    "postIds": [
@@ -3388,6 +3393,7 @@
     "fb_122163550046132629",
     "fb_122162022770132629",
     "fb_122161844618132629",
+    "fb_122101399191545279",
     "x_1457895652399140870"
    ]
   },
@@ -3715,7 +3721,7 @@
   {
    "slug": "real_estate",
    "label": "Real Estate",
-   "count": 266,
+   "count": 267,
    "totalViews": 478433,
    "avgViews": 2428,
    "platforms": {
@@ -3724,7 +3730,7 @@
     "youtube": 49,
     "threads": 40,
     "linkedin": 1,
-    "facebook": 11,
+    "facebook": 12,
     "x": 50
    },
    "postIds": [
@@ -3993,7 +3999,8 @@
     "fb_122164433330132629",
     "fb_122163550046132629",
     "fb_122161979474132629",
-    "fb_122161844834132629"
+    "fb_122161844834132629",
+    "fb_122101399191545279"
    ]
   },
   {
@@ -4279,7 +4286,7 @@
   {
    "slug": "sports",
    "label": "Sports",
-   "count": 248,
+   "count": 249,
    "totalViews": 809398,
    "avgViews": 4846,
    "platforms": {
@@ -4288,7 +4295,7 @@
     "youtube": 44,
     "threads": 63,
     "linkedin": 2,
-    "facebook": 6,
+    "facebook": 7,
     "x": 53
    },
    "postIds": [
@@ -4539,7 +4546,8 @@
     "fb_122231992478132629",
     "fb_122231991926132629",
     "fb_122231991398132629",
-    "fb_122219418452132629"
+    "fb_122219418452132629",
+    "fb_122101399191545279"
    ]
   },
   {
@@ -13715,6 +13723,20 @@
    "finance",
    "cars",
    "comedy"
+  ],
+  "fb_122101399191545279": [
+   "finance",
+   "real_estate",
+   "cars",
+   "entrepreneurship",
+   "education",
+   "sports"
+  ],
+  "fb_122101380183545279": [
+   "other"
+  ],
+  "fb_122101377933545279": [
+   "other"
   ],
   "x_2108215284494664147": [
    "entrepreneurship",

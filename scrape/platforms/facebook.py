@@ -10,6 +10,9 @@ How the feed arrives (probed 2026-11-11):
     paths move between releases, so fields are found by key name anywhere
     inside the story rather than by a fixed path.
   - `creation_time` is Unix seconds. Reels link to /reel/<video id>.
+  - A pinned post arrives twice: first as a slim `Story` in the Featured
+    strip (`highlight_units_section`) with no `creation_time`, then in full
+    in the timeline. The dated copy is the one kept.
 
 What the timeline does not carry: play counts. So Facebook is a viewless
 platform here, like Threads and LinkedIn: views stay 0, reactions are the
@@ -133,9 +136,13 @@ def _engagement(likes: int, comments: int, shares: int, followers: int) -> float
     return (likes + comments + shares) / followers * 100 if followers else 0.0
 
 
+def _timestamp(story: dict) -> int:
+    return _int(story.get("creation_time") or fh.first_key(story, "creation_time"))
+
+
 def _to_post(story: dict, followers: int) -> dict | None:
     post_id = str(story.get("post_id") or "")
-    ts = _int(story.get("creation_time") or fh.first_key(story, "creation_time"))
+    ts = _timestamp(story)
     if not post_id or not ts:
         return None
     url = _url(story)
@@ -227,7 +234,14 @@ def read_feed(page_id: str, known_ids: set[str], full: bool, max_pages: int, on_
             before = len(stories)
             for story in _stories_in(texts):
                 pid = str(story.get("post_id") or "")
-                if not pid or pid in stories or _actor_id(story) != page_id:
+                if not pid or _actor_id(story) != page_id:
+                    continue
+                if pid in stories:
+                    # A pinned post is sent twice: a slim copy in the Featured
+                    # strip with no creation_time, and the full one in the
+                    # timeline. Keep whichever copy can be dated.
+                    if not _timestamp(stories[pid]) and _timestamp(story):
+                        stories[pid] = story
                     continue
                 stories[pid] = story
                 consecutive_known = consecutive_known + 1 if f"fb_{pid}" in known_ids else 0
