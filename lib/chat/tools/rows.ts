@@ -15,7 +15,7 @@ export { reach as reachOf };
 
 export const DAY = 86_400_000;
 export const SAVES_PLATFORMS = new Set<Platform>(["tiktok"]);
-export const SHARES_PLATFORMS = new Set<Platform>(["tiktok", "threads", "linkedin"]);
+export const SHARES_PLATFORMS = new Set<Platform>(["tiktok", "threads", "linkedin", "facebook", "x"]);
 export const NOT_MEASURED = "not measured" as const;
 export const TITLE_MAX = 90;
 export const COMMENT_TEXT_MAX = 160;

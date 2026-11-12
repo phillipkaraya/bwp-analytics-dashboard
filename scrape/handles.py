@@ -25,6 +25,13 @@ ACCOUNTS = {
     "brand": {
         "instagram": "buildaiwithphil",  # owner pk 28536850942
         "tiktok": "buildaiwithphil",
+        # The Page id. It resolves to facebook.com/phillip.karaya, a Page still
+        # named "Phillip Karaya" that carries the Build With Phil posts.
+        "facebook": "61553978889474",
+        # @buildwithphilai ("Phillip Karaya | Build With Phil"). The
+        # @buildaiwithphil spelling used on Instagram and TikTok is not this
+        # account on X.
+        "x": "buildwithphilai",
     },
 }
 ACCOUNT_LABELS = {"personal": "Phillip Karaya", "brand": "Build With Phil"}

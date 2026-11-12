@@ -135,7 +135,7 @@ const BATTERY: Array<[string, unknown]> = [
 
 const BAD_INPUTS: Array<[string, unknown]> = [
   ["top_posts", { days: 30, platforms: null, types: null, metric: "reach", order: "desc", limit: 500 }],
-  ["top_posts", { days: 30, platforms: ["facebook"], types: null, metric: "reach", order: "desc", limit: 5 }],
+  ["top_posts", { days: 30, platforms: ["myspace"], types: null, metric: "reach", order: "desc", limit: 5 }],
   ["window_summary", { windows: [], platforms: null, types: null }],
   ["no_such_tool", {}],
   ["top_posts", { days: 45, platforms: null, types: null, metric: "reach", order: "desc", limit: 5 }],

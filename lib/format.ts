@@ -73,6 +73,8 @@ export const platformLabel: Record<Platform, string> = {
   youtube: "YouTube",
   threads: "Threads",
   linkedin: "LinkedIn",
+  facebook: "Facebook",
+  x: "X",
 };
 
 export const platformShort: Record<Platform, string> = {
@@ -81,6 +83,8 @@ export const platformShort: Record<Platform, string> = {
   youtube: "YT",
   threads: "TH",
   linkedin: "LI",
+  facebook: "FB",
+  x: "X",
 };
 
 export const platformColor: Record<Platform, string> = {
@@ -89,6 +93,8 @@ export const platformColor: Record<Platform, string> = {
   youtube: "var(--yt)",
   threads: "var(--th)",
   linkedin: "var(--li)",
+  facebook: "var(--fb)",
+  x: "var(--x)",
 };
 
 /**

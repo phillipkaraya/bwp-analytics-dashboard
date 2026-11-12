@@ -5,7 +5,7 @@ import { loadAllPosts } from "@/lib/data";
 import { useAccountScope } from "@/lib/account";
 import { AccountSwitch } from "@/components/layout/account-switch";
 import type { Post, Platform } from "@/lib/types";
-import { PLATFORMS, accountLabel, avgEngagementRate, byPlatform, hasViews, postHasViews, toNum, totals } from "@/lib/derive";
+import { accountLabel, avgEngagementRate, byPlatform, hasViews, postHasViews, scopePlatforms, toNum, totals } from "@/lib/derive";
 import { HeroPanel, HeroRow, PageHero } from "@/components/layout/page-hero";
 import { PlatformDot } from "@/components/charts/platform-badge";
 import { fmt, fmtDate, fmtPct, fmtShort, platformLabel } from "@/lib/format";
@@ -32,12 +32,16 @@ type SortKey = "date" | "views" | "likes" | "comments" | "engagement";
 export function Posts() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [platform, setPlatform] = useState<Platform | "all">("all");
+  const [pickedPlatform, setPlatform] = useState<Platform | "all">("all");
   const [sort, setSort] = useState<SortKey>("views");
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState<Post | null>(null);
 
   const [scope] = useAccountScope();
+  // The platforms of the pages in view. A platform picked under another
+  // account (YouTube, then a switch to Build With Phil) falls back to all.
+  const platforms = useMemo(() => scopePlatforms(scope), [scope]);
+  const platform = pickedPlatform !== "all" && !platforms.includes(pickedPlatform) ? "all" : pickedPlatform;
 
   useEffect(() => {
     let cancelled = false;
@@ -95,17 +99,17 @@ export function Posts() {
       // The per-post average is over posts that report views, so a carousel
       // in the slice does not drag it down with a zero that is not a count.
       viewPosts: filtered.filter(postHasViews).length,
-      viewlessLabel: PLATFORMS.filter((pl) => !hasViews(pl) && grouped[pl].length > 0)
+      viewlessLabel: platforms.filter((pl) => !hasViews(pl) && grouped[pl].length > 0)
         .map((pl) => platformLabel[pl])
         .join(" and "),
-      perPlatform: PLATFORMS.map((pl) => ({
+      perPlatform: platforms.map((pl) => ({
         platform: pl,
         posts: grouped[pl].length,
         views: totals(grouped[pl]).views,
         likes: totals(grouped[pl]).likes,
       })),
     };
-  }, [filtered]);
+  }, [filtered, platforms]);
 
   if (loading) {
     return <PageHero eyebrow="Loading posts" title="Post Analysis" controls={<AccountSwitch />} />;
@@ -196,7 +200,7 @@ export function Posts() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All platforms</SelectItem>
-              {PLATFORMS.map((p) => (
+              {platforms.map((p) => (
                 <SelectItem key={p} value={p}>
                   {platformLabel[p]}
                 </SelectItem>

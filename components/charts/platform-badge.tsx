@@ -15,6 +15,8 @@ const SOFT_BG: Record<Platform, string> = {
   youtube: "bg-[color-mix(in_oklab,var(--yt)_15%,transparent)] text-[color:var(--yt)]",
   threads: "bg-[color-mix(in_oklab,var(--th)_10%,transparent)] text-[color:var(--th)]",
   linkedin: "bg-[color-mix(in_oklab,var(--li)_14%,transparent)] text-[color:var(--li)]",
+  facebook: "bg-[color-mix(in_oklab,var(--fb)_14%,transparent)] text-[color:var(--fb)]",
+  x: "bg-[color-mix(in_oklab,var(--x)_14%,transparent)] text-[color:var(--x)]",
 };
 
 const SOLID_BG: Record<Platform, string> = {
@@ -23,6 +25,8 @@ const SOLID_BG: Record<Platform, string> = {
   youtube: "bg-[color:var(--yt)] text-white",
   threads: "bg-[color:var(--th)] text-white",
   linkedin: "bg-[color:var(--li)] text-white",
+  facebook: "bg-[color:var(--fb)] text-white",
+  x: "bg-[color:var(--x)] text-white",
 };
 
 export function PlatformBadge({
@@ -57,6 +61,8 @@ const DOT_BG: Record<Platform, string> = {
   youtube: "bg-[color:var(--yt)]",
   threads: "bg-[color:var(--th)]",
   linkedin: "bg-[color:var(--li)]",
+  facebook: "bg-[color:var(--fb)]",
+  x: "bg-[color:var(--x)]",
 };
 
 export function PlatformDot({ platform, className }: PlatformDotProps) {

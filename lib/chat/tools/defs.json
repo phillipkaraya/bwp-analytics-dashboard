@@ -35,10 +35,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "types": {
             "type": [
@@ -128,10 +130,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "types": {
             "type": [
@@ -213,10 +217,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "types": {
             "type": [
@@ -281,10 +287,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "groupBy": {
             "type": "string",
@@ -351,10 +359,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "limit": {
             "type": "integer",
@@ -414,10 +424,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "limit": {
             "type": "integer",
@@ -467,10 +479,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "limit": {
             "type": "integer",
@@ -538,10 +552,12 @@
                 "tiktok",
                 "youtube",
                 "threads",
-                "linkedin"
+                "linkedin",
+                "facebook",
+                "x"
               ]
             },
-            "description": "Limit to these platforms (at most 5). null means all five."
+            "description": "Limit to these platforms (at most 7). null means every platform."
           },
           "limit": {
             "type": "integer",

@@ -48,7 +48,7 @@ from scrape.sentiment import classify_comments  # noqa: E402
 DATA_DIR = ROOT / "public" / "data"
 CATEGORIES_FILE = Path(__file__).resolve().parent / "categories.json"
 
-PLATFORMS = ["instagram", "tiktok", "youtube", "threads", "linkedin"]
+PLATFORMS = ["instagram", "tiktok", "youtube", "threads", "linkedin", "facebook", "x"]
 POST_FILES = {p: DATA_DIR / f"{p}_posts.json" for p in PLATFORMS}
 COMMENTS_FILE = DATA_DIR / "comments.json"
 SCRAPE_STATE_FILE = DATA_DIR / "scrape_state.json"
@@ -492,7 +492,9 @@ def comment_sections(comments: list[dict], posts_by_id: dict[str, dict]) -> dict
     )
     breakdown = {
         plat: len({(c.get("username") or "").lower() for c in comments if c.get("platform") == plat and c.get("username")})
-        for plat in PLATFORMS
+        # Comments are collected on the personal pages only, so the
+        # breakdown lists those platforms and no others.
+        for plat in account_platforms(DEFAULT_ACCOUNT)
     }
     overlap = {
         "crossPlatformUsers": cross,
@@ -759,7 +761,7 @@ def run(verbose: bool = False) -> dict:
             account_state(state, account),
             previous.get("followerHistory") if account == DEFAULT_ACCOUNT else None,
             history_file(account),
-            PLATFORMS if account == DEFAULT_ACCOUNT else account_platforms(account),
+            account_platforms(account),
         )
         for account in ACCOUNTS
     }

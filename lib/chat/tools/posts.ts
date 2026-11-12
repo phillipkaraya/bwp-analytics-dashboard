@@ -80,6 +80,8 @@ const PLATFORM_WORD: Record<Platform, string> = {
   youtube: "YouTube",
   threads: "Threads",
   linkedin: "LinkedIn",
+  facebook: "Facebook",
+  x: "X",
 };
 
 function listWords(platforms: Iterable<Platform>): string {

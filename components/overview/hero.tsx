@@ -73,8 +73,9 @@ export function Hero({ posts, scrape, history, days, onDays, scope, platforms }:
   );
 
   // Views are summed over posts that report them. When the window also holds
-  // carousels or photos, say so instead of letting their zeros read as views;
-  // when it holds nothing but those, a zero video-view count is the truth.
+  // posts with no view count (carousels, photos, Threads, LinkedIn, Facebook),
+  // say so instead of letting their zeros read as views; when it holds
+  // nothing but those, a zero view count is the truth.
   const viewsStat =
     cur.viewPosts === cur.posts
       ? { label: "Views", value: fmtShort(cur.views), pct: pctChange(cur.views, prev.views) }
@@ -82,12 +83,12 @@ export function Hero({ posts, scrape, history, days, onDays, scope, platforms }:
         ? {
             label: "Video views",
             value: fmtShort(cur.views),
-            hint: `${fmt(cur.viewPosts)} of ${fmt(cur.posts)} posts are video. Carousels report no views.`,
+            hint: `${fmt(cur.viewPosts)} of ${fmt(cur.posts)} posts report views. The rest publish no view count.`,
           }
         : {
             label: "Video views",
             value: "0",
-            hint: "No video posts. Carousels and photos report no views.",
+            hint: "None of these posts publish a view count.",
           };
 
   return (

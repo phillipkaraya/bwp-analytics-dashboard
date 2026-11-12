@@ -16,6 +16,9 @@ export interface SnapshotRow {
   youtube: number;
   threads: number;
   linkedin: number | null;
+  /** null on a day, or for pages, that do not have the platform. */
+  facebook: number | null;
+  x: number | null;
 }
 export interface DeltaBlock {
   from: string | null;
@@ -32,7 +35,7 @@ export interface FollowerGrowthResult {
 }
 
 function nullPlatforms(): Record<Platform, number | null> {
-  return { instagram: null, tiktok: null, youtube: null, threads: null, linkedin: null };
+  return { instagram: null, tiktok: null, youtube: null, threads: null, linkedin: null, facebook: null, x: null };
 }
 
 function daysBetween(a: string, b: string): number | null {
@@ -69,6 +72,8 @@ export function runFollowerGrowth(data: ChatData, input: FollowerGrowthInput): T
     youtube: toNum(h.youtube),
     threads: toNum(h.threads),
     linkedin: h.linkedin === undefined ? null : toNum(h.linkedin),
+    facebook: h.facebook === undefined ? null : toNum(h.facebook),
+    x: h.x === undefined ? null : toNum(h.x),
   }));
 
   const notes: string[] = [];

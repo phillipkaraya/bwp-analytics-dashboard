@@ -1,19 +1,18 @@
 import { BarChart } from "@/components/charts/bar-chart";
 import { Numbered } from "@/components/charts/numbered";
 import { Section } from "@/components/charts/section";
-import { fmt, fmtPct, platformLabel, platformShort } from "@/lib/format";
+import { fmt, fmtPct, platformColor, platformLabel, platformShort } from "@/lib/format";
 import { PLATFORMS, byPlatform, hasViews, totals, avgEngagementRate } from "@/lib/derive";
 import type { Platform, Post } from "@/lib/types";
 
-const PLATFORM_COLOR: Record<string, string> = {
-  Instagram: "var(--ig)",
-  TikTok: "var(--tt)",
-  YouTube: "var(--yt)",
-  Threads: "var(--th)",
-  "Threads (likes)": "var(--th)",
-  LinkedIn: "var(--li)",
-  "LinkedIn (likes)": "var(--li)",
-};
+// Keyed by the bar's label, with and without the "(likes)" suffix a viewless
+// platform carries. Built from PLATFORMS so a new platform is never colourless.
+const PLATFORM_COLOR: Record<string, string> = Object.fromEntries(
+  PLATFORMS.flatMap((p) => [
+    [platformLabel[p], platformColor[p]],
+    [`${platformLabel[p]} (likes)`, platformColor[p]],
+  ]),
+);
 
 // Phone-width fallback for the x axis: "LinkedIn (likes)" becomes "LI".
 const PLATFORM_SHORT: Record<string, string> = Object.fromEntries(
@@ -37,7 +36,20 @@ export function PlatformCharts({
     rate: Number(avgEngagementRate(grouped[p]).toFixed(2)),
   }));
 
-  // Viewless platforms (Threads, LinkedIn) get a likes bar that says so.
+  // Name the viewless platforms actually on screen, so the note never
+  // mentions Threads on a page that only shows Facebook.
+  const viewless = platforms.filter((p) => !hasViews(p)).map((p) => platformLabel[p]);
+  const viewlessNames =
+    viewless.length > 1 ? `${viewless.slice(0, -1).join(", ")} and ${viewless[viewless.length - 1]}` : viewless[0];
+  const verb = (one: string, many: string) => (viewless.length > 1 ? many : one);
+  const engagementHint = viewless.length
+    ? `Average % per post. ${viewlessNames} ${verb("is", "are")} measured against followers, since ${verb("it publishes", "they publish")} no view count.`
+    : "Average % per post, measured against views.";
+  const reachHint = viewless.length
+    ? `Lifetime views. ${viewlessNames} ${verb("counts", "count")} likes, since ${verb("it publishes", "they publish")} no view count.`
+    : "Lifetime views.";
+
+  // Viewless platforms (Threads, LinkedIn, Facebook) get a likes bar that says so.
   const viewsData = platforms.map((p) => ({
     platform: hasViews(p) ? platformLabel[p] : `${platformLabel[p]} (likes)`,
     views: hasViews(p) ? totals(grouped[p]).views : totals(grouped[p]).likes,
@@ -47,7 +59,7 @@ export function PlatformCharts({
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <Numbered n={3}>
         <Section kicker="By platform"
-          title="Engagement Rate" hint="Average % per post. Threads and LinkedIn are measured against followers, since they publish no view count.">
+          title="Engagement Rate" hint={engagementHint}>
           <BarChart
             data={engagementData}
             xKey="platform"
@@ -60,7 +72,7 @@ export function PlatformCharts({
       </Numbered>
       <Numbered n={4}>
         <Section kicker="By platform"
-          title="Reach" hint="Lifetime views. Threads and LinkedIn count likes, since they publish no view count.">
+          title="Reach" hint={reachHint}>
           <BarChart
             data={viewsData}
             xKey="platform"

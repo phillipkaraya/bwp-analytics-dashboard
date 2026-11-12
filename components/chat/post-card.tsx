@@ -28,6 +28,8 @@ const SOFT_BLOCK: Record<Platform, string> = {
   youtube: "bg-[color-mix(in_oklab,var(--yt)_15%,transparent)] text-[color:var(--yt)]",
   threads: "bg-[color-mix(in_oklab,var(--th)_10%,transparent)] text-[color:var(--th)]",
   linkedin: "bg-[color-mix(in_oklab,var(--li)_14%,transparent)] text-[color:var(--li)]",
+  facebook: "bg-[color-mix(in_oklab,var(--fb)_14%,transparent)] text-[color:var(--fb)]",
+  x: "bg-[color-mix(in_oklab,var(--x)_14%,transparent)] text-[color:var(--x)]",
 };
 
 export function PostCard({ card, className }: { card: CardData; className?: string }) {

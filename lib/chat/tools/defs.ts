@@ -11,7 +11,15 @@ import type { Platform } from "../../types";
 import { platformLabel } from "../../format";
 import type { JsonSchemaObject, ToolDef } from "../types";
 
-export const PLATFORM_ENUM = ["instagram", "tiktok", "youtube", "threads", "linkedin"] as const;
+// Must list the same platforms as PLATFORMS in lib/derive.ts; the check
+// below fails the type check when one is missing.
+export const PLATFORM_ENUM = ["instagram", "tiktok", "youtube", "threads", "linkedin", "facebook", "x"] as const;
+const _everyPlatform: (typeof PLATFORM_ENUM)[number] extends Platform
+  ? Platform extends (typeof PLATFORM_ENUM)[number]
+    ? true
+    : never
+  : never = true;
+void _everyPlatform;
 export const TYPE_ENUM = ["shortform", "reel", "video", "short", "carousel", "post", "image", "article"] as const;
 export const DAYS_ENUM = [7, 30, 60, 90, 180, 365] as const;
 export const WINDOW_ENUM = [7, 30, 60, 90, 180, 365] as const;
@@ -19,7 +27,7 @@ export const WINDOW_ENUM = [7, 30, 60, 90, 180, 365] as const;
 export const PLATFORMS_ARG = {
   type: ["array", "null"],
   items: { type: "string", enum: [...PLATFORM_ENUM] },
-  description: "Limit to these platforms (at most 5). null means all five.",
+  description: "Limit to these platforms (at most 7). null means every platform.",
 };
 export const DAYS_ARG = {
   type: ["integer", "null"],

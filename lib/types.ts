@@ -1,6 +1,15 @@
 // Shared types — mirror the JSON shapes in /public/data/*.
 
-export type Platform = "instagram" | "tiktok" | "youtube" | "threads" | "linkedin";
+// Facebook and X joined on 2026-11-11 with the Build With Phil pages; so far
+// only that account has them. lib/derive.ts PLATFORMS is the runtime list.
+export type Platform =
+  | "instagram"
+  | "tiktok"
+  | "youtube"
+  | "threads"
+  | "linkedin"
+  | "facebook"
+  | "x";
 
 /** Which set of pages a post belongs to: Phil's own profiles ("personal") or
  *  the Build With Phil pages ("brand"). Mirrors ACCOUNTS in scrape/handles.py. */

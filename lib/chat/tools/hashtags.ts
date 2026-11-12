@@ -7,7 +7,7 @@
 // the posts. Averages of views run over posts that report views only.
 
 import type { Platform, Post } from "../../types";
-import { PLATFORMS, postHasViews, toNum } from "../../derive";
+import { PLATFORMS, hasViews, postHasViews, toNum } from "../../derive";
 import type { ChatData } from "../data";
 import type { ToolEnvelope } from "../types";
 import { NOT_MEASURED, TITLE_MAX, applyFilters, clipText, emptyEnvelope, envelope, reachOf, stableSort, windowOf } from "./rows";
@@ -63,7 +63,7 @@ export function indexByTag(posts: readonly Post[]): Map<string, Post[]> {
 }
 
 function emptyPlatforms(): Record<Platform, number> {
-  return { instagram: 0, tiktok: 0, youtube: 0, threads: 0, linkedin: 0 };
+  return { instagram: 0, tiktok: 0, youtube: 0, threads: 0, linkedin: 0, facebook: 0, x: 0 };
 }
 
 function rowFor(tag: string, posts: readonly Post[]): HashtagRow {
@@ -132,8 +132,8 @@ export function runHashtagStats(data: ChatData, input: HashtagStatsInput): ToolE
   notes.push("Correlation, not cause: one viral post dominates a tag's average");
   notes.push("YouTube posts carry no hashtags; avgViews is over posts that report views");
   const platformsInSelection = new Set(selected.map((p) => p.platform));
-  if (PLATFORMS.some((p) => platformsInSelection.has(p) && (p === "threads" || p === "linkedin"))) {
-    notes.push("Threads and LinkedIn tags count toward uses and likes but not views");
+  if (PLATFORMS.some((p) => platformsInSelection.has(p) && !hasViews(p))) {
+    notes.push("Threads, LinkedIn and Facebook tags count toward uses and likes but not views");
   }
 
   return envelope(data, window, filters, notes, { rows, postsWithHashtags, totalPosts: selected.length });

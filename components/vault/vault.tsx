@@ -6,7 +6,7 @@ import { loadAllPosts, loadContentVault } from "@/lib/data";
 import { useAccountScope } from "@/lib/account";
 import { AccountSwitch } from "@/components/layout/account-switch";
 import type { ContentVault, Platform, Post, VaultCategory } from "@/lib/types";
-import { PLATFORMS, accountLabel, postHasViews, toNum } from "@/lib/derive";
+import { accountLabel, postHasViews, scopePlatforms, toNum } from "@/lib/derive";
 import { fmt, fmtDate, fmtShort, platformLabel, platformShort } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { HeroPanel, PageHero } from "@/components/layout/page-hero";
@@ -38,7 +38,7 @@ export function Vault() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [slug, setSlug] = useState<string>(() => params.get("topic") || "all");
-  const [platform, setPlatform] = useState<Platform | "all">("all");
+  const [pickedPlatform, setPlatform] = useState<Platform | "all">("all");
   const [sort, setSort] = useState<SortKey>("views");
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(PAGE);
@@ -46,6 +46,10 @@ export function Vault() {
   const [linkSheet, setLinkSheet] = useState<string | null>(null);
 
   const [scope] = useAccountScope();
+  // The platforms of the pages in view. A platform picked under another
+  // account (YouTube, then a switch to Build With Phil) falls back to all.
+  const platforms = useMemo(() => scopePlatforms(scope), [scope]);
+  const platform = pickedPlatform !== "all" && !platforms.includes(pickedPlatform) ? "all" : pickedPlatform;
 
   useEffect(() => {
     let cancelled = false;
@@ -271,7 +275,7 @@ export function Vault() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All platforms</SelectItem>
-              {PLATFORMS.map((p) => (
+              {platforms.map((p) => (
                 <SelectItem key={p} value={p}>
                   {platformLabel[p]}
                 </SelectItem>
@@ -448,6 +452,8 @@ const PLATFORM_TINT: Record<Platform, string> = {
   youtube: "color-mix(in oklab, var(--yt) 12%, white)",
   threads: "color-mix(in oklab, var(--th) 8%, white)",
   linkedin: "color-mix(in oklab, var(--li) 12%, white)",
+  facebook: "color-mix(in oklab, var(--fb) 12%, white)",
+  x: "color-mix(in oklab, var(--x) 12%, white)",
 };
 
 function youtubeThumb(post: Post): string | null {

@@ -28,6 +28,9 @@ const PLATFORM_WORDS: Record<string, Platform> = {
   th: "threads",
   linkedin: "linkedin",
   li: "linkedin",
+  facebook: "facebook",
+  fb: "facebook",
+  x: "x",
 };
 
 export interface RenderContext {

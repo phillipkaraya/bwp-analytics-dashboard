@@ -11,10 +11,13 @@ interface FollowBackProps {
   data: FollowData;
 }
 
-const TABS: Platform[] = ["instagram", "tiktok", "youtube", "threads", "linkedin"];
+// The platforms follow_data.json covers. It is the March 2026 snapshot of the
+// personal pages, so platforms added since then have no tab here.
+const TABS = ["instagram", "tiktok", "youtube", "threads", "linkedin"] as const satisfies readonly Platform[];
+type FollowPlatform = (typeof TABS)[number];
 
 export function DoesntFollowBack({ data }: FollowBackProps) {
-  const [active, setActive] = useState<Platform>("instagram");
+  const [active, setActive] = useState<FollowPlatform>("instagram");
   const platformData = data[active];
   const list = platformData?.dontFollowBack ?? [];
   const scrapedAt = platformData?.scrapedAt ?? undefined;

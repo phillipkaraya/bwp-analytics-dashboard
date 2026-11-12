@@ -20,6 +20,8 @@ export const PLATFORMS: Platform[] = [
   "youtube",
   "threads",
   "linkedin",
+  "facebook",
+  "x",
 ];
 
 // --- Accounts ---------------------------------------------------------------
@@ -33,7 +35,7 @@ export const DEFAULT_ACCOUNT: Account = "personal";
 
 export const ACCOUNT_PLATFORMS: Record<Account, Platform[]> = {
   personal: ["instagram", "tiktok", "youtube", "threads", "linkedin"],
-  brand: ["instagram", "tiktok"],
+  brand: ["instagram", "tiktok", "facebook", "x"],
 };
 
 export const accountLabel: Record<AccountScope, string> = {
@@ -130,7 +132,11 @@ export function mergeFollowerHistory(series: FollowerSnapshot[][]): FollowerSnap
  * averages or ranks by views must leave Threads out (or show likes instead)
  * rather than present that zero as a measurement (Phil, 2026-09-04).
  */
-export const VIEWLESS_PLATFORMS: ReadonlySet<Platform> = new Set<Platform>(["threads", "linkedin"]);
+// Facebook's page feed gives reactions, comments and shares but no play
+// count, so it joins them (2026-11-11). X reports views per post, except on
+// posts older than its view counter; the reader types those "post", which
+// VIEWLESS_TYPES below already covers.
+export const VIEWLESS_PLATFORMS: ReadonlySet<Platform> = new Set<Platform>(["threads", "linkedin", "facebook"]);
 
 export function hasViews(platform: Platform): boolean {
   return !VIEWLESS_PLATFORMS.has(platform);
@@ -214,6 +220,8 @@ export function byPlatform<T>(
     youtube: [],
     threads: [],
     linkedin: [],
+    facebook: [],
+    x: [],
   };
   for (const it of items) out[pick(it)].push(it);
   return out;
@@ -338,7 +346,15 @@ export interface FollowerDeltas {
 export function followerDeltas(history: FollowerSnapshot[]): FollowerDeltas {
   const empty: FollowerDeltas = {
     since: null,
-    byPlatform: { instagram: null, tiktok: null, youtube: null, threads: null, linkedin: null },
+    byPlatform: {
+      instagram: null,
+      tiktok: null,
+      youtube: null,
+      threads: null,
+      linkedin: null,
+      facebook: null,
+      x: null,
+    },
     total: null,
   };
   const sorted = [...history]

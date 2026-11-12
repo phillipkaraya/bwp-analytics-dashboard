@@ -40,7 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scrape import analyze  # noqa: E402
 from scrape.cdp import CDPError  # noqa: E402
 from scrape.handles import ACCOUNTS, DEFAULT_ACCOUNT  # noqa: E402
-from scrape.platforms import instagram, linkedin, tiktok, youtube, threads  # noqa: E402
+from scrape.platforms import facebook, instagram, linkedin, tiktok, youtube, threads, x  # noqa: E402
 
 PORT = 5556
 VERSION = "0.3.0"
@@ -55,7 +55,7 @@ SCRAPE_STATE = DATA_DIR / "scrape_state.json"
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 
-PLATFORMS = ["instagram", "tiktok", "youtube", "threads", "linkedin"]
+PLATFORMS = ["instagram", "tiktok", "youtube", "threads", "linkedin", "facebook", "x"]
 
 
 def now_iso() -> str:
@@ -99,7 +99,12 @@ PLATFORM_RUNNERS = {
 
 # Readers that take an `account` argument and can therefore scrape any account
 # listed for their platform in scrape/handles.py. The rest are personal only.
-ACCOUNT_AWARE = {"instagram": instagram.scrape, "tiktok": tiktok.scrape}
+ACCOUNT_AWARE = {
+    "instagram": instagram.scrape,
+    "tiktok": tiktok.scrape,
+    "facebook": facebook.scrape,
+    "x": x.scrape,
+}
 
 # (account, platform) -> callable(on_progress=, full=). An account gets a
 # platform when handles.py lists a handle for it AND a reader can scrape it.

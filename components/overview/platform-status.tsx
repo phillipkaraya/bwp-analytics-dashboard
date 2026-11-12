@@ -19,8 +19,12 @@ const LG_COLS: Record<number, string> = {
   3: "lg:grid-cols-3",
   4: "lg:grid-cols-4",
   5: "lg:grid-cols-5",
-  6: "lg:grid-cols-6",
-  7: "lg:grid-cols-7",
+};
+// More than five platforms (All Pages has seven) cannot share one row until
+// the screen is wide, so that row waits for xl and stays 2-up below it.
+const XL_COLS: Record<number, string> = {
+  6: "xl:grid-cols-6",
+  7: "xl:grid-cols-7",
 };
 
 export function PlatformStatusRow({
@@ -37,9 +41,15 @@ export function PlatformStatusRow({
 }) {
   const grouped = byPlatform(posts, (p) => p.platform);
   const deltas = followerDeltas(history);
+  const dense = platforms.length > 5;
 
   return (
-    <div className={cn("card rise grid grid-cols-1 sm:grid-cols-2", LG_COLS[platforms.length] ?? "lg:grid-cols-5")}>
+    <div
+      className={cn(
+        "card rise grid grid-cols-1 sm:grid-cols-2",
+        dense ? (XL_COLS[platforms.length] ?? "xl:grid-cols-7") : (LG_COLS[platforms.length] ?? "lg:grid-cols-5"),
+      )}
+    >
       {platforms.map((p, i) => {
         const last = platformLastPosted(grouped[p]);
         const cad = platformCadence(grouped[p]);
@@ -52,12 +62,16 @@ export function PlatformStatusRow({
             className={cn(
               "relative p-5",
               // hairline dividers between cells, not around them:
-              // stacked on phones, 2x2 from sm, one row from lg
+              // stacked on phones, 2x2 from sm, one row from lg (xl when dense)
               i > 0 && "border-t border-border/70",
               i === 1 && "sm:border-t-0",
               i % 2 === 1 && "sm:border-l sm:border-border/70",
-              "lg:border-t-0",
-              i > 0 && "lg:border-l lg:border-border/70",
+              dense ? "xl:border-t-0 xl:px-4" : "lg:border-t-0",
+              // An odd count leaves the last cell alone on the 2-up layout;
+              // let it take the full row instead of leaving a blank half.
+              i === platforms.length - 1 && platforms.length % 2 === 1 &&
+                (dense ? "sm:col-span-2 xl:col-span-1" : "sm:col-span-2 lg:col-span-1"),
+              i > 0 && (dense ? "xl:border-l xl:border-border/70" : "lg:border-l lg:border-border/70"),
             )}
           >
             <div className="flex items-center justify-between gap-2">
@@ -104,7 +118,14 @@ export function PlatformStatusRow({
                 </span>
               )}
             </div>
-            <dl className="mt-4 grid grid-cols-3 gap-2 text-xs">
+            <dl
+              className={cn(
+                "mt-4 grid grid-cols-3 gap-2 text-xs",
+                // Seven narrow cells: let each figure take its own width so
+                // "1mo ago" stays on one line.
+                dense && "xl:flex xl:justify-between xl:whitespace-nowrap",
+              )}
+            >
               <div>
                 <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-muted">Last</dt>
                 <dd className="mt-0.5 text-ink-soft">{last.date ? relativeTime(last.date) : "none"}</dd>

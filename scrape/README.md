@@ -116,11 +116,14 @@ scrape/
 ├── categories.json   editable topic keyword map
 ├── cdp.py            Chrome DevTools Protocol client (own-tab discipline)
 ├── incremental.py    load/merge helpers + STOP_AFTER_KNOWN
-├── handles.py        Phil's handle per platform
+├── handles.py        handles per account (personal, brand) and platform
+├── feedhook.py       request hook + JSON lookups shared by facebook.py and x.py
 └── platforms/
     ├── instagram.py  web_profile_info + feed API via fetch() in page context
     ├── tiktok.py     DOM tile extraction while scrolling
     ├── youtube.py    ytInitialData + innertube continuations (videos + shorts)
     ├── threads.py    XHR hook capturing /graphql/query while scrolling
-    └── linkedin.py   reads the rendered activity feed cards (no catchable XHR); likes are its reach
+    ├── linkedin.py   reads the rendered activity feed cards (no catchable XHR); likes are its reach
+    ├── facebook.py   brand Page timeline from the page's own feed responses; no play counts, likes are its reach
+    └── x.py          brand profile timeline from the page's own GraphQL responses; views where X reports them
 ```

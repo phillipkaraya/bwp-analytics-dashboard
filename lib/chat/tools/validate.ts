@@ -107,7 +107,7 @@ export type ValidationResult<T> = { ok: true; value: T } | { ok: false; error: s
 export const LIMIT_RANGE = { min: 1, max: 25 } as const;
 export const MONTHS_RANGE = { min: 1, max: 24 } as const;
 export const MIN_COUNT_RANGE = { min: 2, max: 20 } as const;
-export const MAX_ARRAY = 5;
+export const MAX_ARRAY = 7; // one entry per platform at most
 export const MAX_STRING = 200;
 export const WINDOWS_RANGE = { min: 1, max: 4 } as const;
 

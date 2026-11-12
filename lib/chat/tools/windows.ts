@@ -155,7 +155,7 @@ export function runWindowSummary(data: ChatData, input: WindowSummaryInput): Too
       byPlatform,
     };
   });
-  notes.push("views are summed over viewPosts only; Threads, LinkedIn, carousels and photos report no views");
+  notes.push("views are summed over viewPosts only; Threads, LinkedIn, Facebook, carousels and photos report no views");
   return envelope(data, window, filters, notes, { windows });
 }
 
@@ -222,7 +222,7 @@ export function runPlatformBreakdown(data: ChatData, input: PlatformBreakdownInp
   const notes = [
     "Cadence is a lifetime average and understates a platform that went quiet",
     "Follower counts are rounded as the platforms display them",
-    "Threads and LinkedIn report no views; compare them by likes and comments",
+    "Threads, LinkedIn and Facebook report no views; compare them by likes and comments",
     "Engagement rate is interactions per view on reels, videos and shorts and interactions per follower elsewhere, so compare it within a platform",
   ];
   return envelope(data, window, filters, notes, { rows });

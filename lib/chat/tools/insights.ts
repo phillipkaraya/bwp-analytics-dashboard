@@ -4,7 +4,7 @@
 // legs never carry a raw Post: id, platform, date, reach and url only.
 
 import type { CrossPostItem, Platform, Post, VaultCategory, ViralPost } from "../../types";
-import { hasViews, postHasViews, toNum } from "../../derive";
+import { PLATFORMS, hasViews, postHasViews, toNum } from "../../derive";
 import type { ChatData } from "../data";
 import type { PostRow, ToolEnvelope } from "../types";
 import { NOT_MEASURED, TITLE_MAX, clipText, emptyEnvelope, envelope, reachOf, round2, sortByReach, toRow } from "./rows";
@@ -73,7 +73,7 @@ type RawCrossPost = Omit<CrossPostItem, "posts"> & {
   posts: Array<CrossPostItem["posts"][number] & { date?: unknown }>;
 };
 
-const PLATFORM_SET = new Set<string>(["instagram", "tiktok", "youtube", "threads", "linkedin"]);
+const PLATFORM_SET = new Set<string>(PLATFORMS);
 
 function isPlatform(v: unknown): v is Platform {
   return typeof v === "string" && PLATFORM_SET.has(v);
@@ -199,7 +199,7 @@ export function runContentInsights(data: ChatData, input: ContentInsightsInput):
         url: v.url ?? null,
       }));
       notes.push(
-        "Viral means views at least 3x the platform's average; Threads and LinkedIn cannot qualify because they report no views",
+        "Viral means views at least 3x the platform's average; Threads, LinkedIn and Facebook cannot qualify because they report no views",
         "YouTube dominates the viral list because its average is small",
       );
       return envelope(data, "all time", filters, notes, { section: "viral", topic: null, rows, totalItems: viral.length });
@@ -230,7 +230,7 @@ export function runContentInsights(data: ChatData, input: ContentInsightsInput):
       });
       notes.push(
         "Cross posts are grouped by the opening of the title; bestPlatform is the leg with the most views",
-        "Threads and LinkedIn legs report no views, so their reach is likes and they never win on views",
+        "Threads, LinkedIn and Facebook legs report no views, so their reach is likes and they never win on views",
       );
       return envelope(data, "all time", filters, notes, { section: "cross_posts", topic: null, rows, totalItems: items.length });
     }
