@@ -41,7 +41,7 @@
     "youtube": "2026-10-09T21:51:45+00:00",
     "threads": "2026-10-09T22:01:19+00:00",
     "linkedin": "2026-10-09T22:01:57+00:00",
-    "facebook": "2026-11-12T01:05:08+00:00"
+    "facebook": "2026-11-12T02:30:48+00:00"
   },
   "linkedin": {
     "lastScrapedDate": "2026-10-09T22:01:57+00:00",
@@ -92,7 +92,7 @@
     }
   },
   "facebook": {
-    "lastScrapedDate": "2026-11-12T01:05:08+00:00",
+    "lastScrapedDate": "2026-11-12T02:30:48+00:00",
     "status": "complete",
     "totalScraped": 129,
     "lastPostId": "fb_122295796562132629",
