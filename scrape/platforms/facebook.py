@@ -197,11 +197,13 @@ def _stories_in(texts: list[str]) -> list[dict]:
     return found
 
 
-def read_feed(page_id: str, known_ids: set[str], full: bool, max_pages: int, on_progress=None) -> tuple[dict[str, dict], int, bool]:
-    """Scroll the Page and return (stories by post id, followers, stopped early)."""
+def read_feed(page_id: str, known_ids: set[str], full: bool, max_pages: int, on_progress=None) -> tuple[dict[str, dict], int | None, bool]:
+    """Scroll the Page and return (stories by post id, followers, stopped early).
+    followers is None when the page did not show a count, which is not the
+    same as a new Page that shows "0 followers"."""
     cdp = CDP()
     stories: dict[str, dict] = {}
-    followers = 0
+    followers: int | None = None
     stopped_early = False
     try:
         cdp.new_tab("about:blank")
@@ -215,7 +217,7 @@ def read_feed(page_id: str, known_ids: set[str], full: bool, max_pages: int, on_
 
         body_text = cdp.evaluate("(document.body.innerText || '').slice(0, 8000)") or ""
         m = re.search(r"([\d.,]+\s*[KkMm]?)\s+followers", body_text)
-        followers = _parse_count(m.group(1)) if m else 0
+        followers = _parse_count(m.group(1)) if m else None
 
         texts = fh.embedded_json(cdp, "creation_time")
         stale_rounds = 0
@@ -261,8 +263,8 @@ def scrape(max_pages: int = 40, on_progress=None, full: bool = False,
     existing, known_ids = load_existing(out_file)
     print("  [facebook] driving Phil's logged-in session; keep runs to about once a day", file=sys.stderr)
 
-    stories, followers, stopped_early = read_feed(page_id, known_ids, full, max_pages, on_progress)
-    followers = followers or _stored_followers(account)
+    stories, seen_followers, stopped_early = read_feed(page_id, known_ids, full, max_pages, on_progress)
+    followers = _stored_followers(account) if seen_followers is None else seen_followers
 
     new_posts = [p for p in (_to_post(s, followers) for s in stories.values()) if p]
     merged = merge(existing, new_posts)
@@ -280,4 +282,7 @@ def scrape(max_pages: int = 40, on_progress=None, full: bool = False,
         "stoppedEarly": stopped_early,
         "lastPostId": merged[0]["id"] if merged else None,
         "followers": followers,
+        # True when the count was read off the page, so a real 0 is recorded
+        # instead of being taken for "unknown".
+        "followersKnown": seen_followers is not None,
     }

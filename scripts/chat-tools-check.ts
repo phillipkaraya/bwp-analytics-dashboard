@@ -31,7 +31,8 @@ const ROOT = resolve(__dirname, "..");
 const BWP_DATA = resolve(ROOT, "public/data");
 const TEMPLATE_DATA = resolve(ROOT, "../social-analytics-dashboard-template/public/data");
 const NOW = Date.parse("2026-10-03T12:00:00Z");
-const PLATFORM_FILES = ["instagram", "tiktok", "youtube", "threads", "linkedin"] as const;
+// The personal pages' files: the fixture is the Phillip Karaya scope.
+const PLATFORM_FILES = ["instagram", "tiktok", "youtube", "threads", "linkedin", "facebook"] as const;
 const FORBIDDEN_KEYS = ["followData", "followerProjections", "thumbnailUrl"];
 
 function readJson<T>(dir: string, file: string, fallback: T): T {

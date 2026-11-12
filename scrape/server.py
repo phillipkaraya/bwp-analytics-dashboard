@@ -165,7 +165,9 @@ def record_platform_result(state: dict, platform: str, result: dict, account: st
         sub["lastRunNewPosts"] = result["newPosts"]
     state[platform] = sub
     followers = int(result.get("followers") or 0)
-    if followers > 0:
+    # 0 normally means "the reader could not tell"; a reader that read a real
+    # zero off the page (a brand-new Page) says so with followersKnown.
+    if followers > 0 or result.get("followersKnown"):
         state.setdefault("followers", {})[platform] = followers
         # analyze.py only appends a follower_history point for days on which
         # at least one platform reported a fresh count.

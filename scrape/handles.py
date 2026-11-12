@@ -21,13 +21,17 @@ ACCOUNTS = {
         "youtube": "@phillip.karaya",  # channel handle, prefixed with @
         "threads": "phillip.karaya",
         "linkedin": "phillip-karaya",  # vanity slug, hyphen (linkedin.com/in/phillip-karaya)
+        # Phil's own Facebook Page, "Phillip Karaya" (facebook.com/phillip.karaya).
+        # It was filed under the brand for a few hours on 2026-11-11, until
+        # the brand got a Page of its own.
+        "facebook": "61553978889474",
     },
     "brand": {
         "instagram": "buildaiwithphil",  # owner pk 28536850942
         "tiktok": "buildaiwithphil",
-        # The Page id. It resolves to facebook.com/phillip.karaya, a Page still
-        # named "Phillip Karaya" that carries the Build With Phil posts.
-        "facebook": "61553978889474",
+        # The "Build With Phil" Page, created 2026-11-11. No vanity username
+        # yet, so it is addressed by id.
+        "facebook": "61596358386053",
         # @buildwithphilai ("Phillip Karaya | Build With Phil"). The
         # @buildaiwithphil spelling used on Instagram and TikTok is not this
         # account on X.

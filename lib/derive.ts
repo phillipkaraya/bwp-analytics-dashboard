@@ -34,7 +34,7 @@ export const ACCOUNT_SCOPES: AccountScope[] = ["all", "personal", "brand"];
 export const DEFAULT_ACCOUNT: Account = "personal";
 
 export const ACCOUNT_PLATFORMS: Record<Account, Platform[]> = {
-  personal: ["instagram", "tiktok", "youtube", "threads", "linkedin"],
+  personal: ["instagram", "tiktok", "youtube", "threads", "linkedin", "facebook"],
   brand: ["instagram", "tiktok", "facebook", "x"],
 };
 

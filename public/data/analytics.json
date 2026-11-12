@@ -2373,7 +2373,8 @@
    "tiktok": 1545,
    "youtube": 124,
    "threads": 20,
-   "linkedin": 0
+   "linkedin": 0,
+   "facebook": 0
   }
  },
  "topCommenters": [
@@ -34572,9 +34573,9 @@
    "totalMutual": 4588
   }
  },
- "generatedAt": "2026-11-11T23:54:58+00:00",
+ "generatedAt": "2026-11-12T01:05:44+00:00",
  "dataAsOf": {
-  "posts": "2026-11-11T23:54:15+00:00",
+  "posts": "2026-11-12T01:05:43+00:00",
   "comments": "2026-02-22"
  },
  "questionCount": 559,

@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-11T23:54:58+00:00",
+ "generatedAt": "2026-11-12T01:05:44+00:00",
  "dataAsOf": {
-  "posts": "2026-11-11T23:54:15+00:00",
+  "posts": "2026-11-12T01:05:43+00:00",
   "comments": ""
  },
  "postingHeatmap": [
@@ -67,34 +67,14 @@
     "avgViews": 0
    },
    {
-    "count": 5,
+    "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 6
+    "avgViews": 10
    },
    {
-    "count": 10,
-    "avgEngagement": 1.0,
-    "avgViews": 20
-   },
-   {
-    "count": 0,
-    "avgEngagement": 0,
-    "avgViews": 0
-   },
-   {
-    "count": 5,
-    "avgEngagement": 0.0,
-    "avgViews": 4
-   },
-   {
-    "count": 10,
-    "avgEngagement": 0.91,
-    "avgViews": 15
-   },
-   {
-    "count": 0,
-    "avgEngagement": 0,
-    "avgViews": 0
+    "count": 9,
+    "avgEngagement": 1.11,
+    "avgViews": 22
    },
    {
     "count": 0,
@@ -104,7 +84,27 @@
    {
     "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 11
+    "avgViews": 6
+   },
+   {
+    "count": 8,
+    "avgEngagement": 1.14,
+    "avgViews": 18
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 2,
+    "avgEngagement": 0.0,
+    "avgViews": 16
    },
    {
     "count": 9,
@@ -117,13 +117,13 @@
     "avgViews": 9
    },
    {
-    "count": 10,
-    "avgEngagement": 1.0,
-    "avgViews": 22
+    "count": 9,
+    "avgEngagement": 1.11,
+    "avgViews": 24
    },
    {
-    "count": 1,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    }
   ],
@@ -189,9 +189,9 @@
     "avgViews": 5
    },
    {
-    "count": 6,
+    "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 3
+    "avgViews": 7
    },
    {
     "count": 8,
@@ -199,24 +199,24 @@
     "avgViews": 53
    },
    {
-    "count": 5,
+    "count": 1,
     "avgEngagement": 0.0,
-    "avgViews": 1
-   },
-   {
-    "count": 6,
-    "avgEngagement": 0.0,
-    "avgViews": 9
-   },
-   {
-    "count": 8,
-    "avgEngagement": 0.25,
-    "avgViews": 35
+    "avgViews": 6
    },
    {
     "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 5
+    "avgViews": 19
+   },
+   {
+    "count": 7,
+    "avgEngagement": 0.29,
+    "avgViews": 40
+   },
+   {
+    "count": 1,
+    "avgEngagement": 0.0,
+    "avgViews": 17
    },
    {
     "count": 1,
@@ -224,9 +224,9 @@
     "avgViews": 5
    },
    {
-    "count": 4,
+    "count": 2,
     "avgEngagement": 0.0,
-    "avgViews": 6
+    "avgViews": 12
    },
    {
     "count": 8,
@@ -234,19 +234,19 @@
     "avgViews": 39
    },
    {
-    "count": 4,
-    "avgEngagement": 2.91,
-    "avgViews": 5
+    "count": 3,
+    "avgEngagement": 3.88,
+    "avgViews": 7
    },
    {
-    "count": 9,
+    "count": 8,
     "avgEngagement": 0.0,
-    "avgViews": 16
+    "avgViews": 18
    },
    {
-    "count": 2,
+    "count": 1,
     "avgEngagement": 0.0,
-    "avgViews": 15
+    "avgViews": 31
    }
   ],
   [
@@ -296,44 +296,44 @@
     "avgViews": 0
    },
    {
-    "count": 6,
+    "count": 5,
     "avgEngagement": 0.0,
-    "avgViews": 50
-   },
-   {
-    "count": 11,
-    "avgEngagement": 0.0,
-    "avgViews": 12
-   },
-   {
-    "count": 1,
-    "avgEngagement": 0.0,
-    "avgViews": 0
-   },
-   {
-    "count": 7,
-    "avgEngagement": 0.0,
-    "avgViews": 21
-   },
-   {
-    "count": 10,
-    "avgEngagement": 0.0,
-    "avgViews": 13
-   },
-   {
-    "count": 1,
-    "avgEngagement": 0.0,
-    "avgViews": 0
+    "avgViews": 60
    },
    {
     "count": 9,
     "avgEngagement": 0.0,
-    "avgViews": 2
+    "avgViews": 15
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 3,
+    "avgEngagement": 0.0,
+    "avgViews": 49
    },
    {
     "count": 9,
     "avgEngagement": 0.0,
-    "avgViews": 22
+    "avgViews": 15
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 3,
+    "avgEngagement": 0.0,
+    "avgViews": 7
+   },
+   {
+    "count": 8,
+    "avgEngagement": 0.0,
+    "avgViews": 25
    },
    {
     "count": 3,
@@ -341,9 +341,9 @@
     "avgViews": 67
    },
    {
-    "count": 4,
+    "count": 2,
     "avgEngagement": 0.0,
-    "avgViews": 11
+    "avgViews": 23
    },
    {
     "count": 3,
@@ -413,8 +413,8 @@
     "avgViews": 0
    },
    {
-    "count": 2,
-    "avgEngagement": 9.74,
+    "count": 1,
+    "avgEngagement": 6.98,
     "avgViews": 0
    },
    {
@@ -423,34 +423,34 @@
     "avgViews": 14
    },
    {
-    "count": 9,
+    "count": 8,
     "avgEngagement": 0.0,
-    "avgViews": 20
+    "avgViews": 23
+   },
+   {
+    "count": 1,
+    "avgEngagement": 0.0,
+    "avgViews": 16
    },
    {
     "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 5
+    "avgViews": 7
    },
    {
-    "count": 8,
-    "avgEngagement": 3.12,
-    "avgViews": 2
-   },
-   {
-    "count": 10,
+    "count": 7,
     "avgEngagement": 0.0,
-    "avgViews": 5
+    "avgViews": 8
    },
    {
-    "count": 2,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    },
    {
-    "count": 10,
+    "count": 5,
     "avgEngagement": 0.0,
-    "avgViews": 41
+    "avgViews": 82
    },
    {
     "count": 8,
@@ -468,9 +468,9 @@
     "avgViews": 8
    },
    {
-    "count": 5,
+    "count": 4,
     "avgEngagement": 0.0,
-    "avgViews": 16
+    "avgViews": 20
    },
    {
     "count": 8,
@@ -555,24 +555,24 @@
     "avgViews": 45
    },
    {
-    "count": 8,
+    "count": 5,
     "avgEngagement": 0.0,
-    "avgViews": 5
+    "avgViews": 8
    },
    {
-    "count": 7,
-    "avgEngagement": 2.81,
-    "avgViews": 14
+    "count": 6,
+    "avgEngagement": 1.19,
+    "avgViews": 16
    },
    {
-    "count": 2,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    },
    {
-    "count": 8,
-    "avgEngagement": 1.56,
-    "avgViews": 5
+    "count": 4,
+    "avgEngagement": 0.0,
+    "avgViews": 11
    },
    {
     "count": 4,
@@ -580,13 +580,13 @@
     "avgViews": 30
    },
    {
-    "count": 4,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    },
    {
-    "count": 1,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    },
    {
@@ -672,76 +672,76 @@
     "avgViews": 53
    },
    {
-    "count": 1,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
-   },
-   {
-    "count": 8,
-    "avgEngagement": 3.12,
-    "avgViews": 3
-   },
-   {
-    "count": 8,
-    "avgEngagement": 0.0,
-    "avgViews": 16
-   },
-   {
-    "count": 1,
-    "avgEngagement": 0.0,
-    "avgViews": 0
-   },
-   {
-    "count": 10,
-    "avgEngagement": 0.0,
-    "avgViews": 14
-   },
-   {
-    "count": 12,
-    "avgEngagement": 3.12,
-    "avgViews": 19
-   },
-   {
-    "count": 1,
-    "avgEngagement": 0.0,
-    "avgViews": 0
-   },
-   {
-    "count": 2,
-    "avgEngagement": 0.0,
-    "avgViews": 0
-   },
-   {
-    "count": 7,
-    "avgEngagement": 1.79,
-    "avgViews": 10
-   },
-   {
-    "count": 12,
-    "avgEngagement": 0.0,
-    "avgViews": 6
-   },
-   {
-    "count": 7,
-    "avgEngagement": 4.05,
-    "avgViews": 10
-   },
-   {
-    "count": 9,
-    "avgEngagement": 0.15,
-    "avgViews": 28
    },
    {
     "count": 4,
     "avgEngagement": 0.0,
+    "avgViews": 7
+   },
+   {
+    "count": 7,
+    "avgEngagement": 0.0,
+    "avgViews": 18
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 5,
+    "avgEngagement": 0.0,
+    "avgViews": 28
+   },
+   {
+    "count": 8,
+    "avgEngagement": 0.0,
+    "avgViews": 28
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
+    "avgViews": 0
+   },
+   {
+    "count": 6,
+    "avgEngagement": 0.0,
+    "avgViews": 12
+   },
+   {
+    "count": 7,
+    "avgEngagement": 0.0,
+    "avgViews": 11
+   },
+   {
+    "count": 5,
+    "avgEngagement": 0.67,
+    "avgViews": 15
+   },
+   {
+    "count": 8,
+    "avgEngagement": 0.17,
+    "avgViews": 32
+   },
+   {
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    }
   ],
   [
    {
-    "count": 4,
+    "count": 3,
     "avgEngagement": 0.0,
-    "avgViews": 9
+    "avgViews": 13
    },
    {
     "count": 0,
@@ -789,24 +789,24 @@
     "avgViews": 12
    },
    {
-    "count": 10,
+    "count": 8,
     "avgEngagement": 0.0,
-    "avgViews": 13
+    "avgViews": 17
    },
    {
-    "count": 5,
+    "count": 4,
     "avgEngagement": 0.0,
-    "avgViews": 11
+    "avgViews": 14
    },
    {
-    "count": 9,
+    "count": 6,
     "avgEngagement": 0.0,
-    "avgViews": 11
+    "avgViews": 17
    },
    {
-    "count": 18,
-    "avgEngagement": 0.09,
-    "avgViews": 23
+    "count": 16,
+    "avgEngagement": 0.1,
+    "avgViews": 26
    },
    {
     "count": 1,
@@ -814,14 +814,14 @@
     "avgViews": 13
    },
    {
-    "count": 8,
+    "count": 5,
     "avgEngagement": 0.0,
-    "avgViews": 5
+    "avgViews": 8
    },
    {
-    "count": 10,
+    "count": 9,
     "avgEngagement": 0.0,
-    "avgViews": 10
+    "avgViews": 11
    },
    {
     "count": 0,
@@ -829,8 +829,8 @@
     "avgViews": 0
    },
    {
-    "count": 2,
-    "avgEngagement": 0.0,
+    "count": 0,
+    "avgEngagement": 0,
     "avgViews": 0
    },
    {
@@ -862,6 +862,13 @@
  ],
  "bestPostingTimes": [
   {
+   "day": 3,
+   "hour": 15,
+   "count": 5,
+   "avgEngagement": 0.0,
+   "avgViews": 82
+  },
+  {
    "day": 2,
    "hour": 20,
    "count": 7,
@@ -883,6 +890,13 @@
    "avgViews": 61
   },
   {
+   "day": 2,
+   "hour": 9,
+   "count": 5,
+   "avgEngagement": 0.0,
+   "avgViews": 60
+  },
+  {
    "day": 1,
    "hour": 13,
    "count": 8,
@@ -898,17 +912,17 @@
   },
   {
    "day": 2,
-   "hour": 9,
-   "count": 6,
+   "hour": 12,
+   "count": 3,
    "avgEngagement": 0.0,
-   "avgViews": 50
+   "avgViews": 49
   },
   {
-   "day": 3,
-   "hour": 15,
-   "count": 10,
-   "avgEngagement": 0.0,
-   "avgViews": 41
+   "day": 1,
+   "hour": 16,
+   "count": 7,
+   "avgEngagement": 0.29,
+   "avgViews": 40
   },
   {
    "day": 1,
@@ -916,13 +930,6 @@
    "count": 8,
    "avgEngagement": 0.12,
    "avgViews": 39
-  },
-  {
-   "day": 1,
-   "hour": 16,
-   "count": 8,
-   "avgEngagement": 0.25,
-   "avgViews": 35
   },
   {
    "day": 2,
@@ -939,6 +946,13 @@
    "avgViews": 32
   },
   {
+   "day": 5,
+   "hour": 22,
+   "count": 8,
+   "avgEngagement": 0.17,
+   "avgViews": 32
+  },
+  {
    "day": 4,
    "hour": 16,
    "count": 4,
@@ -947,10 +961,38 @@
   },
   {
    "day": 5,
+   "hour": 15,
+   "count": 5,
+   "avgEngagement": 0.0,
+   "avgViews": 28
+  },
+  {
+   "day": 5,
+   "hour": 16,
+   "count": 8,
+   "avgEngagement": 0.0,
+   "avgViews": 28
+  },
+  {
+   "day": 6,
+   "hour": 13,
+   "count": 16,
+   "avgEngagement": 0.1,
+   "avgViews": 26
+  },
+  {
+   "day": 2,
+   "hour": 16,
+   "count": 8,
+   "avgEngagement": 0.0,
+   "avgViews": 25
+  },
+  {
+   "day": 0,
    "hour": 22,
    "count": 9,
-   "avgEngagement": 0.15,
-   "avgViews": 28
+   "avgEngagement": 1.11,
+   "avgViews": 24
   },
   {
    "day": 1,
@@ -958,48 +1000,6 @@
    "count": 7,
    "avgEngagement": 2.16,
    "avgViews": 23
-  },
-  {
-   "day": 3,
-   "hour": 16,
-   "count": 8,
-   "avgEngagement": 0.0,
-   "avgViews": 23
-  },
-  {
-   "day": 4,
-   "hour": 21,
-   "count": 4,
-   "avgEngagement": 0.0,
-   "avgViews": 23
-  },
-  {
-   "day": 6,
-   "hour": 13,
-   "count": 18,
-   "avgEngagement": 0.09,
-   "avgViews": 23
-  },
-  {
-   "day": 0,
-   "hour": 22,
-   "count": 10,
-   "avgEngagement": 1.0,
-   "avgViews": 22
-  },
-  {
-   "day": 1,
-   "hour": 9,
-   "count": 3,
-   "avgEngagement": 0.0,
-   "avgViews": 22
-  },
-  {
-   "day": 2,
-   "hour": 16,
-   "count": 9,
-   "avgEngagement": 0.0,
-   "avgViews": 22
   }
  ],
  "platformAverages": {
@@ -1022,7 +1022,7 @@
    "avgLikes": 0,
    "avgComments": 0,
    "avgEngagement": 0.0,
-   "posts": 129
+   "posts": 0
   },
   "x": {
    "avgViews": 23,
@@ -1475,98 +1475,98 @@
  ],
  "contentCategories": {
   "comedy": {
-   "count": 279,
+   "count": 216,
    "avgViews": 25,
    "avgLikes": 0,
    "avgEngagement": 0.42,
    "totalViews": 5582
   },
-  "other": {
-   "count": 95,
-   "avgViews": 11,
-   "avgLikes": 0,
-   "avgEngagement": 0.23,
-   "totalViews": 850
-  },
   "cars": {
-   "count": 92,
+   "count": 73,
    "avgViews": 30,
    "avgLikes": 0,
    "avgEngagement": 0.24,
    "totalViews": 2254
   },
+  "other": {
+   "count": 73,
+   "avgViews": 11,
+   "avgLikes": 0,
+   "avgEngagement": 0.23,
+   "totalViews": 850
+  },
   "education": {
-   "count": 86,
+   "count": 69,
    "avgViews": 31,
    "avgLikes": 0,
    "avgEngagement": 0.26,
    "totalViews": 2081
   },
-  "travel": {
-   "count": 72,
-   "avgViews": 28,
-   "avgLikes": 0,
-   "avgEngagement": 0.06,
-   "totalViews": 1449
-  },
   "finance": {
-   "count": 66,
+   "count": 54,
    "avgViews": 29,
    "avgLikes": 0,
    "avgEngagement": 0.17,
    "totalViews": 1593
   },
-  "entrepreneurship": {
-   "count": 63,
-   "avgViews": 39,
-   "avgLikes": 0,
-   "avgEngagement": 0.24,
-   "totalViews": 1644
-  },
-  "lifestyle": {
-   "count": 63,
-   "avgViews": 27,
-   "avgLikes": 0,
-   "avgEngagement": 0.09,
-   "totalViews": 1279
-  },
-  "real_estate": {
-   "count": 61,
-   "avgViews": 30,
-   "avgLikes": 0,
-   "avgEngagement": 0.22,
-   "totalViews": 1543
-  },
   "sports": {
-   "count": 59,
+   "count": 53,
    "avgViews": 28,
    "avgLikes": 0,
    "avgEngagement": 0.07,
    "totalViews": 1495
   },
-  "family": {
-   "count": 40,
-   "avgViews": 34,
+  "travel": {
+   "count": 51,
+   "avgViews": 28,
    "avgLikes": 0,
-   "avgEngagement": 0.23,
-   "totalViews": 1004
+   "avgEngagement": 0.06,
+   "totalViews": 1449
+  },
+  "real_estate": {
+   "count": 50,
+   "avgViews": 30,
+   "avgLikes": 0,
+   "avgEngagement": 0.22,
+   "totalViews": 1543
+  },
+  "lifestyle": {
+   "count": 46,
+   "avgViews": 27,
+   "avgLikes": 0,
+   "avgEngagement": 0.09,
+   "totalViews": 1279
+  },
+  "entrepreneurship": {
+   "count": 43,
+   "avgViews": 39,
+   "avgLikes": 0,
+   "avgEngagement": 0.24,
+   "totalViews": 1644
   },
   "motivation": {
-   "count": 38,
+   "count": 31,
    "avgViews": 19,
    "avgLikes": 0,
    "avgEngagement": 0.19,
    "totalViews": 601
   },
+  "family": {
+   "count": 29,
+   "avgViews": 34,
+   "avgLikes": 0,
+   "avgEngagement": 0.23,
+   "totalViews": 1004
+  },
   "food": {
-   "count": 9,
+   "count": 5,
    "avgViews": 52,
    "avgLikes": 0,
    "avgEngagement": 0.65,
    "totalViews": 260
   },
   "africa": {
-   "count": 6,
+   "count": 4,
    "avgViews": 15,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1594,9 +1594,9 @@
   },
   "facebook": {
    "views": 0,
-   "likes": 11,
+   "likes": 0,
    "comments": 0,
-   "shares": 2,
+   "shares": 0,
    "likeRate": 0,
    "commentRate": 0,
    "shareRate": 0
@@ -1627,20 +1627,6 @@
    "comments": 0
   },
   {
-   "month": "2024-05",
-   "posts": 1,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2024-08",
-   "posts": 24,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
    "month": "2025-02",
    "posts": 83,
    "views": 1421,
@@ -1656,115 +1642,38 @@
   },
   {
    "month": "2025-04",
-   "posts": 144,
+   "posts": 136,
    "views": 2902,
    "likes": 10,
    "comments": 0
   },
   {
    "month": "2025-05",
-   "posts": 38,
+   "posts": 34,
    "views": 1190,
    "likes": 0,
    "comments": 1
   },
   {
-   "month": "2025-06",
-   "posts": 6,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2025-07",
-   "posts": 15,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2025-08",
-   "posts": 28,
-   "views": 0,
-   "likes": 1,
-   "comments": 0
-  },
-  {
-   "month": "2025-09",
-   "posts": 3,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2025-10",
-   "posts": 2,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2026-01",
-   "posts": 4,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
-   "month": "2026-04",
-   "posts": 5,
-   "views": 0,
-   "likes": 3,
-   "comments": 0
-  },
-  {
-   "month": "2026-05",
-   "posts": 8,
-   "views": 0,
-   "likes": 5,
-   "comments": 0
-  },
-  {
-   "month": "2026-06",
-   "posts": 5,
-   "views": 0,
-   "likes": 2,
-   "comments": 0
-  },
-  {
-   "month": "2026-09",
-   "posts": 6,
-   "views": 0,
-   "likes": 0,
-   "comments": 0
-  },
-  {
    "month": "2026-10",
-   "posts": 26,
+   "posts": 25,
    "views": 517,
    "likes": 4,
-   "comments": 0
-  },
-  {
-   "month": "2026-11",
-   "posts": 9,
-   "views": 0,
-   "likes": 0,
    "comments": 0
   }
  ],
  "hashtagPerformance": [
   {
    "tag": "#claudeai",
-   "count": 6,
+   "count": 3,
    "avgViews": 86,
-   "avgLikes": 0,
+   "avgLikes": 1,
    "avgEngagement": 0.53,
    "totalViews": 258
   },
   {
    "tag": "#turo",
-   "count": 9,
+   "count": 8,
    "avgViews": 61,
    "avgLikes": 0,
    "avgEngagement": 0.26,
@@ -1777,14 +1686,6 @@
    "avgLikes": 0,
    "avgEngagement": 0.98,
    "totalViews": 159
-  },
-  {
-   "tag": "#d\u0131y",
-   "count": 4,
-   "avgViews": 52,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 105
   },
   {
    "tag": "#storytime",
@@ -1803,14 +1704,6 @@
    "totalViews": 137
   },
   {
-   "tag": "#ohno",
-   "count": 4,
-   "avgViews": 42,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 85
-  },
-  {
    "tag": "#dji",
    "count": 5,
    "avgViews": 41,
@@ -1819,24 +1712,8 @@
    "totalViews": 205
   },
   {
-   "tag": "#fail",
-   "count": 4,
-   "avgViews": 40,
-   "avgLikes": 0,
-   "avgEngagement": 1.67,
-   "totalViews": 80
-  },
-  {
-   "tag": "#rentals",
-   "count": 3,
-   "avgViews": 40,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 80
-  },
-  {
    "tag": "#cars",
-   "count": 23,
+   "count": 16,
    "avgViews": 33,
    "avgLikes": 0,
    "avgEngagement": 0.1,
@@ -1844,7 +1721,7 @@
   },
   {
    "tag": "#travelhacks",
-   "count": 5,
+   "count": 3,
    "avgViews": 33,
    "avgLikes": 0,
    "avgEngagement": 0.46,
@@ -1860,7 +1737,7 @@
   },
   {
    "tag": "#drone",
-   "count": 9,
+   "count": 8,
    "avgViews": 30,
    "avgLikes": 0,
    "avgEngagement": 0.4,
@@ -1868,7 +1745,7 @@
   },
   {
    "tag": "#atlanta",
-   "count": 30,
+   "count": 22,
    "avgViews": 29,
    "avgLikes": 0,
    "avgEngagement": 0.18,
@@ -1876,7 +1753,7 @@
   },
   {
    "tag": "#entrepreneurship",
-   "count": 5,
+   "count": 4,
    "avgViews": 28,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1884,7 +1761,7 @@
   },
   {
    "tag": "#financewithphil",
-   "count": 6,
+   "count": 5,
    "avgViews": 27,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1892,7 +1769,7 @@
   },
   {
    "tag": "#videography",
-   "count": 4,
+   "count": 3,
    "avgViews": 27,
    "avgLikes": 0,
    "avgEngagement": 1.08,
@@ -1900,31 +1777,15 @@
   },
   {
    "tag": "#entrepreneur",
-   "count": 5,
+   "count": 4,
    "avgViews": 23,
    "avgLikes": 0,
    "avgEngagement": 0.0,
    "totalViews": 93
   },
   {
-   "tag": "#traveltheworld",
-   "count": 3,
-   "avgViews": 23,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 46
-  },
-  {
-   "tag": "#investing",
-   "count": 3,
-   "avgViews": 23,
-   "avgLikes": 0,
-   "avgEngagement": 2.0,
-   "totalViews": 47
-  },
-  {
    "tag": "#airbnb",
-   "count": 6,
+   "count": 5,
    "avgViews": 21,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1932,23 +1793,15 @@
   },
   {
    "tag": "#business",
-   "count": 7,
+   "count": 5,
    "avgViews": 20,
    "avgLikes": 0,
    "avgEngagement": 0.0,
    "totalViews": 102
   },
   {
-   "tag": "#sidehustle",
-   "count": 4,
-   "avgViews": 18,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 36
-  },
-  {
    "tag": "#finance",
-   "count": 6,
+   "count": 4,
    "avgViews": 15,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1963,14 +1816,6 @@
    "totalViews": 42
   },
   {
-   "tag": "#comedy",
-   "count": 3,
-   "avgViews": 12,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 24
-  },
-  {
    "tag": "#realestate",
    "count": 3,
    "avgViews": 12,
@@ -1980,7 +1825,7 @@
   },
   {
    "tag": "#basketball",
-   "count": 11,
+   "count": 9,
    "avgViews": 11,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -1988,7 +1833,7 @@
   },
   {
    "tag": "#travel",
-   "count": 10,
+   "count": 4,
    "avgViews": 9,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -2001,1459 +1846,9 @@
    "avgLikes": 0,
    "avgEngagement": 0.0,
    "totalViews": 47
-  },
-  {
-   "tag": "#travelgram",
-   "count": 4,
-   "avgViews": 7,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 14
-  },
-  {
-   "tag": "#ai",
-   "count": 4,
-   "avgViews": 6,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 6
-  },
-  {
-   "tag": "#claudecode",
-   "count": 3,
-   "avgViews": 0,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 0
-  },
-  {
-   "tag": "#killswitch",
-   "count": 4,
-   "avgViews": 0,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 0
-  },
-  {
-   "tag": "#cybersecurity",
-   "count": 4,
-   "avgViews": 0,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 0
-  },
-  {
-   "tag": "#techhistory",
-   "count": 4,
-   "avgViews": 0,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 0
-  },
-  {
-   "tag": "#hacking",
-   "count": 4,
-   "avgViews": 0,
-   "avgLikes": 0,
-   "avgEngagement": 0.0,
-   "totalViews": 0
   }
  ],
- "crossPosts": [
-  {
-   "title": "Flight Hacks + Hotel Hacks = Traveling where you can spend money where it counts..on food \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1896928221058195609",
-     "platform": "x",
-     "views": 197,
-     "likes": 0,
-     "date": "2025-03-04",
-     "url": "https://x.com/buildwithphilai/status/1896928221058195609"
-    },
-    {
-     "id": "fb_122164242536132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-20",
-     "url": "https://www.facebook.com/reel/1509774627089626/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 197
-  },
-  {
-   "title": "Drone number 17 otw \ud83e\udd72",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1897077172772233569",
-     "platform": "x",
-     "views": 72,
-     "likes": 0,
-     "date": "2025-03-04",
-     "url": "https://x.com/buildwithphilai/status/1897077172772233569"
-    },
-    {
-     "id": "fb_122164433330132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-21",
-     "url": "https://www.facebook.com/reel/1471532693497251/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 72
-  },
-  {
-   "title": "I know I said all the turo stuff is content but I could have lived without this one \ud83d\ude10\u2026..I\u2019ll do a full story over the ne",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1914139105492971839",
-     "platform": "x",
-     "views": 60,
-     "likes": 0,
-     "date": "2025-04-20",
-     "url": "https://x.com/buildwithphilai/status/1914139105492971839"
-    },
-    {
-     "id": "fb_122231992568132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-09",
-     "url": "https://www.facebook.com/reel/590163983977479/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 60
-  },
-  {
-   "title": "If you\u2019re thinking of getting into Airbnb, READ THIS \u2b07\ufe0f",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1899916190853554532",
-     "platform": "x",
-     "views": 58,
-     "likes": 0,
-     "date": "2025-03-12",
-     "url": "https://x.com/buildwithphilai/status/1899916190853554532"
-    },
-    {
-     "id": "fb_122164784660132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-23",
-     "url": "https://www.facebook.com/reel/910760080878773/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 58
-  },
-  {
-   "title": "15 Countries \ud83c\udf0d done and plenty more to see \ud83d\udc40 Busiest travel year I flew about 85,000 miles (240 hours sitting on planes",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1894028463025078734",
-     "platform": "x",
-     "views": 53,
-     "likes": 0,
-     "date": "2025-02-24",
-     "url": "https://x.com/buildwithphilai/status/1894028463025078734"
-    },
-    {
-     "id": "fb_122162357216132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-09",
-     "url": "https://www.facebook.com/reel/1644849629639039/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 53
-  },
-  {
-   "title": "I met @cw_fit85 on Saturday and challenged him to do something he\u2019s been putting off (Skydiving \ud83e\ude82) and thought to myself",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1924651077837750536",
-     "platform": "x",
-     "views": 44,
-     "likes": 0,
-     "date": "2025-05-19",
-     "url": "https://x.com/buildwithphilai/status/1924651077837750536"
-    },
-    {
-     "id": "fb_122217192434132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-05-19",
-     "url": "https://www.facebook.com/reel/10027029980689084/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 44
-  },
-  {
-   "title": "\u201cA jack of all trades is a master of none, but oftentimes better than a master of one.\u201d \ud83d\ude0c",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1914107894489903436",
-     "platform": "x",
-     "views": 37,
-     "likes": 0,
-     "date": "2025-04-20",
-     "url": "https://x.com/buildwithphilai/status/1914107894489903436"
-    },
-    {
-     "id": "fb_122231992748132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-10",
-     "url": "https://www.facebook.com/reel/2224100958004148/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 37
-  },
-  {
-   "title": "Amazing panel on capital raises and doing deals moderated by the wonddddderful \u2764\ufe0f Had two Phils and Kenneth giving insig",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1895990054985547952",
-     "platform": "x",
-     "views": 31,
-     "likes": 0,
-     "date": "2025-03-01",
-     "url": "https://x.com/buildwithphilai/status/1895990054985547952"
-    },
-    {
-     "id": "fb_122163550046132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-16",
-     "url": "https://www.facebook.com/reel/523035733618072/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 31
-  },
-  {
-   "title": "Is #airbnb apartment arbitrage dead if all apartments follow suit? \ud83d\ude2e\u200d\ud83d\udca8\ud83d\ude2d",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1912916353733845215",
-     "platform": "x",
-     "views": 28,
-     "likes": 0,
-     "date": "2025-04-17",
-     "url": "https://x.com/buildwithphilai/status/1912916353733845215"
-    },
-    {
-     "id": "fb_122231992142132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-06",
-     "url": "https://www.facebook.com/reel/1802982327300940/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 28
-  },
-  {
-   "title": "Shadow was a paid actor andddd it costs a carton of eggs to each a whole month in some countries at this point \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911078366314102877",
-     "platform": "x",
-     "views": 27,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1911078366314102877"
-    },
-    {
-     "id": "fb_122210669768132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://www.facebook.com/reel/1932226503980371/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 27
-  },
-  {
-   "title": "This is how Starbucks uses their Rewards Program to borrow over a billion \ud83d\udcb0 at 0% Interest \ud83e\udd2f",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1904909756885536976",
-     "platform": "x",
-     "views": 26,
-     "likes": 0,
-     "date": "2025-03-26",
-     "url": "https://x.com/buildwithphilai/status/1904909756885536976"
-    },
-    {
-     "id": "fb_122231991314132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-07-29",
-     "url": "https://www.facebook.com/reel/770626778985530/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 26
-  },
-  {
-   "title": "I feel like I\u2019ve almost seen it all \ud83d\ude05 But after easily 1000+ trips things are going to happen. If you want to learn and",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1893481920576524533",
-     "platform": "x",
-     "views": 25,
-     "likes": 0,
-     "date": "2025-02-22",
-     "url": "https://x.com/buildwithphilai/status/1893481920576524533"
-    },
-    {
-     "id": "fb_122161844834132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-06",
-     "url": "https://www.facebook.com/reel/988425406350704/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 25
-  },
-  {
-   "title": "Y\u2019all ready for a story time from another Turo Host \ud83d\ude2d",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1902770764123648316",
-     "platform": "x",
-     "views": 24,
-     "likes": 0,
-     "date": "2025-03-20",
-     "url": "https://x.com/buildwithphilai/status/1902770764123648316"
-    },
-    {
-     "id": "fb_122231991602132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-01",
-     "url": "https://www.facebook.com/reel/760635386642197/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 24
-  },
-  {
-   "title": "\u26a0\ufe0fLanguage\u26a0\ufe0f It never stops \ud83d\uded1 but if you can problem some across the globe you\u2019ll never feel bad for traveling \ud83d\ude02 Not to",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1914772406712836341",
-     "platform": "x",
-     "views": 23,
-     "likes": 0,
-     "date": "2025-04-22",
-     "url": "https://x.com/buildwithphilai/status/1914772406712836341"
-    },
-    {
-     "id": "fb_122231992652132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-10",
-     "url": "https://www.facebook.com/reel/1907344560116639/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 23
-  },
-  {
-   "title": "Besides the amazing times with friends and discusssing business was hands down the \u201cPen Game\u201d",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1910484863259488415",
-     "platform": "x",
-     "views": 23,
-     "likes": 0,
-     "date": "2025-04-10",
-     "url": "https://x.com/buildwithphilai/status/1910484863259488415"
-    },
-    {
-     "id": "fb_122231991968132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-04",
-     "url": "https://www.facebook.com/reel/1455983715622200/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 23
-  },
-  {
-   "title": "When friends say they are starting programs to help students become more equipped for life\u2026.how could I not want to spen",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1890767295766511847",
-     "platform": "x",
-     "views": 23,
-     "likes": 0,
-     "date": "2025-02-15",
-     "url": "https://x.com/buildwithphilai/status/1890767295766511847"
-    },
-    {
-     "id": "fb_122231991254132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-07-28",
-     "url": "https://www.facebook.com/reel/2138046286704253/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 23
-  },
-  {
-   "title": "Comment \u201cStorage\u201d \ud83c\udfe0 And add an extra stream of income to your rental property or just extra cash for vacations \ud83d\ude0e",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1893454170897674440",
-     "platform": "x",
-     "views": 22,
-     "likes": 0,
-     "date": "2025-02-22",
-     "url": "https://x.com/buildwithphilai/status/1893454170897674440"
-    },
-    {
-     "id": "fb_122161979474132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-07",
-     "url": "https://www.facebook.com/reel/1537378747162469/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 22
-  },
-  {
-   "title": "Comment \u201cProfit\u201d if you\u2019d like to tune into our conversation breaking down this awesome deal and how He made it all work",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1898015946368745795",
-     "platform": "x",
-     "views": 21,
-     "likes": 0,
-     "date": "2025-03-07",
-     "url": "https://x.com/buildwithphilai/status/1898015946368745795"
-    },
-    {
-     "id": "fb_122165261210132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-26",
-     "url": "https://www.facebook.com/reel/1521137168491962/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 21
-  },
-  {
-   "title": "Fun fact: You can do grad school for free by teaching undergrad classes \ud83d\udc68\ud83c\udffe\u200d\ud83c\udfeb Best part is all the lesson plans are given",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1894394404296597726",
-     "platform": "x",
-     "views": 19,
-     "likes": 0,
-     "date": "2025-02-25",
-     "url": "https://x.com/buildwithphilai/status/1894394404296597726"
-    },
-    {
-     "id": "fb_122162988350132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-13",
-     "url": "https://www.facebook.com/reel/855429472793836/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 19
-  },
-  {
-   "title": "Late Night Rides Through The City \ud83c\udfce\ufe0f\ud83d\udca8",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1896715435044733251",
-     "platform": "x",
-     "views": 18,
-     "likes": 0,
-     "date": "2025-03-03",
-     "url": "https://x.com/buildwithphilai/status/1896715435044733251"
-    },
-    {
-     "id": "fb_122164050080132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-19",
-     "url": "https://www.facebook.com/reel/873549941318614/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 18
-  },
-  {
-   "title": "Drone shots of \ud83d\udccdPhilly",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1909355813329580481",
-     "platform": "x",
-     "views": 17,
-     "likes": 0,
-     "date": "2025-04-07",
-     "url": "https://x.com/buildwithphilai/status/1909355813329580481"
-    },
-    {
-     "id": "fb_122231992112132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 1,
-     "date": "2025-08-06",
-     "url": "https://www.facebook.com/reel/680592595032307/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 17
-  },
-  {
-   "title": "I would have just let it crash in the water if I knew \ud83d\ude05 Made a friend at NCIS, the local PD rep sucked and the DOD guy w",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911078355891322881",
-     "platform": "x",
-     "views": 17,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1911078355891322881"
-    },
-    {
-     "id": "fb_122210658812132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://www.facebook.com/reel/2886504098198363/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 17
-  },
-  {
-   "title": "Who wants space to land anyways \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1919906118525915191",
-     "platform": "x",
-     "views": 16,
-     "likes": 0,
-     "date": "2025-05-06",
-     "url": "https://x.com/buildwithphilai/status/1919906118525915191"
-    },
-    {
-     "id": "fb_122231993084132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-13",
-     "url": "https://www.facebook.com/reel/770061195532036/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 16
-  },
-  {
-   "title": "First time doing a master shot(it automatically flys to capture video) on my drone\u2026\u2026\u2026.and this is why you purchase insur",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911572322407841907",
-     "platform": "x",
-     "views": 15,
-     "likes": 1,
-     "date": "2025-04-13",
-     "url": "https://x.com/buildwithphilai/status/1911572322407841907"
-    },
-    {
-     "id": "fb_122231991344132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-07-30",
-     "url": "https://www.facebook.com/reel/728644959911082/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 15
-  },
-  {
-   "title": "How it feels to set super specific goals and hit them\u2026\ud83d\ude02\ud83c\udfaf\ud83d\ude0e",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1916282816788103378",
-     "platform": "x",
-     "views": 14,
-     "likes": 0,
-     "date": "2025-04-26",
-     "url": "https://x.com/buildwithphilai/status/1916282816788103378"
-    },
-    {
-     "id": "fb_122231993036132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-12",
-     "url": "https://www.facebook.com/reel/1379603356444477/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 14
-  },
-  {
-   "title": "Don\u2019t we all love a good iso to call game \ud83d\ude0e",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1914500248862396783",
-     "platform": "x",
-     "views": 13,
-     "likes": 0,
-     "date": "2025-04-21",
-     "url": "https://x.com/buildwithphilai/status/1914500248862396783"
-    },
-    {
-     "id": "fb_122231992862132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-11",
-     "url": "https://www.facebook.com/reel/1091393812322368/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 13
-  },
-  {
-   "title": "As comical as things can be mannn be careful people are always going through life. Reasons 21784 to not get upset when p",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911123671130820887",
-     "platform": "x",
-     "views": 13,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1911123671130820887"
-    },
-    {
-     "id": "fb_122210693630132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://www.facebook.com/reel/533415476486185/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 13
-  },
-  {
-   "title": "Healthcare isn\u2019t cheap so let\u2019s make it easy for someone out there to have better quality of life \ud83d\ude07",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1894073965624090964",
-     "platform": "x",
-     "views": 13,
-     "likes": 0,
-     "date": "2025-02-24",
-     "url": "https://x.com/buildwithphilai/status/1894073965624090964"
-    },
-    {
-     "id": "fb_122162490722132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-10",
-     "url": "https://www.facebook.com/reel/1306512663665080/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 13
-  },
-  {
-   "title": "If they aren\u2019t pulling holding you at some point are you really at LA Fitness? \ud83d\ude02m",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1912960505515221460",
-     "platform": "x",
-     "views": 12,
-     "likes": 0,
-     "date": "2025-04-17",
-     "url": "https://x.com/buildwithphilai/status/1912960505515221460"
-    },
-    {
-     "id": "fb_122231992478132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-09",
-     "url": "https://www.facebook.com/reel/1051794843734944/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 12
-  },
-  {
-   "title": "Flights without crashing this drone\u2026.1 \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1901003013835092312",
-     "platform": "x",
-     "views": 12,
-     "likes": 0,
-     "date": "2025-03-15",
-     "url": "https://x.com/buildwithphilai/status/1901003013835092312"
-    },
-    {
-     "id": "fb_122231991926132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-04",
-     "url": "https://www.facebook.com/reel/672712825776312/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 12
-  },
-  {
-   "title": "If someone gets offended when you ask for proof they likely have nothing to show \ud83e\udd37\ud83c\udffe\u200d\u2642\ufe0f",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911104479698596173",
-     "platform": "x",
-     "views": 11,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1911104479698596173"
-    },
-    {
-     "id": "fb_122231991224132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-07-28",
-     "url": "https://www.facebook.com/reel/1114741637198166/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 11
-  },
-  {
-   "title": "POV: Saturday Cookouts Your Favorite Car Club \ud83e\uddfa",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1911602246942429387",
-     "platform": "x",
-     "views": 10,
-     "likes": 1,
-     "date": "2025-04-13",
-     "url": "https://x.com/buildwithphilai/status/1911602246942429387"
-    },
-    {
-     "id": "fb_122231992022132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-05",
-     "url": "https://www.facebook.com/reel/1193182975817384/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "Recap shots from Miami with my favorite folks in tech \ud83d\ude0e\ud83d\udcaa\ud83c\udffe",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1910018268087148829",
-     "platform": "x",
-     "views": 10,
-     "likes": 0,
-     "date": "2025-04-09",
-     "url": "https://x.com/buildwithphilai/status/1910018268087148829"
-    },
-    {
-     "id": "fb_122231991698132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-02",
-     "url": "https://www.facebook.com/reel/1438345707400138/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "Atlanta roads with or without cars can catch you slipping \ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1910910322363220231",
-     "platform": "x",
-     "views": 10,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1910910322363220231"
-    },
-    {
-     "id": "fb_122210586806132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-04-11",
-     "url": "https://www.facebook.com/reel/9654155921286581/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "Had a great conversation with a someone about how nice the little reminders of love are, hopefully you had plenty of thi",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1910910495785177375",
-     "platform": "x",
-     "views": 10,
-     "likes": 0,
-     "date": "2025-04-12",
-     "url": "https://x.com/buildwithphilai/status/1910910495785177375"
-    },
-    {
-     "id": "fb_122210585726132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-04-11",
-     "url": "https://www.facebook.com/reel/650578337750607/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "Send to an entrepreneur who can relate \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1899872648806502728",
-     "platform": "x",
-     "views": 10,
-     "likes": 0,
-     "date": "2025-03-12",
-     "url": "https://x.com/buildwithphilai/status/1899872648806502728"
-    },
-    {
-     "id": "fb_122164775048132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-23",
-     "url": "https://www.facebook.com/reel/363333340179804/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "I\u2019m sure there was a story behind this but it was time to get outta there \ud83d\ude02 Guess it\u2019s time to get back to the Turo Stor",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1898527242235392124",
-     "platform": "x",
-     "views": 10,
-     "likes": 0,
-     "date": "2025-03-08",
-     "url": "https://x.com/buildwithphilai/status/1898527242235392124"
-    },
-    {
-     "id": "fb_122162179664132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-08",
-     "url": "https://www.facebook.com/reel/474836201998576/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 10
-  },
-  {
-   "title": "Would you believe I have a fear of heights? But have done this 3 times smiling \ud83d\ude07 Fear shouldn\u2019t stop you, just have to a",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1914047772635857338",
-     "platform": "x",
-     "views": 9,
-     "likes": 0,
-     "date": "2025-04-20",
-     "url": "https://x.com/buildwithphilai/status/1914047772635857338"
-    },
-    {
-     "id": "fb_122231992400132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-08",
-     "url": "https://www.facebook.com/reel/1620774478886409/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 9
-  },
-  {
-   "title": "No comments or tags on who was here shall be made and A decade later this is still \ud83e\udd2f Before iPhones were iPhones and eve",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1913021479681138783",
-     "platform": "x",
-     "views": 9,
-     "likes": 0,
-     "date": "2025-04-17",
-     "url": "https://x.com/buildwithphilai/status/1913021479681138783"
-    },
-    {
-     "id": "fb_122231992244132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-07",
-     "url": "https://www.facebook.com/reel/738602429026794/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 9
-  },
-  {
-   "title": "If you started an LLC you never made a \ud83d\udcb5 off of this may be your way to do so \ud83d\ude0e I always wanted to work at a \ud83c\udf55 shop and",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1893032169829716314",
-     "platform": "x",
-     "views": 9,
-     "likes": 0,
-     "date": "2025-02-21",
-     "url": "https://x.com/buildwithphilai/status/1893032169829716314"
-    },
-    {
-     "id": "fb_122162022770132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-07",
-     "url": "https://www.facebook.com/reel/453212147693114/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 9
-  },
-  {
-   "title": "Daily Don #503 x FWP \ud83d\ude0e",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1890584853738824001",
-     "platform": "x",
-     "views": 8,
-     "likes": 0,
-     "date": "2025-02-14",
-     "url": "https://x.com/buildwithphilai/status/1890584853738824001"
-    },
-    {
-     "id": "fb_122231991764132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-02",
-     "url": "https://www.facebook.com/reel/2288411064932104/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 8
-  },
-  {
-   "title": "\u201cWhatever you do give 100% \ud83d\ude0e\u2026..unless you\u2019re donating blood.\u201d \ud83d\ude02",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1899825911500775931",
-     "platform": "x",
-     "views": 8,
-     "likes": 0,
-     "date": "2025-03-12",
-     "url": "https://x.com/buildwithphilai/status/1899825911500775931"
-    },
-    {
-     "id": "fb_122231991626132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-01",
-     "url": "https://www.facebook.com/reel/1053404683657036/"
-    },
-    {
-     "id": "fb_122165421674132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-27",
-     "url": "https://www.facebook.com/reel/1103810754409692/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 8
-  },
-  {
-   "title": "All these amenities plus more for right around $800k \ud83d\ude0e",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1899465143223791816",
-     "platform": "x",
-     "views": 8,
-     "likes": 0,
-     "date": "2025-03-11",
-     "url": "https://x.com/buildwithphilai/status/1899465143223791816"
-    },
-    {
-     "id": "fb_122165969918132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-30",
-     "url": "https://www.facebook.com/reel/1402317133773413/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 8
-  },
-  {
-   "title": "Name a quicker way to get back down to the car ? \ud83e\udd14",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1899281844626940147",
-     "platform": "x",
-     "views": 8,
-     "likes": 0,
-     "date": "2025-03-10",
-     "url": "https://x.com/buildwithphilai/status/1899281844626940147"
-    },
-    {
-     "id": "fb_122165787134132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-29",
-     "url": "https://www.facebook.com/reel/1430927574262882/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 8
-  },
-  {
-   "title": "Grab that passport and figuring it out for yourself \ud83d\ude02\u2708\ufe0f",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1895115135317885217",
-     "platform": "x",
-     "views": 7,
-     "likes": 0,
-     "date": "2025-02-27",
-     "url": "https://x.com/buildwithphilai/status/1895115135317885217"
-    },
-    {
-     "id": "fb_122162845832132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-12",
-     "url": "https://www.facebook.com/reel/770476075047996/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 7
-  },
-  {
-   "title": "Young CEOs Pitch Competition \ud83c\udfc6 Powered by",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1892941833174434168",
-     "platform": "x",
-     "views": 7,
-     "likes": 0,
-     "date": "2025-02-21",
-     "url": "https://x.com/buildwithphilai/status/1892941833174434168"
-    },
-    {
-     "id": "fb_122161844618132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-06",
-     "url": "https://www.facebook.com/reel/1658680314930842/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 7
-  },
-  {
-   "title": "Totally forgot I had a multi-bit screwdriver in my book bag \ud83d\ude2d Wild thing was that the agent was asking all his managers",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1912326549782544791",
-     "platform": "x",
-     "views": 6,
-     "likes": 0,
-     "date": "2025-04-15",
-     "url": "https://x.com/buildwithphilai/status/1912326549782544791"
-    },
-    {
-     "id": "fb_122231992178132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-07",
-     "url": "https://www.facebook.com/reel/1506837563823257/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 6
-  },
-  {
-   "title": "Based on a true story unfortunately \ud83e\udd72",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1898060142366663064",
-     "platform": "x",
-     "views": 6,
-     "likes": 0,
-     "date": "2025-03-07",
-     "url": "https://x.com/buildwithphilai/status/1898060142366663064"
-    },
-    {
-     "id": "fb_122165569328132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-28",
-     "url": "https://www.facebook.com/reel/397813369635138/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 6
-  },
-  {
-   "title": "Can\u2019t make \u2018em all \ud83d\ude02\ud83e\udd37\ud83c\udffe\u200d\u2642\ufe0f",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1915769818856276228",
-     "platform": "x",
-     "views": 4,
-     "likes": 0,
-     "date": "2025-04-25",
-     "url": "https://x.com/buildwithphilai/status/1915769818856276228"
-    },
-    {
-     "id": "fb_122231992928132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-11",
-     "url": "https://www.facebook.com/reel/1963581887778096/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 4
-  },
-  {
-   "title": "Want to Know How ? \ud83e\udd14",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1897801008979292590",
-     "platform": "x",
-     "views": 4,
-     "likes": 0,
-     "date": "2025-03-06",
-     "url": "https://x.com/buildwithphilai/status/1897801008979292590"
-    },
-    {
-     "id": "fb_122231991812132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-03",
-     "url": "https://www.facebook.com/reel/4027417304178631/"
-    },
-    {
-     "id": "fb_122164597592132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2024-08-22",
-     "url": "https://www.facebook.com/reel/815160444141837/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 4
-  },
-  {
-   "title": "Gotta love sunset views \ud83d\ude0d",
-   "platforms": [
-    "facebook",
-    "x"
-   ],
-   "posts": [
-    {
-     "id": "x_1910122753140683148",
-     "platform": "x",
-     "views": 3,
-     "likes": 0,
-     "date": "2025-04-09",
-     "url": "https://x.com/buildwithphilai/status/1910122753140683148"
-    },
-    {
-     "id": "fb_122231992058132629",
-     "platform": "facebook",
-     "views": 0,
-     "likes": 0,
-     "date": "2025-08-05",
-     "url": "https://www.facebook.com/reel/1819822698888280/"
-    }
-   ],
-   "bestPlatform": "x",
-   "viewDiff": 3
-  }
- ],
+ "crossPosts": [],
  "topHooks": [
   {
    "hook": "Finally got to play at LA fitness in LA last week\ud83d\ude0e",
@@ -4173,7 +2568,7 @@
  "hookTypes": [
   {
    "type": "other",
-   "count": 389,
+   "count": 302,
    "avgViews": 22,
    "avgLikes": 0,
    "avgEngagement": 0.33,
@@ -4182,7 +2577,7 @@
   },
   {
    "type": "question",
-   "count": 99,
+   "count": 82,
    "avgViews": 18,
    "avgLikes": 0,
    "avgEngagement": 0.15,
@@ -4191,7 +2586,7 @@
   },
   {
    "type": "statistic",
-   "count": 25,
+   "count": 18,
    "avgViews": 38,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -4200,7 +2595,7 @@
   },
   {
    "type": "emotional",
-   "count": 23,
+   "count": 17,
    "avgViews": 37,
    "avgLikes": 0,
    "avgEngagement": 0.53,
@@ -4209,7 +2604,7 @@
   },
   {
    "type": "controversy",
-   "count": 16,
+   "count": 13,
    "avgViews": 24,
    "avgLikes": 0,
    "avgEngagement": 0.51,
@@ -4218,7 +2613,7 @@
   },
   {
    "type": "story",
-   "count": 9,
+   "count": 5,
    "avgViews": 36,
    "avgLikes": 0,
    "avgEngagement": 0.0,
@@ -4233,13 +2628,6 @@
    "lastTitle": "Asked for fuel savings. It suggested walking. We\u2019re starting a new chat \ud83d\ude02",
    "lastId": "ig_3999906079512193869_28536850942",
    "totalPosts": 10
-  },
-  "facebook": {
-   "lastDate": "2026-11-11",
-   "daysSince": 0,
-   "lastTitle": "In 1990, Robert Tappan Morris became the first person ever convicted of computer fraud in America. Here's how it happene",
-   "lastId": "fb_122295684938132629",
-   "totalPosts": 129
   },
   "x": {
    "lastDate": "2026-10-08",
@@ -4257,13 +2645,6 @@
    "longestGap": 0,
    "totalPosts": 10
   },
-  "facebook": {
-   "avgDaysBetween": 7.0,
-   "postsPerWeek": 1.0,
-   "postsPerMonth": 4.3,
-   "longestGap": 224,
-   "totalPosts": 129
-  },
   "x": {
    "avgDaysBetween": 4.2,
    "postsPerWeek": 1.7,
@@ -4277,7 +2658,7 @@
    "date": "2026-11-11",
    "instagram": 9,
    "tiktok": 0,
-   "facebook": 8,
+   "facebook": 0,
    "x": 43
   }
  ],

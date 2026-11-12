@@ -124,6 +124,6 @@ scrape/
     ├── youtube.py    ytInitialData + innertube continuations (videos + shorts)
     ├── threads.py    XHR hook capturing /graphql/query while scrolling
     ├── linkedin.py   reads the rendered activity feed cards (no catchable XHR); likes are its reach
-    ├── facebook.py   brand Page timeline from the page's own feed responses; no play counts, likes are its reach
+    ├── facebook.py   Page timeline (personal and brand Pages) from the page's own feed responses; no play counts, likes are its reach
     └── x.py          brand profile timeline from the page's own GraphQL responses; views where X reports them
 ```
